@@ -1,0 +1,66 @@
+import 'dart:convert';
+import 'package:card_game_serve_and_flip_animation/model/create_game_model.dart';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:http/http.dart' as http;
+
+class CreateGameProvider extends ChangeNotifier {
+  List<Game> _createGameDataList = [];
+  bool _isLoading = false;
+
+
+  List<Game> get createGameDataList => _createGameDataList;
+  bool get isLoading => _isLoading;
+
+  void clearLoadingValue(){
+    _isLoading = false;
+    notifyListeners();
+  }
+
+  Future<void> getCreateGameList(List<bool> data) async {
+    int number = 0;
+    for(int i = 0; i < data.length; i++){
+      if(data[i] == true){
+        number = i + 2;
+      }
+    }
+    _isLoading = true;
+    notifyListeners();
+    Uri uri = Uri.parse('http://3.111.148.154:3000/rakesh/create-game');
+    var response = await http.post(uri,body: {
+      "selectedPlayerCount":number.toString()
+    });
+    if(response.body.isEmpty){
+      _isLoading = false;
+      notifyListeners();
+      return;
+    }
+    List<Game> gameData = [];
+    Map<String,dynamic> responseData = jsonDecode(response.body);
+    for(int i = 0; i < responseData["games"].length; i++){
+      Game game = Game.fromJson(responseData["games"][i]);
+      gameData.add(game);
+    }
+    _createGameDataList = gameData;
+    notifyListeners();
+  }
+
+  Future<void> playerJoinGame(String gameId) async {
+    Uri uri = Uri.parse("http://3.111.148.154:3000/rakesh/join");
+    var response = await http.post(uri,body: {
+      "gameId": gameId,
+      "playerName": "Rajesh Tripathy"
+    });
+    if(response.body.isEmpty){
+      return;
+    }
+    Map<String,dynamic> responseData = jsonDecode(response.body);
+    Fluttertoast.showToast(
+        msg: responseData["message"],
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Colors.grey,
+        textColor: Colors.white,
+        fontSize: 12);
+  }
+}

@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'dart:math';
 import 'package:card_game_serve_and_flip_animation/constants/image_constants.dart';
+import 'package:card_game_serve_and_flip_animation/provider/rummy_provider.dart';
 import 'package:card_game_serve_and_flip_animation/utils/Sockets.dart';
 import 'package:card_game_serve_and_flip_animation/widgets/complete_play_table_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
 class RummyGameScreen extends StatefulWidget {
   RummyGameScreen({Key? key}) : super(key: key);
@@ -15,10 +17,10 @@ class RummyGameScreen extends StatefulWidget {
 
 class _RummyGameScreenState extends State<RummyGameScreen> {
   bool sizeChange = false;
-  List<bool> _servedPages = [false, false, false,false,false, false, false,false,false, false, false,false,false];
+  List<bool> _servedPages = [false, false, false,false,false, false, false,false,false, false];
   List<bool> _jokerServedPages = [false];
   List<bool> _jokerFlipedPages = [false];
-  List<bool> _flipedPages = [false, false, false,false,false, false, false,false,false, false, false,false,false];
+  List<bool> _flipedPages = [false, false, false,false,false, false, false,false,false, false];
   List<int> _cardPageNumber = [];
   Timer? servingTimer;
   Timer? flipingTimer;
@@ -27,60 +29,6 @@ class _RummyGameScreenState extends State<RummyGameScreen> {
   int min = 1;
   int max = 53;
   int searchNumber = 53;
-  List<Map<String,dynamic>> cardList = [
-    {"value":"A","suit":"Spades"},
-    {"value":"2","suit":"Spades"},
-    {"value":"3","suit":"Spades"},
-    {"value":"4","suit":"Spades"},
-    {"value":"5","suit":"Spades"},
-    {"value":"6","suit":"Spades"},
-    {"value":"7","suit":"Spades"},
-    {"value":"8","suit":"Spades"},
-    {"value":"9","suit":"Spades"},
-    {"value":"10","suit":"Spades"},
-    {"value":"J","suit":"Spades"},
-    {"value":"Q","suit":"Spades"},
-    {"value":"K","suit":"Spades"},
-    {"value":"A","suit":"Hearts"},
-    {"value":"2","suit":"Hearts"},
-    {"value":"3","suit":"Hearts"},
-    {"value":"4","suit":"Hearts"},
-    {"value":"5","suit":"Hearts"},
-    {"value":"6","suit":"Hearts"},
-    {"value":"7","suit":"Hearts"},
-    {"value":"8","suit":"Hearts"},
-    {"value":"9","suit":"Hearts"},
-    {"value":"10","suit":"Hearts"},
-    {"value":"J","suit":"Hearts"},
-    {"value":"Q","suit":"Hearts"},
-    {"value":"K","suit":"Hearts"},
-    {"value":"A","suit":"Clubs"},
-    {"value":"2","suit":"Clubs"},
-    {"value":"3","suit":"Clubs"},
-    {"value":"4","suit":"Clubs"},
-    {"value":"5","suit":"Clubs"},
-    {"value":"6","suit":"Clubs"},
-    {"value":"7","suit":"Clubs"},
-    {"value":"8","suit":"Clubs"},
-    {"value":"9","suit":"Clubs"},
-    {"value":"10","suit":"Clubs"},
-    {"value":"J","suit":"Clubs"},
-    {"value":"Q","suit":"Clubs"},
-    {"value":"K","suit":"Clubs"},
-    {"value":"A","suit":"Diamonds"},
-    {"value":"2","suit":"Diamonds"},
-    {"value":"3","suit":"Diamonds"},
-    {"value":"4","suit":"Diamonds"},
-    {"value":"5","suit":"Diamonds"},
-    {"value":"6","suit":"Diamonds"},
-    {"value":"7","suit":"Diamonds"},
-    {"value":"8","suit":"Diamonds"},
-    {"value":"9","suit":"Diamonds"},
-    {"value":"10","suit":"Diamonds"},
-    {"value":"J","suit":"Diamonds"},
-    {"value":"Q","suit":"Diamonds"},
-    {"value":"K","suit":"Diamonds"},
-  ];
 
   @override
   void initState() {
@@ -103,19 +51,19 @@ class _RummyGameScreenState extends State<RummyGameScreen> {
       _cardPageNumber.insert(index, 54);
     }*/
 
-    _cardPageNumber.add(2);
-    _cardPageNumber.add(4);
-    _cardPageNumber.add(3);
-    _cardPageNumber.add(14);
-    _cardPageNumber.add(18);
-    _cardPageNumber.add(19);
-    _cardPageNumber.add(23);
-    _cardPageNumber.add(29);
-    _cardPageNumber.add(54);
-    _cardPageNumber.add(31);
-    _cardPageNumber.add(40);
-    _cardPageNumber.add(49);
-    _cardPageNumber.add(14);
+    // _cardPageNumber.add(2);
+    // _cardPageNumber.add(4);
+    // _cardPageNumber.add(3);
+    // _cardPageNumber.add(14);
+    // _cardPageNumber.add(18);
+    // _cardPageNumber.add(19);
+    // _cardPageNumber.add(23);
+    // _cardPageNumber.add(29);
+    // _cardPageNumber.add(54);
+    // _cardPageNumber.add(31);
+    // _cardPageNumber.add(40);
+    // _cardPageNumber.add(49);
+    // _cardPageNumber.add(14);
 
     super.initState();
     SystemChrome.setPreferredOrientations([
@@ -135,11 +83,6 @@ class _RummyGameScreenState extends State<RummyGameScreen> {
   // void drawCard() async {
   //   Sockets.socket.emit("draw","up");
   //   Sockets.socket.on("draw", (data) {});
-  // }
-
-  // void dropCard() async {
-  //   Sockets.socket.emit("drop","Card");
-  //   Sockets.socket.on("drop", (data) {});
   // }
 
   void upCard() async {
@@ -162,13 +105,30 @@ class _RummyGameScreenState extends State<RummyGameScreen> {
   void handCard() async {
     Sockets.socket.on("hand", (data) {
       print("**** HAND **** $data");
+      var rummyProvider = Provider.of<RummyProvider>(context,listen: false);
+      _cardPageNumber.clear();
+      List<Map<String,dynamic>> data2 = [];
+      for(int i = 0; i < data.length; i++){
+        Map<String,dynamic> data3 = data[i];
+        data2.add(data3);
+      }
+      print('&&&&&&&&& $data2');
+      for(int i = 0; i < data2.length; i++){
+        Map<String,dynamic> singleCard = data2[i];
+        String singleCardValue = singleCard["value"];
+        String singleCardSuit = singleCard["suit"];
+        for(int j = 0; j < rummyProvider.cardList.length; j++){
+          Map<String,dynamic> sCard = rummyProvider.cardList[j];
+          String sCardValue = sCard["value"];
+          String sCardSuit = sCard["suit"];
+          if(singleCardValue == sCardValue && singleCardSuit == sCardSuit){
+            _cardPageNumber.add(j + 1);
+            // print('%%%%%% INDEX ${j + 1}');
+          }
+        }
+      }
     });
   }
-
-  // void checkSetSequence() async {
-  //   Sockets.socket.emit("check set sequences",["card[]"]);
-  //   Sockets.socket.on("check set sequences", (data) {});
-  // }
 
   void turnTime() async {
     Sockets.socket.on("turn", (data) {
@@ -196,7 +156,7 @@ class _RummyGameScreenState extends State<RummyGameScreen> {
         _servedPages[serveCounter] = true;
       });
       serveCounter++;
-      if (serveCounter == 13) {
+      if (serveCounter == 10) {
         serveTimer.cancel();
         servingTimer?.cancel();
         Future.delayed(Duration(seconds: 1),(){
@@ -206,7 +166,7 @@ class _RummyGameScreenState extends State<RummyGameScreen> {
               _flipedPages[flipCounter] = true;
             });
             flipCounter++;
-            if (flipCounter == 13) {
+            if (flipCounter == 10) {
               flipTimer.cancel();
               flipingTimer?.cancel();
             }
@@ -246,7 +206,7 @@ class _RummyGameScreenState extends State<RummyGameScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
+      body: _cardPageNumber.isNotEmpty ? Container(
         decoration:  BoxDecoration(
           image: DecorationImage(
             image: AssetImage(ImageConst.bgHome),
@@ -264,6 +224,8 @@ class _RummyGameScreenState extends State<RummyGameScreen> {
             ),
           ],
         ),
+      ) : Center(
+        child: CircularProgressIndicator(),
       ),
     );
   }

@@ -304,14 +304,13 @@ class _CompletePlayTableWidgetState extends State<CompletePlayTableWidget> {
                     eightCardNo: widget.cardPage[6],
                     nineCardNo: widget.cardPage[7],
                     tenCardNo: widget.cardPage[8],
-                    elevenCardNo: widget.cardPage[9],
-                    twelveCardNo: widget.cardPage[10],
-                    thirteenCardNo: widget.cardPage[11],
+                    // elevenCardNo: widget.cardPage[9],
+                    // twelveCardNo: widget.cardPage[10],
+                    // thirteenCardNo: widget.cardPage[11],
                     jokerCardFliped: widget.jokerFlipedPages[0],
                     jokerCardNo: widget.cardPage[12],
                     jokerCardServed: widget.jokerServedPages[0],
                   ),
-
                 ],
               ),
             )

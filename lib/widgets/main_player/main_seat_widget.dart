@@ -33,9 +33,9 @@ class Player3SeatWidget extends StatelessWidget {
     required this.eightCardServed,
     required this.nineCardServed,
     required this.tenCardServed,
-    required this.elevenCardServed,
-    required this.twelveCardServed,
-    required this.thirteenCardServed,
+    // required this.elevenCardServed,
+    // required this.twelveCardServed,
+    // required this.thirteenCardServed,
     required this.oneCardFliped,
     required this.twoCardFliped,
     required this.threeCardFliped,
@@ -46,9 +46,9 @@ class Player3SeatWidget extends StatelessWidget {
     required this.eightCardFliped,
     required this.nineCardFliped,
     required this.tenCardFliped,
-    required this.elevenCardFliped,
-    required this.twelveCardFliped,
-    required this.thirteenCardFliped,
+    // required this.elevenCardFliped,
+    // required this.twelveCardFliped,
+    // required this.thirteenCardFliped,
     required this.oneCardNo,
     required this.twoCardNo,
     required this.threeCardNo,
@@ -78,9 +78,9 @@ class Player3SeatWidget extends StatelessWidget {
   final bool eightCardServed;
   final bool nineCardServed;
   final bool tenCardServed;
-  final bool elevenCardServed;
-  final bool twelveCardServed;
-  final bool thirteenCardServed;
+  // final bool elevenCardServed;
+  // final bool twelveCardServed;
+  // final bool thirteenCardServed;
   final bool jokerCardServed;
   final bool oneCardFliped;
   final bool twoCardFliped;
@@ -92,9 +92,9 @@ class Player3SeatWidget extends StatelessWidget {
   final bool eightCardFliped;
   final bool nineCardFliped;
   final bool tenCardFliped;
-  final bool elevenCardFliped;
-  final bool twelveCardFliped;
-  final bool thirteenCardFliped;
+  // final bool elevenCardFliped;
+  // final bool twelveCardFliped;
+  // final bool thirteenCardFliped;
   final bool jokerCardFliped;
   final int  oneCardNo;
   final int  twoCardNo;
@@ -136,7 +136,7 @@ class Player3SeatWidget extends StatelessWidget {
                     rummyProvider.isSortCard?Container():Align(
                  alignment: Alignment.bottomLeft,
                  child: Container(
-                   margin: EdgeInsets.only(left: rummyProvider.isSortCard?0:14.0.h,top: rummyProvider.cardUp[0]?5:15),
+                   margin: EdgeInsets.only(left: rummyProvider.isSortCard?0:20.0.h,top: rummyProvider.cardUp[0]?5:15),
                    child: SizeAnimatedWidget.tween(
                      enabled: oneCardServed,
                      duration: const Duration(milliseconds: 200),
@@ -164,7 +164,7 @@ class Player3SeatWidget extends StatelessWidget {
                     rummyProvider.isSortCard?Container():Align(
                  alignment: Alignment.bottomLeft,
                  child: Container(
-                   margin: EdgeInsets.only(left: rummyProvider.isSortCard?0:14.0.h,top: rummyProvider.cardUp[0]?5:15),
+                   margin: EdgeInsets.only(left: rummyProvider.isSortCard?0:20.0.h,top: rummyProvider.cardUp[0]?5:15),
                    child: SizeAnimatedWidget.tween(
                      enabled: oneCardServed,
                      duration: const Duration(milliseconds: 200),
@@ -195,7 +195,7 @@ class Player3SeatWidget extends StatelessWidget {
                     rummyProvider.isSortCard?Container():Align(
                  alignment: Alignment.bottomLeft,
                  child: Container(
-                   margin: EdgeInsets.only(left: rummyProvider.isSortCard?0:18.0.h,top: rummyProvider.cardUp[1]?5:15),
+                   margin: EdgeInsets.only(left: rummyProvider.isSortCard?0:24.0.h,top: rummyProvider.cardUp[1]?5:15),
                    child: SizeAnimatedWidget.tween(
                      enabled: twoCardServed,
                      duration: const Duration(milliseconds: 200),
@@ -223,7 +223,7 @@ class Player3SeatWidget extends StatelessWidget {
                     rummyProvider.isSortCard?Container():Align(
                  alignment: Alignment.bottomLeft,
                  child: Container(
-                   margin: EdgeInsets.only(left: rummyProvider.isSortCard?0:18.0.h,top: rummyProvider.cardUp[1]?5:15),
+                   margin: EdgeInsets.only(left: rummyProvider.isSortCard?0:24.0.h,top: rummyProvider.cardUp[1]?5:15),
                    child: SizeAnimatedWidget.tween(
                      enabled: twoCardServed,
                      duration: const Duration(milliseconds: 200),
@@ -254,7 +254,7 @@ class Player3SeatWidget extends StatelessWidget {
                     rummyProvider.isSortCard?Container():Align(
                    alignment: Alignment.bottomLeft,
                    child: Container(
-                   margin: EdgeInsets.only(left: rummyProvider.isSortCard?0:22.0.h,top: rummyProvider.cardUp[2]?5:15),
+                   margin: EdgeInsets.only(left: rummyProvider.isSortCard?0:28.0.h,top: rummyProvider.cardUp[2]?5:15),
                    child: SizeAnimatedWidget.tween(
                      enabled: threeCardServed,
                      duration: const Duration(milliseconds: 200),
@@ -281,7 +281,7 @@ class Player3SeatWidget extends StatelessWidget {
                ),
                     rummyProvider.isSortCard?Container():Align(
                  child: Container(
-                   margin: EdgeInsets.only(left: rummyProvider.isSortCard?0:22.0.h,top: rummyProvider.cardUp[2]?5:15),
+                   margin: EdgeInsets.only(left: rummyProvider.isSortCard?0:28.0.h,top: rummyProvider.cardUp[2]?5:15),
                    alignment: Alignment.bottomLeft,
                    child: SizeAnimatedWidget.tween(
                      enabled: threeCardServed,
@@ -313,7 +313,7 @@ class Player3SeatWidget extends StatelessWidget {
                     rummyProvider.isSortCard?Container():Align(
                     alignment: Alignment.bottomLeft,
                     child: Container(
-                      margin: EdgeInsets.only(left: rummyProvider.isSortCard?0:26.0.h,top: rummyProvider.cardUp[3]?5:15),
+                      margin: EdgeInsets.only(left: rummyProvider.isSortCard?0:32.0.h,top: rummyProvider.cardUp[3]?5:15),
                       child: SizeAnimatedWidget.tween(
                         enabled: fourCardServed,
                         duration: const Duration(milliseconds: 200),
@@ -340,7 +340,7 @@ class Player3SeatWidget extends StatelessWidget {
                   ),
                     rummyProvider.isSortCard?Container():Align(
                     child: Container(
-                      margin: EdgeInsets.only(left: rummyProvider.isSortCard?0:26.0.h,top: rummyProvider.cardUp[3]?5:15),
+                      margin: EdgeInsets.only(left: rummyProvider.isSortCard?0:32.0.h,top: rummyProvider.cardUp[3]?5:15),
                       alignment: Alignment.bottomLeft,
                       child: SizeAnimatedWidget.tween(
                         enabled: fourCardServed,
@@ -372,7 +372,7 @@ class Player3SeatWidget extends StatelessWidget {
                     rummyProvider.isSortCard?Container():Align(
                     alignment: Alignment.bottomLeft,
                     child: Container(
-                      margin: EdgeInsets.only(left: rummyProvider.isSortCard?0:30.0.h,top: rummyProvider.cardUp[4]?5:15),
+                      margin: EdgeInsets.only(left: rummyProvider.isSortCard?0:36.0.h,top: rummyProvider.cardUp[4]?5:15),
                       child: SizeAnimatedWidget.tween(
                         enabled: fiveCardServed,
                         duration: const Duration(milliseconds: 200),
@@ -399,7 +399,7 @@ class Player3SeatWidget extends StatelessWidget {
                   ),
                     rummyProvider.isSortCard?Container():Align(
                     child: Container(
-                      margin: EdgeInsets.only(left: rummyProvider.isSortCard?0:30.0.h,top: rummyProvider.cardUp[4]?5:15),
+                      margin: EdgeInsets.only(left: rummyProvider.isSortCard?0:36.0.h,top: rummyProvider.cardUp[4]?5:15),
                       alignment: Alignment.bottomLeft,
                       child: SizeAnimatedWidget.tween(
                         enabled: fiveCardServed,
@@ -431,7 +431,7 @@ class Player3SeatWidget extends StatelessWidget {
                     rummyProvider.isSortCard?Container():Align(
                     alignment: Alignment.bottomLeft,
                     child: Container(
-                      margin: EdgeInsets.only(left: rummyProvider.isSortCard?0:34.0.h,top: rummyProvider.cardUp[5]?5:15),
+                      margin: EdgeInsets.only(left: rummyProvider.isSortCard?0:40.0.h,top: rummyProvider.cardUp[5]?5:15),
                       child: SizeAnimatedWidget.tween(
                         enabled: sixCardServed,
                         duration: const Duration(milliseconds: 200),
@@ -458,7 +458,7 @@ class Player3SeatWidget extends StatelessWidget {
                   ),
                     rummyProvider.isSortCard?Container():Align(
                     child: Container(
-                      margin: EdgeInsets.only(left: rummyProvider.isSortCard?0:34.0.h,top: rummyProvider.cardUp[5]?5:15),
+                      margin: EdgeInsets.only(left: rummyProvider.isSortCard?0:40.0.h,top: rummyProvider.cardUp[5]?5:15),
                       alignment: Alignment.bottomLeft,
                       child: SizeAnimatedWidget.tween(
                         enabled: sixCardServed,
@@ -490,7 +490,7 @@ class Player3SeatWidget extends StatelessWidget {
                     rummyProvider.isSortCard?Container():Align(
                     alignment: Alignment.bottomLeft,
                     child: Container(
-                      margin: EdgeInsets.only(left: rummyProvider.isSortCard?0:38.0.h,top: rummyProvider.cardUp[6]?5:15),
+                      margin: EdgeInsets.only(left: rummyProvider.isSortCard?0:44.0.h,top: rummyProvider.cardUp[6]?5:15),
                       child: SizeAnimatedWidget.tween(
                         enabled: sevenCardServed,
                         duration: const Duration(milliseconds: 200),
@@ -517,7 +517,7 @@ class Player3SeatWidget extends StatelessWidget {
                   ),
                     rummyProvider.isSortCard?Container():Align(
                     child: Container(
-                      margin: EdgeInsets.only(left: rummyProvider.isSortCard?0:38.0.h,top: rummyProvider.cardUp[6]?5:15),
+                      margin: EdgeInsets.only(left: rummyProvider.isSortCard?0:44.0.h,top: rummyProvider.cardUp[6]?5:15),
                       alignment: Alignment.bottomLeft,
                       child: SizeAnimatedWidget.tween(
                         enabled: sevenCardServed,
@@ -549,7 +549,7 @@ class Player3SeatWidget extends StatelessWidget {
                     rummyProvider.isSortCard?Container():Align(
                       alignment: Alignment.bottomLeft,
                       child: Container(
-                        margin: EdgeInsets.only(left: rummyProvider.isSortCard?0:42.0.h,top: rummyProvider.cardUp[7]?5:15),
+                        margin: EdgeInsets.only(left: rummyProvider.isSortCard?0:48.0.h,top: rummyProvider.cardUp[7]?5:15),
                         child: SizeAnimatedWidget.tween(
                           enabled: eightCardServed,
                           duration: const Duration(milliseconds: 200),
@@ -576,7 +576,7 @@ class Player3SeatWidget extends StatelessWidget {
                     ),
                     rummyProvider.isSortCard?Container():Align(
                       child: Container(
-                        margin: EdgeInsets.only(left: rummyProvider.isSortCard?0:42.0.h,top: rummyProvider.cardUp[7]?5:15),
+                        margin: EdgeInsets.only(left: rummyProvider.isSortCard?0:48.0.h,top: rummyProvider.cardUp[7]?5:15),
                         alignment: Alignment.bottomLeft,
                         child: SizeAnimatedWidget.tween(
                           enabled: eightCardServed,
@@ -608,7 +608,7 @@ class Player3SeatWidget extends StatelessWidget {
                     rummyProvider.isSortCard?Container():Align(
                       alignment: Alignment.bottomLeft,
                       child: Container(
-                        margin: EdgeInsets.only(left: rummyProvider.isSortCard?0:46.0.h,top: rummyProvider.cardUp[8]?5:15),
+                        margin: EdgeInsets.only(left: rummyProvider.isSortCard?0:52.0.h,top: rummyProvider.cardUp[8]?5:15),
                         child: SizeAnimatedWidget.tween(
                           enabled: nineCardServed,
                           duration: const Duration(milliseconds: 200),
@@ -635,7 +635,7 @@ class Player3SeatWidget extends StatelessWidget {
                     ),
                     rummyProvider.isSortCard?Container():Align(
                       child: Container(
-                        margin: EdgeInsets.only(left: rummyProvider.isSortCard?0:46.0.h,top: rummyProvider.cardUp[8]?5:15),
+                        margin: EdgeInsets.only(left: rummyProvider.isSortCard?0:52.0.h,top: rummyProvider.cardUp[8]?5:15),
                         alignment: Alignment.bottomLeft,
                         child: SizeAnimatedWidget.tween(
                           enabled: nineCardServed,
@@ -667,7 +667,7 @@ class Player3SeatWidget extends StatelessWidget {
                     rummyProvider.isSortCard?Container():Align(
                       alignment: Alignment.bottomLeft,
                       child: Container(
-                        margin: EdgeInsets.only(left: rummyProvider.isSortCard?0:50.0.h,top: rummyProvider.cardUp[9]?5:15),
+                        margin: EdgeInsets.only(left: rummyProvider.isSortCard?0:56.0.h,top: rummyProvider.cardUp[9]?5:15),
                         child: SizeAnimatedWidget.tween(
                           enabled: tenCardServed,
                           duration: const Duration(milliseconds: 200),
@@ -694,7 +694,7 @@ class Player3SeatWidget extends StatelessWidget {
                     ),
                     rummyProvider.isSortCard?Container():Align(
                       child: Container(
-                        margin: EdgeInsets.only(left: rummyProvider.isSortCard?0:50.0.h,top: rummyProvider.cardUp[9]?5:15),
+                        margin: EdgeInsets.only(left: rummyProvider.isSortCard?0:56.0.h,top: rummyProvider.cardUp[9]?5:15),
                         alignment: Alignment.bottomLeft,
                         child: SizeAnimatedWidget.tween(
                           enabled: tenCardServed,

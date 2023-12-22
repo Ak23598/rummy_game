@@ -35,20 +35,21 @@ class _LoginScreenState extends State<LoginScreen> {
                 padding: const EdgeInsets.only(right: 25,left: 25),
                 child: Column(
                   children: [
-                    Baseline(
-                      baseline: 35,
-                      baselineType: TextBaseline.alphabetic,
-                      child: Container(
-                        height: 70,
-                        width: 70,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                         /* image: const DecorationImage(
-                              image: AssetImage("assets/images/rummyLogo.png"),
-                              fit: BoxFit.cover),*/
-                        ),
-                      ),
-                    ),
+                    SizedBox(height: 15,),
+                    // Baseline(
+                    //   baseline: 35,
+                    //   baselineType: TextBaseline.alphabetic,
+                    //   child: Container(
+                    //     height: 70,
+                    //     width: 70,
+                    //     decoration: BoxDecoration(
+                    //       borderRadius: BorderRadius.circular(8),
+                    //      /* image: const DecorationImage(
+                    //           image: AssetImage("assets/images/rummyLogo.png"),
+                    //           fit: BoxFit.cover),*/
+                    //     ),
+                    //   ),
+                    // ),
                     const Text(
                       "Login",
                       style: TextStyle(

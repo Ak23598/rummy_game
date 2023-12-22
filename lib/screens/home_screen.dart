@@ -286,7 +286,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(
-                                      left: 25, right: 25, top: 15),
+                                      left: 25, right: 25, top: 5),
                                   child: Stack(
                                     alignment: Alignment.center,
                                     children: [
@@ -339,7 +339,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(
-                                      left: 25, right: 25, top: 15),
+                                      left: 25, right: 25, top: 5),
                                   child: Stack(
                                     alignment: Alignment.center,
                                     children: [

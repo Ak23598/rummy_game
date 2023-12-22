@@ -7,6 +7,7 @@ import 'package:card_game_serve_and_flip_animation/widgets/complete_play_table_w
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:sizer/sizer.dart';
 
 class RummyGameScreen extends StatefulWidget {
   RummyGameScreen({Key? key}) : super(key: key);
@@ -87,13 +88,30 @@ class _RummyGameScreenState extends State<RummyGameScreen> {
 
   void upCard() async {
     Sockets.socket.on("up", (data) {
-      print('**** UP **** $data');
+      print('*** UP *** ${data}');
+      print('*** UP *** ${data['value']}');
+      print('*** UP *** ${data['suit']}');
+      var rummyProvider = Provider.of<RummyProvider>(context,listen: false);
+
+      String value = data['value'];
+      String suit = data['suit'];
+
+      for(int i = 0; i< rummyProvider.cardList.length;i++){
+        if(rummyProvider.cardList[i]['value'] == value){
+          if(rummyProvider.cardList[i]['suit'] == suit){
+            Future.delayed(Duration(seconds: 6),(){
+              Provider.of<RummyProvider>(context,listen: false).setCardListIndex(i+1);
+            });
+          }
+        }
+      }
     });
   }
 
   void downCard() async {
     Sockets.socket.on("down", (data) {
-      print("**** DOWN *** $data");
+      print("*** DOWN ** ${data}");
+      Provider.of<RummyProvider>(context,listen: false).setTotalDownCard(data);
     });
   }
 
@@ -132,7 +150,12 @@ class _RummyGameScreenState extends State<RummyGameScreen> {
 
   void turnTime() async {
     Sockets.socket.on("turn", (data) {
-      print("***** TURN **** $data");
+      print("**** TURN *** ${data}");
+
+      if(data['timeOut'] !=null){
+        Provider.of<RummyProvider>(context,listen: false).initTimer();
+        Provider.of<RummyProvider>(context,listen: false).startTimer(context);
+      }
     });
   }
 
@@ -206,24 +229,44 @@ class _RummyGameScreenState extends State<RummyGameScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _cardPageNumber.isNotEmpty ? Container(
-        decoration:  BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage(ImageConst.bgHome),
-            fit: BoxFit.fill,
-          ),
-        ),
-        child: Stack(
-          children: [
-            CompletePlayTableWidget(
-              servedPages: _servedPages,
-              flipedPages: _flipedPages,
-              cardPage: _cardPageNumber,
-              jokerFlipedPages: _jokerFlipedPages,
-              jokerServedPages: _jokerServedPages,
+      body: _cardPageNumber.isNotEmpty ? Consumer<RummyProvider>(
+        builder: (context,rummyProvider,_){
+          return Container(
+            decoration:  BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(ImageConst.bgHome),
+                fit: BoxFit.fill,
+              ),
             ),
-          ],
-        ),
+            child: Stack(
+              children: [
+                CompletePlayTableWidget(
+                  servedPages: _servedPages,
+                  flipedPages: _flipedPages,
+                  cardPage: _cardPageNumber,
+                  jokerFlipedPages: _jokerFlipedPages,
+                  jokerServedPages: _jokerServedPages,
+                ),
+                Positioned(
+                  top: 4.5.h,
+                  left: MediaQuery.of(context).size.width - 50,
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      CircularProgressIndicator(
+                        value: rummyProvider.secondsRemaining/10,
+                        valueColor: AlwaysStoppedAnimation(Colors.white),
+                        strokeWidth: 3,
+                        backgroundColor: rummyProvider.secondsRemaining <= 3 ?Colors.red:Colors.green,
+                      ),
+                      Text('${rummyProvider.secondsRemaining.toString()}',style: TextStyle(color: Colors.white),)
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
       ) : Center(
         child: CircularProgressIndicator(),
       ),

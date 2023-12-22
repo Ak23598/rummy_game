@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import '../constants/image_constants.dart';
+import '../utils/Sockets.dart';
 import 'main_player/main_seat_widget.dart';
 
 class CompletePlayTableWidget extends StatefulWidget {
@@ -66,6 +67,10 @@ class _CompletePlayTableWidgetState extends State<CompletePlayTableWidget> {
                 clipBehavior: Clip.none,
                 children: [
                   Positioned(
+                      top: 09.5.h,
+                      left: 51.0.w,
+                      child: Text('Down : ${rummyProvider.totalDownCard}',style: TextStyle(color: Colors.white,fontSize: 12),)),
+                  Positioned(
                     top: 12.0.h,
                     left: 50.0.w,
                     child: Container(
@@ -104,10 +109,16 @@ class _CompletePlayTableWidgetState extends State<CompletePlayTableWidget> {
                   Positioned(
                     top: 12.0.h,
                     left: 52.0.w,
-                    child: Container(
-                      height: 65,
-                      width: 65,
-                      child: getSpriteImage(53),
+                    child: InkWell(
+                      onTap: (){
+                        Sockets.socket.emit("draw","down");
+                        print('draw emit down done');
+                      },
+                      child: Container(
+                        height: 65,
+                        width: 65,
+                        child: getSpriteImage(53),
+                      ),
                     ),
                   ),
 
@@ -179,34 +190,8 @@ class _CompletePlayTableWidgetState extends State<CompletePlayTableWidget> {
 
                              ...rummyProvider.cardListIndex.map((e) => InkWell(
                                onTap: (){
-                                 int moveOldServeCounter = 0;
-                                 int moveOldFlipCounter = 0;
-
-                                 moveOldServingTimer = Timer.periodic(Duration(milliseconds: 500), (moveOldServeTimer) {
-                                   if (!mounted) return;
-                                   setState(() {
-                                     _moveOldServedPages[moveOldServeCounter] = true;
-                                   });
-                                   moveOldServeCounter++;
-                                   if (moveOldServeCounter == 1) {
-                                     moveOldServeTimer.cancel();
-                                     moveOldServingTimer?.cancel();
-                                     Future.delayed(Duration(seconds: 1),(){
-                                       moveOldFlipingTimer = Timer.periodic(Duration(milliseconds: 200), (moveOldFlipTimer) {
-                                         if (!mounted) return;
-                                         setState(() {
-                                           _moveOldFlipedPages[moveOldFlipCounter] = true;
-                                         });
-                                         moveOldFlipCounter++;
-                                         if (moveOldFlipCounter == 1) {
-                                           moveOldFlipTimer.cancel();
-                                           moveOldFlipingTimer?.cancel();
-                                         }
-                                       });
-                                     });
-
-                                   }
-                                 });
+                                 Sockets.socket.emit("draw","up");
+                                 print('draw emit up done');
                                },
                                child: Container(
                                  height: 68,
@@ -255,7 +240,6 @@ class _CompletePlayTableWidgetState extends State<CompletePlayTableWidget> {
                       child: InkWell(
                         onTap: (){
                           // rummyProvider.setSortAllCard();
-
                         },
                         child: Card(
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),

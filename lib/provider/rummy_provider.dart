@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 
 import '../utils/Sockets.dart';
@@ -73,6 +75,10 @@ class RummyProvider extends ChangeNotifier{
     {"value":"Q","suit":"Diamonds"},
     {"value":"K","suit":"Diamonds"},
   ];
+  int _secondsRemaining = 10;
+  Timer? _timer;
+  int _totalDownCard = 0;
+
 
   int get isDropOneCard => _isDropOneCard;
   int get isDropTwoCard => _isDropTwoCard;
@@ -91,6 +97,8 @@ class RummyProvider extends ChangeNotifier{
   List get cardUp => _cardUp;
   bool get isSortCard => _isSortCard;
   List<Map<String,dynamic>> get cardList => _cardList;
+  int get secondsRemaining => _secondsRemaining;
+  int get totalDownCard => _totalDownCard;
 
 
   void dropCard(Map<String,dynamic> data) async {
@@ -189,6 +197,34 @@ class RummyProvider extends ChangeNotifier{
   setSortAllCard(){
     _isSortCard = !_isSortCard;
     notifyListeners();
+  }
+
+  startTimer(BuildContext context,{int secondsRemaining=10}) {
+    _secondsRemaining=secondsRemaining;
+    notifyListeners();
+    _timer = Timer.periodic(Duration(seconds: 1), (_) {
+      if (_secondsRemaining != 0) {
+        _secondsRemaining--;
+        notifyListeners();
+      } else {
+        initTimer();
+        closeTimer();
+        notifyListeners();
+      }
+    });
+  }
+
+  setTotalDownCard(int value){
+    _totalDownCard=value;
+    notifyListeners();
+  }
+
+  closeTimer(){
+    _timer?.cancel();
+  }
+
+  void initTimer(){
+    _secondsRemaining = 10;
   }
 
 }

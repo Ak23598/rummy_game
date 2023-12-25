@@ -19,8 +19,12 @@ class RummyProvider extends ChangeNotifier{
   int _isDropTwelveCard = 0;
   int _isDropThirteenCard = 0;
   List _cardListIndex = [];
+  List _acceptCardListIndex = [];
   List<bool> _cardUp = [];
   bool _isSortCard = false;
+  bool _isOneAcceptCard = false;
+  List _isAcceptCardList = [0,0,0,0,0,0,0,0,0,0,0,0];
+  bool _isFilpCard= true;
   List<Map<String,dynamic>> _cardList = [
     {"value":"A","suit":"Spades"},
     {"value":"2","suit":"Spades"},
@@ -78,6 +82,7 @@ class RummyProvider extends ChangeNotifier{
   int _secondsRemaining = 10;
   Timer? _timer;
   int _totalDownCard = 0;
+  List<dynamic> _checkSetSequence = [];
 
 
   int get isDropOneCard => _isDropOneCard;
@@ -94,11 +99,16 @@ class RummyProvider extends ChangeNotifier{
   int get isDropTwelveCard => _isDropTwelveCard;
   int get isDropThirteenCard => _isDropThirteenCard;
   List get cardListIndex => _cardListIndex;
+  List get acceptCardListIndex => _acceptCardListIndex;
   List get cardUp => _cardUp;
   bool get isSortCard => _isSortCard;
+  bool get isFilpCard => _isFilpCard;
+  bool get isOneAcceptCard => _isOneAcceptCard;
+  List get isAcceptCardList => _isAcceptCardList;
   List<Map<String,dynamic>> get cardList => _cardList;
   int get secondsRemaining => _secondsRemaining;
   int get totalDownCard => _totalDownCard;
+  List<dynamic> get checkSetSequence => _checkSetSequence;
 
 
   void dropCard(Map<String,dynamic> data) async {
@@ -106,15 +116,25 @@ class RummyProvider extends ChangeNotifier{
     print("*** DROP EMIT ***");
   }
 
-  void checkSetSequence(List<Map<String,dynamic>> checkData) async {
+  void checkSetSequenceData(List<dynamic> checkData) async {
     Sockets.socket.emit("check set sequences",checkData);
     Sockets.socket.on("check set sequences", (data) {
       print("^^^^ DATA ^^^^ $data");
     });
   }
 
+  void setSequenceData(List<dynamic> data){
+    _checkSetSequence = data;
+    notifyListeners();
+  }
+
   setDropOneCard(int value){
     _isDropOneCard = value;
+    notifyListeners();
+  }
+
+  setFilpCard(bool value){
+    _isFilpCard = value;
     notifyListeners();
   }
 
@@ -125,6 +145,11 @@ class RummyProvider extends ChangeNotifier{
 
   setDropThreeCard(int value){
     _isDropThreeCard = value;
+    notifyListeners();
+  }
+
+  setOneAcceptCardList(int value,int index){
+    _isAcceptCardList[index] = value;
     notifyListeners();
   }
 
@@ -178,8 +203,18 @@ class RummyProvider extends ChangeNotifier{
     notifyListeners();
   }
 
+  setOneAcceptCard(bool value){
+    _isOneAcceptCard = value;
+    notifyListeners();
+  }
+
   setCardListIndex(int value){
     _cardListIndex.add(value);
+    notifyListeners();
+  }
+
+  setAcceptListIndex(int value){
+    _acceptCardListIndex.add(value);
     notifyListeners();
   }
 

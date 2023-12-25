@@ -3,7 +3,9 @@ import 'dart:async';
 import 'package:animated_widgets/widgets/size_animated.dart';
 import 'package:animated_widgets/widgets/translation_animated.dart';
 import 'package:card_game_serve_and_flip_animation/provider/rummy_provider.dart';
+import 'package:card_game_serve_and_flip_animation/provider/socket_provider.dart';
 import 'package:card_game_serve_and_flip_animation/utils/card_sprite_utils.dart';
+import 'package:card_game_serve_and_flip_animation/widgets/main_player/new_main_set_widget.dart';
 import 'package:card_game_serve_and_flip_animation/widgets/main_player_cards/rummy_joker_card_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -47,7 +49,7 @@ class _CompletePlayTableWidgetState extends State<CompletePlayTableWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<RummyProvider>(builder: (context,rummyProvider,_){
+    return Consumer2<RummyProvider,SocketProvider>(builder: (context,rummyProvider,socketProvider,_){
       return Positioned(
         left: 0.0,
         right: 0.0,
@@ -218,6 +220,11 @@ class _CompletePlayTableWidgetState extends State<CompletePlayTableWidget> {
                           rummyProvider.dropCard(singleData);
                         }
                       }
+                      for(int j = 0; j < socketProvider.cardNumberList.length;j++){
+                        if(socketProvider.cardNumberList[j] == data){
+                          socketProvider.setRemoveIndex(j);
+                        }
+                      }
                     },
                     ),
                   ),
@@ -240,6 +247,7 @@ class _CompletePlayTableWidgetState extends State<CompletePlayTableWidget> {
                       child: InkWell(
                         onTap: (){
                           // rummyProvider.setSortAllCard();
+                          rummyProvider.checkSetSequenceData(rummyProvider.checkSetSequence);
                         },
                         child: Card(
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
@@ -257,50 +265,44 @@ class _CompletePlayTableWidgetState extends State<CompletePlayTableWidget> {
                         ),
                       )),
 
-                  Player3SeatWidget(
+                  NewPlayer3SeatWidget(
                     userProfileImage: ImageConst.icProfilePic3,
-                    oneCardServed: widget.servedPages[0],
-                    twoCardServed: widget.servedPages[1],
-                    threeCardServed: widget.servedPages[2],
-                    fourCardServed: widget.servedPages[3],
-                    fiveCardServed: widget.servedPages[4],
-                    sixCardServed: widget.servedPages[5],
-                    sevenCardServed: widget.servedPages[6],
-                    eightCardServed: widget.servedPages[7],
-                    nineCardServed: widget.servedPages[8],
-                    tenCardServed: widget.servedPages[9],
-                    // elevenCardServed: widget.servedPages[10],
-                    // twelveCardServed: widget.servedPages[11],
-                    // thirteenCardServed: widget.servedPages[12],
-                    oneCardFliped: widget.flipedPages[9],
-                    twoCardFliped: widget.flipedPages[8],
-                    threeCardFliped: widget.flipedPages[7],
-                    fourCardFliped: widget.flipedPages[6],
-                    fiveCardFliped: widget.flipedPages[5],
-                    sixCardFliped: widget.flipedPages[4],
-                    sevenCardFliped: widget.flipedPages[3],
-                    eightCardFliped: widget.flipedPages[2],
-                    nineCardFliped: widget.flipedPages[1],
-                    tenCardFliped: widget.flipedPages[0],
-                    // elevenCardFliped: widget.flipedPages[2],
-                    // twelveCardFliped: widget.flipedPages[1],
-                    // thirteenCardFliped: widget.flipedPages[0],
-                    oneCardNo: widget.cardPage[0],
-                    twoCardNo: widget.cardPage[1],
-                    threeCardNo: widget.cardPage[2],
-                    fourCardNo: widget.cardPage[3],
-                    fiveCardNo: widget.cardPage[4],
-                    sixCardNo: widget.cardPage[5],
-                    sevenCardNo: widget.cardPage[6],
-                    eightCardNo: widget.cardPage[7],
-                    nineCardNo: widget.cardPage[8],
-                    tenCardNo: widget.cardPage[9],
-                    // elevenCardNo: widget.cardPage[9],
-                    // twelveCardNo: widget.cardPage[10],
-                    // thirteenCardNo: widget.cardPage[11],
-                    jokerCardFliped: widget.jokerFlipedPages[0],
-                    jokerCardNo: widget.cardPage[0],
-                    jokerCardServed: widget.jokerServedPages[0],
+                    // oneCardServed: widget.servedPages[0],
+                    // twoCardServed: widget.servedPages[1],
+                    // threeCardServed: widget.servedPages[2],
+                    // fourCardServed: widget.servedPages[3],
+                    // fiveCardServed: widget.servedPages[4],
+                    // sixCardServed: widget.servedPages[5],
+                    // sevenCardServed: widget.servedPages[6],
+                    // eightCardServed: widget.servedPages[7],
+                    // nineCardServed: widget.servedPages[8],
+                    // tenCardServed: widget.servedPages[9],
+                    // oneCardFliped: widget.flipedPages[9],
+                    // twoCardFliped: widget.flipedPages[8],
+                    // threeCardFliped: widget.flipedPages[7],
+                    // fourCardFliped: widget.flipedPages[6],
+                    // fiveCardFliped: widget.flipedPages[5],
+                    // sixCardFliped: widget.flipedPages[4],
+                    // sevenCardFliped: widget.flipedPages[3],
+                    // eightCardFliped: widget.flipedPages[2],
+                    // nineCardFliped: widget.flipedPages[1],
+                    // tenCardFliped: widget.flipedPages[0],
+                    // oneCardNo: widget.cardPage[0],
+                    // twoCardNo: widget.cardPage[1],
+                    // threeCardNo: widget.cardPage[2],
+                    // fourCardNo: widget.cardPage[3],
+                    // fiveCardNo: widget.cardPage[4],
+                    // sixCardNo: widget.cardPage[5],
+                    // sevenCardNo: widget.cardPage[6],
+                    // eightCardNo: widget.cardPage[7],
+                    // nineCardNo: widget.cardPage[8],
+                    // tenCardNo: widget.cardPage[9],
+                    // jokerCardFliped: widget.jokerFlipedPages[0],
+                    // jokerCardNo: widget.cardPage[0],
+                    // jokerCardServed: widget.jokerServedPages[0],
+                    Served: widget.servedPages,
+                    Fliped: widget.flipedPages,
+                    CardNo: widget.cardPage,
                   ),
                 ],
               ),

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 import 'package:card_game_serve_and_flip_animation/constants/image_constants.dart';
 import 'package:card_game_serve_and_flip_animation/provider/rummy_provider.dart';
+import 'package:card_game_serve_and_flip_animation/provider/socket_provider.dart';
 import 'package:card_game_serve_and_flip_animation/utils/Sockets.dart';
 import 'package:card_game_serve_and_flip_animation/widgets/complete_play_table_widget.dart';
 import 'package:flutter/material.dart';
@@ -18,10 +19,10 @@ class RummyGameScreen extends StatefulWidget {
 
 class _RummyGameScreenState extends State<RummyGameScreen> {
   bool sizeChange = false;
-  List<bool> _servedPages = [false, false, false,false,false, false, false,false,false, false];
+  List<bool> _servedPages = [false, false, false,false,false, false, false,false,false, false,false];
   List<bool> _jokerServedPages = [false];
   List<bool> _jokerFlipedPages = [false];
-  List<bool> _flipedPages = [false, false, false,false,false, false, false,false,false, false];
+  List<bool> _flipedPages = [false, false, false,false,false, false, false,false,false, false,false];
   List<int> _cardPageNumber = [];
   Timer? servingTimer;
   Timer? flipingTimer;
@@ -34,37 +35,13 @@ class _RummyGameScreenState extends State<RummyGameScreen> {
   @override
   void initState() {
     _cardPageNumber.clear();
+    var socketProvider = Provider.of<SocketProvider>(context,listen: false);
     Sockets.connectAndListen();
     createGame();
-    upCard();
-    downCard();
-    handCard();
-    turnTime();
-
-    /* for(int i =0;i< 14;i++){
-      Random rnd = new Random();
-      int r = min + rnd.nextInt(max - min);
-      _cardPageNumber.add(r);
-    }
-    
-    if(_cardPageNumber.contains(53)){
-      int index = _cardPageNumber.indexWhere((item) => item == searchNumber);
-      _cardPageNumber.insert(index, 54);
-    }*/
-
-    // _cardPageNumber.add(2);
-    // _cardPageNumber.add(4);
-    // _cardPageNumber.add(3);
-    // _cardPageNumber.add(14);
-    // _cardPageNumber.add(18);
-    // _cardPageNumber.add(19);
-    // _cardPageNumber.add(23);
-    // _cardPageNumber.add(29);
-    // _cardPageNumber.add(54);
-    // _cardPageNumber.add(31);
-    // _cardPageNumber.add(40);
-    // _cardPageNumber.add(49);
-    // _cardPageNumber.add(14);
+    upCard(context);
+    downCard(context);
+    handCard(context);
+    turnTime(context);
 
     super.initState();
     SystemChrome.setPreferredOrientations([
@@ -74,6 +51,7 @@ class _RummyGameScreenState extends State<RummyGameScreen> {
     sizeChangeAnimation();
   }
 
+
   void createGame() async {
     Sockets.socket.emit("game","game1");
     Sockets.socket.on("game", (data) {
@@ -81,16 +59,14 @@ class _RummyGameScreenState extends State<RummyGameScreen> {
     });
   }
 
-  // void drawCard() async {
-  //   Sockets.socket.emit("draw","up");
-  //   Sockets.socket.on("draw", (data) {});
-  // }
+  void drawCard() async {
+    Sockets.socket.emit("draw","up");
+    Sockets.socket.on("draw", (data) {});
+  }
 
-  void upCard() async {
+  void upCard(BuildContext context) async {
     Sockets.socket.on("up", (data) {
       print('*** UP *** ${data}');
-      print('*** UP *** ${data['value']}');
-      print('*** UP *** ${data['suit']}');
       var rummyProvider = Provider.of<RummyProvider>(context,listen: false);
 
       String value = data['value'];
@@ -108,29 +84,23 @@ class _RummyGameScreenState extends State<RummyGameScreen> {
     });
   }
 
-  void downCard() async {
+  void downCard(BuildContext context) async {
     Sockets.socket.on("down", (data) {
       print("*** DOWN ** ${data}");
       Provider.of<RummyProvider>(context,listen: false).setTotalDownCard(data);
     });
   }
 
-  // void reArrangeCard() async {
-  //   Sockets.socket.emit("re arrange",["card[]"]);
-  //   Sockets.socket.on("re arrange", (data) {});
-  // }
-
-  void handCard() async {
+  void handCard(BuildContext context) async {
     Sockets.socket.on("hand", (data) {
-      print("**** HAND **** $data");
       var rummyProvider = Provider.of<RummyProvider>(context,listen: false);
-      _cardPageNumber.clear();
+      List<int> newCardData= [];
+      rummyProvider.setSequenceData(data);
       List<Map<String,dynamic>> data2 = [];
       for(int i = 0; i < data.length; i++){
         Map<String,dynamic> data3 = data[i];
         data2.add(data3);
       }
-      print('&&&&&&&&& $data2');
       for(int i = 0; i < data2.length; i++){
         Map<String,dynamic> singleCard = data2[i];
         String singleCardValue = singleCard["value"];
@@ -140,15 +110,19 @@ class _RummyGameScreenState extends State<RummyGameScreen> {
           String sCardValue = sCard["value"];
           String sCardSuit = sCard["suit"];
           if(singleCardValue == sCardValue && singleCardSuit == sCardSuit){
-            _cardPageNumber.add(j + 1);
-            // print('%%%%%% INDEX ${j + 1}');
+            newCardData.add(j + 1);
           }
         }
       }
+
+      setState(() {
+        _cardPageNumber = newCardData;
+      });
+
     });
   }
 
-  void turnTime() async {
+  void turnTime(BuildContext context) async {
     Sockets.socket.on("turn", (data) {
       print("**** TURN *** ${data}");
 
@@ -183,6 +157,7 @@ class _RummyGameScreenState extends State<RummyGameScreen> {
         serveTimer.cancel();
         servingTimer?.cancel();
         Future.delayed(Duration(seconds: 1),(){
+          Provider.of<RummyProvider>(context,listen: false).setFilpCard(false);
           flipingTimer = Timer.periodic(Duration(milliseconds: 200), (flipTimer) {
             if (!mounted) return;
             setState(() {

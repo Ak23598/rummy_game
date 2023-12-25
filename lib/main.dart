@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:card_game_serve_and_flip_animation/provider/create_game_provider.dart';
 import 'package:card_game_serve_and_flip_animation/provider/rummy_provider.dart';
+import 'package:card_game_serve_and_flip_animation/provider/socket_provider.dart';
 import 'package:card_game_serve_and_flip_animation/screens/splash_screen.dart';
 import 'package:flame/spritesheet.dart';
 import 'package:flutter/material.dart';
@@ -53,17 +54,10 @@ class _MyAppState extends State<MyApp> {
         return MultiProvider(providers: [
           ChangeNotifierProvider<RummyProvider>(create: (_) => RummyProvider()),
           ChangeNotifierProvider<CreateGameProvider>(create: (_) => CreateGameProvider()),
+          ChangeNotifierProvider<SocketProvider>(create: (_) => SocketProvider()),
         ],child: MaterialApp(
           title: 'Flutter Demo',
           debugShowCheckedModeBanner: false,
-          // home: SizeAnimationScreen(),
-          // home: RotationAnimationScreen(),
-          // home: OpacityAnimationScreen(),
-          // home: TranslationAnimationScreen(),
-          // home: ServingAnimationScreen(),
-          // home: FlippingAnimationScreen(),
-          // home: ServingFlippingAnimationScreen(),
-          // home: PlayTableScreen(),
           home: SplashScreen(),
         ),);
       });

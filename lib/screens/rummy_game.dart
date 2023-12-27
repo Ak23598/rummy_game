@@ -42,6 +42,7 @@ class _RummyGameScreenState extends State<RummyGameScreen> {
     downCard(context);
     handCard(context);
     turnTime(context);
+    countDown();
 
     super.initState();
     SystemChrome.setPreferredOrientations([
@@ -130,6 +131,36 @@ class _RummyGameScreenState extends State<RummyGameScreen> {
         Provider.of<RummyProvider>(context,listen: false).initTimer();
         Provider.of<RummyProvider>(context,listen: false).startTimer(context);
       }
+    });
+  }
+
+  void countDown() async {
+    Sockets.socket.on("count down", (data) {
+      print("**** COUNT DOWN **** $data");
+    });
+  }
+
+  void gameOver() async {
+    Sockets.socket.on("game over", (data) {
+      print("**** COUNT DOWN **** $data");
+    });
+  }
+
+  void roomMessage() async {
+    Sockets.socket.on("room message", (data) {
+      print("**** ROOM MESSAGE **** $data");
+    });
+  }
+
+  void turnMessage() async {
+    Sockets.socket.on("turn message", (data) {
+      print("**** TURN MESSAGE **** $data");
+    });
+  }
+  
+  void onlyMessage() async {
+    Sockets.socket.on("message", (data) {
+      print("**** MESSAGE **** $data");
     });
   }
 

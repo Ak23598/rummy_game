@@ -125,7 +125,7 @@ class NewPlayer3SeatWidget extends StatefulWidget {
 class _NewPlayer3SeatWidgetState extends State<NewPlayer3SeatWidget> {
   @override
   Widget build(BuildContext context) {
-    List indexData =[14.0.h,18.0.h,22.0.h,26.0.h];
+    // List indexData =[14.0.h,18.0.h,22.0.h,26.0.h];
     return Positioned(
       right: 0.0,
       left: 0.0,
@@ -207,7 +207,6 @@ class _NewPlayer3SeatWidgetState extends State<NewPlayer3SeatWidget> {
                       )
                   ],
                   onReorder: (oldIndex,newIndex){
-                    print('OldIndex :-  $oldIndex **** NewIndex :- $newIndex');
                     setState(() {
                       final itemCard = widget.CardNo.removeAt(oldIndex);
                       widget.CardNo.insert(newIndex, itemCard);

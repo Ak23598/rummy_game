@@ -189,7 +189,6 @@ class _CompletePlayTableWidgetState extends State<CompletePlayTableWidget> {
                       builder: (context, candidateData, rejectedData){
                       return Stack(
                           children: [
-
                              ...rummyProvider.cardListIndex.map((e) => InkWell(
                                onTap: (){
                                  Sockets.socket.emit("draw","up");

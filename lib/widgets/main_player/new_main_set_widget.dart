@@ -24,29 +24,29 @@ import '../main_player_cards/rummy_one_card_widget.dart';
 class NewPlayer3SeatWidget extends StatefulWidget {
   const NewPlayer3SeatWidget({
     required this.userProfileImage,
-    // required this.oneCardServed,
-    // required this.twoCardServed,
-    // required this.threeCardServed,
-    // required this.fourCardServed,
-    // required this.fiveCardServed,
-    // required this.sixCardServed,
-    // required this.sevenCardServed,
-    // required this.eightCardServed,
-    // required this.nineCardServed,
-    // required this.tenCardServed,
+    required this.oneCardServed,
+    required this.twoCardServed,
+    required this.threeCardServed,
+    required this.fourCardServed,
+    required this.fiveCardServed,
+    required this.sixCardServed,
+    required this.sevenCardServed,
+    required this.eightCardServed,
+    required this.nineCardServed,
+    required this.tenCardServed,
     // required this.elevenCardServed,
     // required this.twelveCardServed,
     // required this.thirteenCardServed,
-    // required this.oneCardFliped,
-    // required this.twoCardFliped,
-    // required this.threeCardFliped,
-    // required this.fourCardFliped,
-    // required this.fiveCardFliped,
-    // required this.sixCardFliped,
-    // required this.sevenCardFliped,
-    // required this.eightCardFliped,
-    // required this.nineCardFliped,
-    // required this.tenCardFliped,
+    required this.oneCardFliped,
+    required this.twoCardFliped,
+    required this.threeCardFliped,
+    required this.fourCardFliped,
+    required this.fiveCardFliped,
+    required this.sixCardFliped,
+    required this.sevenCardFliped,
+    required this.eightCardFliped,
+    required this.nineCardFliped,
+    required this.tenCardFliped,
     // required this.elevenCardFliped,
     // required this.twelveCardFliped,
     // required this.thirteenCardFliped,
@@ -72,30 +72,30 @@ class NewPlayer3SeatWidget extends StatefulWidget {
   });
 
   final String userProfileImage;
-  // final bool oneCardServed;
-  // final bool twoCardServed;
-  // final bool threeCardServed;
-  // final bool fourCardServed;
-  // final bool fiveCardServed;
-  // final bool sixCardServed;
-  // final bool sevenCardServed;
-  // final bool eightCardServed;
-  // final bool nineCardServed;
-  // final bool tenCardServed;
+  final bool oneCardServed;
+  final bool twoCardServed;
+  final bool threeCardServed;
+  final bool fourCardServed;
+  final bool fiveCardServed;
+  final bool sixCardServed;
+  final bool sevenCardServed;
+  final bool eightCardServed;
+  final bool nineCardServed;
+  final bool tenCardServed;
   // final bool elevenCardServed;
   // final bool twelveCardServed;
   // final bool thirteenCardServed;
   // final bool jokerCardServed;
-  // final bool oneCardFliped;
-  // final bool twoCardFliped;
-  // final bool threeCardFliped;
-  // final bool fourCardFliped;
-  // final bool fiveCardFliped;
-  // final bool sixCardFliped;
-  // final bool sevenCardFliped;
-  // final bool eightCardFliped;
-  // final bool nineCardFliped;
-  // final bool tenCardFliped;
+  final bool oneCardFliped;
+  final bool twoCardFliped;
+  final bool threeCardFliped;
+  final bool fourCardFliped;
+  final bool fiveCardFliped;
+  final bool sixCardFliped;
+  final bool sevenCardFliped;
+  final bool eightCardFliped;
+  final bool nineCardFliped;
+  final bool tenCardFliped;
   // final bool elevenCardFliped;
   // final bool twelveCardFliped;
   // final bool thirteenCardFliped;
@@ -125,7 +125,8 @@ class NewPlayer3SeatWidget extends StatefulWidget {
 class _NewPlayer3SeatWidgetState extends State<NewPlayer3SeatWidget> {
   @override
   Widget build(BuildContext context) {
-    // List indexData =[14.0.h,18.0.h,22.0.h,26.0.h];
+    List offsetDataH= [16.0.h,12.0.h,14.0.h,5.0.h,-(5.0.h),-(15.0.h),-(20.0.h),-(25.0.h),-(33.0.h),-(38.0.h),-(38.0.h)];
+    List offsetDataW= [-(40.0.w),-(18.0.h),-(55.0.w),-(65.0.w),-(55.0.w),-(60.0.w),-(55.0.w),-(55.0.w),-(50.0.w),-(50.0.w),-(50.0.w)];
     return Positioned(
       right: 0.0,
       left: 0.0,
@@ -135,21 +136,19 @@ class _NewPlayer3SeatWidgetState extends State<NewPlayer3SeatWidget> {
           return Stack(
             alignment: Alignment.bottomCenter,
             children: [
-
-              Container(
+              rummyProvider.isFilpCard
+                  ?Container(
                 height: 70,
                 margin: EdgeInsets.only(bottom: 10.0.h),
-                child: ReorderableListView(
-                  shrinkWrap: true,
+                child: ListView.builder(
+                    shrinkWrap: true,
                     scrollDirection: Axis.horizontal,
-                    padding: EdgeInsets.all(0),
-                  children: [
-                    for(int index = 0;index < widget.CardNo.length;index++)
-                      Align(
-                        key: ValueKey(index),
+                    itemCount: widget.Served.length,
+                    itemBuilder: (context,index){
+                      return Align(
                         alignment: Alignment.bottomLeft,
                         child: Container(
-                          margin: EdgeInsets.only(top: rummyProvider.cardUp[index]?5:15),
+                          margin: EdgeInsets.only(top: rummyProvider.cardUp[0]?5:15),
                           child: SizeAnimatedWidget.tween(
                             enabled: widget.Served[index],
                             duration: const Duration(milliseconds: 200),
@@ -157,10 +156,10 @@ class _NewPlayer3SeatWidgetState extends State<NewPlayer3SeatWidget> {
                             sizeDisabled: Size(0, 0),
                             curve: Curves.ease,
                             child: TranslationAnimatedWidget.tween(
-                              enabled: widget.Served[index],
+                              enabled:  widget.Served[index],
                               delay: const Duration(milliseconds: 500),
                               translationEnabled: const Offset(0, 0),
-                              translationDisabled: Offset(10.0.h, -(20.0.w)),
+                              translationDisabled: Offset(offsetDataH[index], offsetDataW[index]),
                               curve: Curves.ease,
                               duration: const Duration(milliseconds: 500),
                               child: InkWell(
@@ -178,111 +177,114 @@ class _NewPlayer3SeatWidgetState extends State<NewPlayer3SeatWidget> {
                                       ? SizedBox()
                                       : rummyProvider.isAcceptCardList[index] == 2
                                       ? Container(
-                                    child: getSpriteImage(widget.CardNo[index]),
+                                    child: getSpriteImage(53),
                                   )
                                       : Container(
                                     child: OpacityAnimatedWidget.tween(
                                       opacityEnabled: 1,
-                                      opacityDisabled: 0,
+                                      opacityDisabled: 1,
                                       enabled: widget.Fliped[index],
                                       child: RotationAnimatedWidget.tween(
                                         enabled: widget.Fliped[index],
                                         rotationDisabled: Rotation.deg(y: 10),
                                         rotationEnabled: Rotation.deg(y: 10),
-                                        child: getSpriteImage(widget.CardNo[index]),
+                                        child: getSpriteImage(53),
                                       ),
                                     ),
                                   ),
                                   feedback: Container(
                                     height: 70,
                                     width: 40,
-                                    child: getSpriteImage(widget.CardNo[index]),
+                                    child: getSpriteImage(53),
                                   ),
-                                  data: widget.CardNo[index],
+                                  data: 53,
                                 ),
                               ),
                             ),
                           ),
                         ),
-                      )
-                  ],
-                  onReorder: (oldIndex,newIndex){
-                    setState(() {
-                      final itemCard = widget.CardNo.removeAt(oldIndex);
-                      widget.CardNo.insert(newIndex, itemCard);
-                    });
-                  }),
-              ),
-             /* Container(
+                      );
+
+                    }),
+              )
+                  : Container(
                 height: 70,
                 margin: EdgeInsets.only(bottom: 10.0.h),
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  padding: EdgeInsets.all(0),
-                  shrinkWrap: true,
-                    itemCount: CardNo.length,
-                    itemBuilder: (context,index){
-                  return Align(
-                    alignment: Alignment.bottomLeft,
-                    child: Container(
-                      margin: EdgeInsets.only(top: rummyProvider.cardUp[index]?5:15),
-                      child: SizeAnimatedWidget.tween(
-                        enabled: Served[index],
-                        duration: const Duration(milliseconds: 200),
-                        sizeEnabled: Size(10.0.w, 20.0.w),
-                        sizeDisabled: Size(0, 0),
-                        curve: Curves.ease,
-                        child: TranslationAnimatedWidget.tween(
-                          enabled: Served[index],
-                          delay: const Duration(milliseconds: 500),
-                          translationEnabled: const Offset(0, 0),
-                          translationDisabled: Offset(10.0.h, -(20.0.w)),
-                          curve: Curves.ease,
-                          duration: const Duration(milliseconds: 500),
-                          child:InkWell(
-                            onTap: () {
-                              rummyProvider.setCardUpTrue(index);
-                            },
-                            child: Draggable<int>(
-                              onDragStarted: () {
-                                rummyProvider.setOneAcceptCardList(1,index);
-                              },
-                              onDraggableCanceled: (velocity, offset) {
-                                rummyProvider.setOneAcceptCardList(2,index);
-                              },
-                              child: rummyProvider.isAcceptCardList[index] == 1
-                                  ? SizedBox()
-                                  : rummyProvider.isAcceptCardList[index] == 2
-                                  ? Container(
-                                child: getSpriteImage(CardNo[index]),
-                              )
-                                  : Container(
-                                child: OpacityAnimatedWidget.tween(
-                                  opacityEnabled: 1,
-                                  opacityDisabled: 0,
-                                  enabled: oneCardFliped,
-                                  child: RotationAnimatedWidget.tween(
-                                    enabled: oneCardFliped,
-                                    rotationDisabled: Rotation.deg(y: 10),
-                                    rotationEnabled: Rotation.deg(y: 10),
-                                    child: getSpriteImage(CardNo[index]),
+                child: ReorderableListView(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    padding: EdgeInsets.all(0),
+                    children: [
+                      for(int index = 0;index < widget.CardNo.length;index++)
+                        Align(
+                          key: ValueKey(index),
+                          alignment: Alignment.bottomLeft,
+                          child: Container(
+                            margin: EdgeInsets.only(top: rummyProvider.cardUp[index]?5:15),
+                            child: SizeAnimatedWidget.tween(
+                              enabled: widget.Served[index],
+                              duration: const Duration(milliseconds: 200),
+                              sizeEnabled: Size(10.0.w, 20.0.w),
+                              sizeDisabled: Size(0, 0),
+                              curve: Curves.ease,
+                              child: TranslationAnimatedWidget.tween(
+                                enabled: widget.Served[index],
+                                delay: const Duration(milliseconds: 500),
+                                translationEnabled: const Offset(0, 0),
+                                translationDisabled: Offset(10.0.h, -(20.0.w)),
+                                curve: Curves.ease,
+                                duration: const Duration(milliseconds: 500),
+                                child: InkWell(
+                                  onTap: () {
+                                    rummyProvider.setCardUpTrue(index);
+                                  },
+                                  child: Draggable<int>(
+                                    onDragStarted: () {
+                                      rummyProvider.setOneAcceptCardList(1,index);
+                                    },
+                                    onDraggableCanceled: (velocity, offset) {
+                                      rummyProvider.setOneAcceptCardList(2,index);
+                                    },
+                                    child: rummyProvider.isAcceptCardList[index] == 1
+                                        ? SizedBox()
+                                        : rummyProvider.isAcceptCardList[index] == 2
+                                        ? Container(
+                                      child: getSpriteImage(widget.CardNo[index]),
+                                    )
+                                        : Container(
+                                      child: OpacityAnimatedWidget.tween(
+                                        opacityEnabled: 1,
+                                        opacityDisabled: 0,
+                                        enabled: widget.Fliped[index],
+                                        child: RotationAnimatedWidget.tween(
+                                          enabled: widget.Fliped[index],
+                                          rotationDisabled: Rotation.deg(y: 10),
+                                          rotationEnabled: Rotation.deg(y: 10),
+                                          child: getSpriteImage(widget.CardNo[index]),
+                                        ),
+                                      ),
+                                    ),
+                                    feedback: Container(
+                                      height: 70,
+                                      width: 40,
+                                      child: getSpriteImage(widget.CardNo[index]),
+                                    ),
+                                    data: widget.CardNo[index],
                                   ),
                                 ),
                               ),
-                              feedback: Container(
-                                height: 70,
-                                width: 40,
-                                child: getSpriteImage(CardNo[index]),
-                              ),
-                              data: CardNo[index],
                             ),
                           ),
-                        ),
-                      ),
-                    ),
-                  );
-                }),
-              ),*/
+                        )
+                    ],
+                    onReorder: (oldIndex,newIndex){
+                      print('OldIndex :-  $oldIndex **** NewIndex :- $newIndex');
+                      setState(() {
+                        final itemCard = widget.CardNo.removeAt(oldIndex);
+                        widget.CardNo.insert(newIndex, itemCard);
+                      });
+                    }),
+              ),
               Container(
                 child: Image.asset(
                   widget.userProfileImage,

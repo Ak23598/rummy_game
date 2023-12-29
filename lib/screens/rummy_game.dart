@@ -235,7 +235,7 @@ class _RummyGameScreenState extends State<RummyGameScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _cardPageNumber.isNotEmpty ? Consumer<RummyProvider>(
+      body: Consumer<RummyProvider>(
         builder: (context,rummyProvider,_){
           return Container(
             decoration:  BoxDecoration(
@@ -244,14 +244,20 @@ class _RummyGameScreenState extends State<RummyGameScreen> {
                 fit: BoxFit.fill,
               ),
             ),
-            child: Stack(
+            child:_cardPageNumber.isNotEmpty ? Stack(
               children: [
-                CompletePlayTableWidget(
+                _cardPageNumber.isNotEmpty ? CompletePlayTableWidget(
                   servedPages: _servedPages,
                   flipedPages: _flipedPages,
                   cardPage: _cardPageNumber,
                   jokerFlipedPages: _jokerFlipedPages,
                   jokerServedPages: _jokerServedPages,
+                ) : CompletePlayTableWidget(
+                  servedPages: [],
+                  flipedPages: [],
+                  cardPage: [],
+                  jokerFlipedPages: [],
+                  jokerServedPages: [],
                 ),
                 Positioned(
                   top: 4.5.h,
@@ -270,11 +276,11 @@ class _RummyGameScreenState extends State<RummyGameScreen> {
                   ),
                 ),
               ],
+            )  : Center(
+              child: CircularProgressIndicator(),
             ),
           );
         },
-      ) : Center(
-        child: CircularProgressIndicator(),
       ),
     );
   }

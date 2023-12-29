@@ -19,10 +19,10 @@ class RummyGameScreen extends StatefulWidget {
 
 class _RummyGameScreenState extends State<RummyGameScreen> {
   bool sizeChange = false;
-  List<bool> _servedPages = [false, false, false,false,false, false, false,false,false, false,false];
+  List<bool> _servedPages = [false, false, false,false,false, false, false,false,false, false,false,false];
   List<bool> _jokerServedPages = [false];
   List<bool> _jokerFlipedPages = [false];
-  List<bool> _flipedPages = [false, false, false,false,false, false, false,false,false, false,false];
+  List<bool> _flipedPages = [false, false, false,false,false, false, false,false,false, false,false,false];
   List<int> _cardPageNumber = [];
   Timer? servingTimer;
   Timer? flipingTimer;
@@ -42,6 +42,7 @@ class _RummyGameScreenState extends State<RummyGameScreen> {
     downCard(context);
     handCard(context);
     turnTime(context);
+    gameOver();
     countDown();
 
     super.initState();
@@ -94,9 +95,9 @@ class _RummyGameScreenState extends State<RummyGameScreen> {
 
   void handCard(BuildContext context) async {
     Sockets.socket.on("hand", (data) {
+      print('New Data :-   ${data}');
       var rummyProvider = Provider.of<RummyProvider>(context,listen: false);
       List<int> newCardData= [];
-      rummyProvider.setSequenceData(data);
       List<Map<String,dynamic>> data2 = [];
       for(int i = 0; i < data.length; i++){
         Map<String,dynamic> data3 = data[i];
@@ -117,7 +118,11 @@ class _RummyGameScreenState extends State<RummyGameScreen> {
       }
 
       setState(() {
+        rummyProvider.setNewRemoveData();
         _cardPageNumber = newCardData;
+        for(int i = 0; i< _cardPageNumber.length;i++){
+          rummyProvider.setNewData(_cardPageNumber[i]);
+        }
       });
 
     });
@@ -142,7 +147,8 @@ class _RummyGameScreenState extends State<RummyGameScreen> {
 
   void gameOver() async {
     Sockets.socket.on("game over", (data) {
-      print("**** COUNT DOWN **** $data");
+      print("**** Game Over **** $data");
+      openAlertBox();
     });
   }
 
@@ -249,7 +255,7 @@ class _RummyGameScreenState extends State<RummyGameScreen> {
                 _cardPageNumber.isNotEmpty ? CompletePlayTableWidget(
                   servedPages: _servedPages,
                   flipedPages: _flipedPages,
-                  cardPage: _cardPageNumber,
+                  cardPage: rummyProvider.newIndexData,
                   jokerFlipedPages: _jokerFlipedPages,
                   jokerServedPages: _jokerServedPages,
                 ) : CompletePlayTableWidget(
@@ -283,5 +289,64 @@ class _RummyGameScreenState extends State<RummyGameScreen> {
         },
       ),
     );
+  }
+
+  openAlertBox() {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(32.0))),
+            contentPadding: EdgeInsets.only(top: 10.0),
+            content: Container(
+              width: 300.0,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Container(height: 50,width: 50,decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.grey,border: Border.all(color: Colors.red),
+                  ),child: Center(child: Icon(Icons.person)),),
+                  SizedBox(
+                    height: 5.0,
+                  ),
+                  Center(child: Text('Winner Name',style: TextStyle(color: Colors.red,fontSize: 15,fontWeight: FontWeight.bold),)),
+                  SizedBox(
+                    height: 5.0,
+                  ),
+                  Divider(
+                    color: Colors.grey,
+                    height: 4.0,
+                  ),
+                  Container(
+                      height: 40,
+                      child: Text('Winner Message',style: TextStyle(color: Colors.black,fontSize: 15),)),
+                  InkWell(
+                    onTap: (){
+                      Navigator.pop(context);
+                    },
+                    child: Container(
+                      padding: EdgeInsets.only(top: 20.0, bottom: 20.0),
+                      decoration: BoxDecoration(
+                        color: Colors.red,
+                        borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(20.0),
+                            bottomRight: Radius.circular(20.0)),
+                      ),
+                      child: Text(
+                        "Quit Game",
+                        style: TextStyle(color: Colors.white),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
   }
 }

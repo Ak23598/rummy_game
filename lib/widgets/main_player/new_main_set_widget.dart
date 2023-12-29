@@ -123,10 +123,20 @@ class NewPlayer3SeatWidget extends StatefulWidget {
 }
 
 class _NewPlayer3SeatWidgetState extends State<NewPlayer3SeatWidget> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    /*var rummyProvider = Provider.of<RummyProvider>(context,listen: false);
+    for(int i = 0;i< widget.CardNo.length;i++){
+      rummyProvider.setNewData(widget.CardNo[i]);
+    }*/
+  }
   @override
   Widget build(BuildContext context) {
-    List offsetDataH= [16.0.h,12.0.h,14.0.h,5.0.h,-(5.0.h),-(15.0.h),-(20.0.h),-(25.0.h),-(33.0.h),-(38.0.h),-(38.0.h)];
-    List offsetDataW= [-(40.0.w),-(18.0.h),-(55.0.w),-(65.0.w),-(55.0.w),-(60.0.w),-(55.0.w),-(55.0.w),-(50.0.w),-(50.0.w),-(50.0.w)];
+    List offsetDataH= [16.0.h,12.0.h,14.0.h,5.0.h,-(5.0.h),-(15.0.h),-(20.0.h),-(25.0.h),-(33.0.h),-(38.0.h),-(38.0.h),-(38.0.h)];
+    List offsetDataW= [-(40.0.w),-(18.0.h),-(55.0.w),-(65.0.w),-(55.0.w),-(60.0.w),-(55.0.w),-(55.0.w),-(50.0.w),-(50.0.w),-(50.0.w),-(50.0.w)];
     return Positioned(
       right: 0.0,
       left: 0.0,
@@ -174,7 +184,10 @@ class _NewPlayer3SeatWidgetState extends State<NewPlayer3SeatWidget> {
                                     rummyProvider.setOneAcceptCardList(2,index);
                                   },
                                   child: rummyProvider.isAcceptCardList[index] == 1
-                                      ? SizedBox()
+                                      ? Container(
+                                    height: 100,
+                                    width: 120,
+                                    color: Colors.black,)
                                       : rummyProvider.isAcceptCardList[index] == 2
                                       ? Container(
                                     child: getSpriteImage(53),
@@ -215,20 +228,20 @@ class _NewPlayer3SeatWidgetState extends State<NewPlayer3SeatWidget> {
                     scrollDirection: Axis.horizontal,
                     padding: EdgeInsets.all(0),
                     children: [
-                      for(int index = 0;index < widget.CardNo.length;index++)
+                      for(int index = 0;index < rummyProvider.newIndexData.length;index++)
                         Align(
                           key: ValueKey(index),
                           alignment: Alignment.bottomLeft,
                           child: Container(
                             margin: EdgeInsets.only(top: rummyProvider.cardUp[index]?5:15),
                             child: SizeAnimatedWidget.tween(
-                              enabled: widget.Served[index],
+                              enabled: true,
                               duration: const Duration(milliseconds: 200),
                               sizeEnabled: Size(10.0.w, 20.0.w),
                               sizeDisabled: Size(0, 0),
                               curve: Curves.ease,
                               child: TranslationAnimatedWidget.tween(
-                                enabled: widget.Served[index],
+                                enabled: true,
                                 delay: const Duration(milliseconds: 500),
                                 translationEnabled: const Offset(0, 0),
                                 translationDisabled: Offset(10.0.h, -(20.0.w)),
@@ -249,7 +262,7 @@ class _NewPlayer3SeatWidgetState extends State<NewPlayer3SeatWidget> {
                                         ? SizedBox()
                                         : rummyProvider.isAcceptCardList[index] == 2
                                         ? Container(
-                                      child: getSpriteImage(widget.CardNo[index]),
+                                      child: getSpriteImage(rummyProvider.newIndexData[index]),
                                     )
                                         : Container(
                                       child: OpacityAnimatedWidget.tween(
@@ -260,16 +273,16 @@ class _NewPlayer3SeatWidgetState extends State<NewPlayer3SeatWidget> {
                                           enabled: widget.Fliped[index],
                                           rotationDisabled: Rotation.deg(y: 10),
                                           rotationEnabled: Rotation.deg(y: 10),
-                                          child: getSpriteImage(widget.CardNo[index]),
+                                          child: getSpriteImage(rummyProvider.newIndexData[index]),
                                         ),
                                       ),
                                     ),
                                     feedback: Container(
                                       height: 70,
                                       width: 40,
-                                      child: getSpriteImage(widget.CardNo[index]),
+                                      child: getSpriteImage(rummyProvider.newIndexData[index]),
                                     ),
-                                    data: widget.CardNo[index],
+                                    data: rummyProvider.newIndexData[index],
                                   ),
                                 ),
                               ),
@@ -279,10 +292,7 @@ class _NewPlayer3SeatWidgetState extends State<NewPlayer3SeatWidget> {
                     ],
                     onReorder: (oldIndex,newIndex){
                       print('OldIndex :-  $oldIndex **** NewIndex :- $newIndex');
-                      setState(() {
-                        final itemCard = widget.CardNo.removeAt(oldIndex);
-                        widget.CardNo.insert(newIndex, itemCard);
-                      });
+                      rummyProvider.setRomoveAndIndexData(newIndex, oldIndex);
                     }),
               ),
               Container(

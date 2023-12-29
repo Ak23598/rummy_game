@@ -67,6 +67,7 @@ class _CompletePlayTableWidgetState extends State<CompletePlayTableWidget> {
               child: Stack(
                 clipBehavior: Clip.none,
                 children: [
+
                   Positioned(
                       top: 09.5.h,
                       left: 51.0.w,
@@ -218,15 +219,17 @@ class _CompletePlayTableWidgetState extends State<CompletePlayTableWidget> {
                           rummyProvider.dropCard(singleData);
                         }
                       }
-                      for(int j = 0; j < socketProvider.cardNumberList.length;j++){
-                        if(socketProvider.cardNumberList[j] == data){
-                          socketProvider.setRemoveIndex(j);
+                      for(int j = 0; j < rummyProvider.newIndexData.length;j++){
+                        print('New ******  :-  $data  :-   ${rummyProvider.newIndexData}');
+                        if(rummyProvider.newIndexData[j] == data){
+                          rummyProvider.setNewRemoveIndex(j);
+                          rummyProvider.setOneAcceptCardList(2,j);
                         }
                       }
                      },
                     ),
                   ),
-                  Positioned(
+                  /*Positioned(
                       top: 12.0.h,
                       left: 90.0.w,
                       child: Container(
@@ -245,7 +248,7 @@ class _CompletePlayTableWidgetState extends State<CompletePlayTableWidget> {
                       child: InkWell(
                         onTap: (){
                           // rummyProvider.setSortAllCard();
-                          rummyProvider.checkSetSequenceData(rummyProvider.checkSetSequence);
+                          rummyProvider.checkSetSequenceData(rummyProvider.reArrangeData);
                         },
                         child: Card(
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
@@ -261,7 +264,7 @@ class _CompletePlayTableWidgetState extends State<CompletePlayTableWidget> {
                             child: Center(child: Text('Sort',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.grey),)),
                           ),
                         ),
-                      )),
+                      )),*/
 
                   NewPlayer3SeatWidget(
                     userProfileImage: ImageConst.icProfilePic3,

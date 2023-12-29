@@ -133,38 +133,38 @@ class Player3SeatWidget extends StatelessWidget {
 
                     //One card
 
+               //      rummyProvider.isSortCard?Container():Align(
+               //   alignment: Alignment.bottomLeft,
+               //   child: Container(
+               //     margin: EdgeInsets.only(left: rummyProvider.isSortCard?0:20.0.h,top: rummyProvider.cardUp[0]?5:15),
+               //     child: SizeAnimatedWidget.tween(
+               //       enabled: oneCardServed,
+               //       duration: const Duration(milliseconds: 200),
+               //       sizeEnabled: Size(14.0.w, 20.0.w),
+               //       sizeDisabled: Size(0, 0),
+               //       curve: Curves.ease,
+               //       child: TranslationAnimatedWidget.tween(
+               //         enabled: oneCardServed,
+               //         delay: const Duration(milliseconds: 500),
+               //         translationEnabled: const Offset(0, 0),
+               //         /*translationDisabled: Offset(10.0.h, -(20.0.w)),*/
+               //         curve: Curves.ease,
+               //         duration: const Duration(milliseconds: 500),
+               //         child: RummyOneCardWidget(
+               //           oneCardFliped: oneCardFliped,
+               //           opacityEnabled: 1,
+               //           opacityDisabled: 0,
+               //           oneCard: oneCardNo,
+               //           cardNo: oneCardNo,
+               //         ),
+               //       ),
+               //     ),
+               //   ),
+               // ),
                     rummyProvider.isSortCard?Container():Align(
                  alignment: Alignment.bottomLeft,
                  child: Container(
-                   margin: EdgeInsets.only(left: rummyProvider.isSortCard?0:20.0.h,top: rummyProvider.cardUp[0]?5:15),
-                   child: SizeAnimatedWidget.tween(
-                     enabled: oneCardServed,
-                     duration: const Duration(milliseconds: 200),
-                     sizeEnabled: Size(14.0.w, 20.0.w),
-                     sizeDisabled: Size(0, 0),
-                     curve: Curves.ease,
-                     child: TranslationAnimatedWidget.tween(
-                       enabled: oneCardServed,
-                       delay: const Duration(milliseconds: 500),
-                       translationEnabled: const Offset(0, 0),
-                       /*translationDisabled: Offset(10.0.h, -(20.0.w)),*/
-                       curve: Curves.ease,
-                       duration: const Duration(milliseconds: 500),
-                       child: RummyOneCardWidget(
-                         oneCardFliped: oneCardFliped,
-                         opacityEnabled: 1,
-                         opacityDisabled: 0,
-                         oneCard: oneCardNo,
-                         cardNo: oneCardNo,
-                       ),
-                     ),
-                   ),
-                 ),
-               ),
-                    rummyProvider.isSortCard?Container():Align(
-                 alignment: Alignment.bottomLeft,
-                 child: Container(
-                   margin: EdgeInsets.only(left: rummyProvider.isSortCard?0:20.0.h,top: rummyProvider.cardUp[0]?5:15),
+                   margin: EdgeInsets.only(left: rummyProvider.isSortCard?0:13.0.h,top: rummyProvider.cardUp[0]?5:15),
                    child: SizeAnimatedWidget.tween(
                      enabled: oneCardServed,
                      duration: const Duration(milliseconds: 200),
@@ -180,7 +180,7 @@ class Player3SeatWidget extends StatelessWidget {
                        duration: const Duration(milliseconds: 500),
                        child: RummyOneCardWidget(
                          oneCardFliped: oneCardFliped,
-                         opacityEnabled: 0,
+                         opacityEnabled: 1,
                          opacityDisabled: 1,
                          oneCard: 53,
                          cardNo: oneCardNo,
@@ -192,38 +192,38 @@ class Player3SeatWidget extends StatelessWidget {
 
                      //Two card
 
+               //      rummyProvider.isSortCard?Container():Align(
+               //   alignment: Alignment.bottomLeft,
+               //   child: Container(
+               //     margin: EdgeInsets.only(left: rummyProvider.isSortCard?0:24.0.h,top: rummyProvider.cardUp[1]?5:15),
+               //     child: SizeAnimatedWidget.tween(
+               //       enabled: twoCardServed,
+               //       duration: const Duration(milliseconds: 200),
+               //       sizeEnabled: Size(14.0.w, 20.0.w),
+               //       sizeDisabled: Size(0, 0),
+               //       curve: Curves.ease,
+               //       child: TranslationAnimatedWidget.tween(
+               //         enabled: twoCardServed,
+               //         delay: const Duration(milliseconds: 500),
+               //         translationEnabled: const Offset(0, 0),
+               //         translationDisabled: Offset(0, -(50.0.w)),
+               //         curve: Curves.ease,
+               //         duration: const Duration(milliseconds: 500),
+               //         child: RummyTwoCardWidget(
+               //           twoCardFliped: twoCardFliped,
+               //           opacityEnabled: 1,
+               //           opacityDisabled: 0,
+               //           twoCard: twoCardNo,
+               //           cardNo: twoCardNo,
+               //         ),
+               //       ),
+               //     ),
+               //   ),
+               // ),
                     rummyProvider.isSortCard?Container():Align(
                  alignment: Alignment.bottomLeft,
                  child: Container(
-                   margin: EdgeInsets.only(left: rummyProvider.isSortCard?0:24.0.h,top: rummyProvider.cardUp[1]?5:15),
-                   child: SizeAnimatedWidget.tween(
-                     enabled: twoCardServed,
-                     duration: const Duration(milliseconds: 200),
-                     sizeEnabled: Size(14.0.w, 20.0.w),
-                     sizeDisabled: Size(0, 0),
-                     curve: Curves.ease,
-                     child: TranslationAnimatedWidget.tween(
-                       enabled: twoCardServed,
-                       delay: const Duration(milliseconds: 500),
-                       translationEnabled: const Offset(0, 0),
-                       translationDisabled: Offset(0, -(50.0.w)),
-                       curve: Curves.ease,
-                       duration: const Duration(milliseconds: 500),
-                       child: RummyTwoCardWidget(
-                         twoCardFliped: twoCardFliped,
-                         opacityEnabled: 1,
-                         opacityDisabled: 0,
-                         twoCard: twoCardNo,
-                         cardNo: twoCardNo,
-                       ),
-                     ),
-                   ),
-                 ),
-               ),
-                    rummyProvider.isSortCard?Container():Align(
-                 alignment: Alignment.bottomLeft,
-                 child: Container(
-                   margin: EdgeInsets.only(left: rummyProvider.isSortCard?0:24.0.h,top: rummyProvider.cardUp[1]?5:15),
+                   margin: EdgeInsets.only(left: rummyProvider.isSortCard?0:18.8.h,top: rummyProvider.cardUp[1]?5:15),
                    child: SizeAnimatedWidget.tween(
                      enabled: twoCardServed,
                      duration: const Duration(milliseconds: 200),
@@ -239,7 +239,7 @@ class Player3SeatWidget extends StatelessWidget {
                        duration: const Duration(milliseconds: 500),
                        child: RummyTwoCardWidget(
                          twoCardFliped: twoCardFliped,
-                         opacityEnabled: 0,
+                         opacityEnabled: 1,
                          opacityDisabled: 1,
                          twoCard: 53,
                          cardNo: twoCardNo,
@@ -251,37 +251,37 @@ class Player3SeatWidget extends StatelessWidget {
 
                     //Three Card
 
-                    rummyProvider.isSortCard?Container():Align(
-                   alignment: Alignment.bottomLeft,
-                   child: Container(
-                   margin: EdgeInsets.only(left: rummyProvider.isSortCard?0:28.0.h,top: rummyProvider.cardUp[2]?5:15),
-                   child: SizeAnimatedWidget.tween(
-                     enabled: threeCardServed,
-                     duration: const Duration(milliseconds: 200),
-                     sizeEnabled: Size(14.0.w, 20.0.w),
-                     sizeDisabled: Size(0, 0),
-                     curve: Curves.ease,
-                     child: TranslationAnimatedWidget.tween(
-                       enabled: threeCardServed,
-                       delay: const Duration(milliseconds: 500),
-                       translationEnabled: const Offset(0, 0),
-                       translationDisabled: Offset(0, -(50.0.w)),
-                       curve: Curves.ease,
-                       duration: const Duration(milliseconds: 200),
-                       child: RummyThreeCardWidget(
-                         thirdCardFliped: threeCardFliped,
-                         opacityEnabled: 1,
-                         opacityDisabled: 0,
-                         threeCard: threeCardNo,
-                         cardNo: threeCardNo,
-                       ),
-                     ),
-                   ),
-                 ),
-               ),
+               //      rummyProvider.isSortCard?Container():Align(
+               //     alignment: Alignment.bottomLeft,
+               //     child: Container(
+               //     margin: EdgeInsets.only(left: rummyProvider.isSortCard?0:28.0.h,top: rummyProvider.cardUp[2]?5:15),
+               //     child: SizeAnimatedWidget.tween(
+               //       enabled: threeCardServed,
+               //       duration: const Duration(milliseconds: 200),
+               //       sizeEnabled: Size(14.0.w, 20.0.w),
+               //       sizeDisabled: Size(0, 0),
+               //       curve: Curves.ease,
+               //       child: TranslationAnimatedWidget.tween(
+               //         enabled: threeCardServed,
+               //         delay: const Duration(milliseconds: 500),
+               //         translationEnabled: const Offset(0, 0),
+               //         translationDisabled: Offset(0, -(50.0.w)),
+               //         curve: Curves.ease,
+               //         duration: const Duration(milliseconds: 200),
+               //         child: RummyThreeCardWidget(
+               //           thirdCardFliped: threeCardFliped,
+               //           opacityEnabled: 1,
+               //           opacityDisabled: 0,
+               //           threeCard: threeCardNo,
+               //           cardNo: threeCardNo,
+               //         ),
+               //       ),
+               //     ),
+               //   ),
+               // ),
                     rummyProvider.isSortCard?Container():Align(
                  child: Container(
-                   margin: EdgeInsets.only(left: rummyProvider.isSortCard?0:28.0.h,top: rummyProvider.cardUp[2]?5:15),
+                   margin: EdgeInsets.only(left: rummyProvider.isSortCard?0:24.6.h,top: rummyProvider.cardUp[2]?5:15),
                    alignment: Alignment.bottomLeft,
                    child: SizeAnimatedWidget.tween(
                      enabled: threeCardServed,
@@ -298,7 +298,7 @@ class Player3SeatWidget extends StatelessWidget {
                        duration: const Duration(milliseconds: 200),
                        child: RummyThreeCardWidget(
                          thirdCardFliped: threeCardFliped,
-                         opacityEnabled: 0,
+                         opacityEnabled: 1,
                          opacityDisabled: 1,
                          threeCard: 53,
                          cardNo: threeCardNo,
@@ -310,37 +310,37 @@ class Player3SeatWidget extends StatelessWidget {
 
                     //Four Card
 
+                  //   rummyProvider.isSortCard?Container():Align(
+                  //   alignment: Alignment.bottomLeft,
+                  //   child: Container(
+                  //     margin: EdgeInsets.only(left: rummyProvider.isSortCard?0:32.0.h,top: rummyProvider.cardUp[3]?5:15),
+                  //     child: SizeAnimatedWidget.tween(
+                  //       enabled: fourCardServed,
+                  //       duration: const Duration(milliseconds: 200),
+                  //       sizeEnabled: Size(14.0.w, 20.0.w),
+                  //       sizeDisabled: Size(0, 0),
+                  //       curve: Curves.ease,
+                  //       child: TranslationAnimatedWidget.tween(
+                  //         enabled: fourCardServed,
+                  //         delay: const Duration(milliseconds: 500),
+                  //         translationEnabled: const Offset(0, 0),
+                  //         translationDisabled: Offset(0, -(50.0.w)),
+                  //         curve: Curves.ease,
+                  //         duration: const Duration(milliseconds: 200),
+                  //         child: RummyFourCardWidget(
+                  //           fourCardFliped: fourCardFliped,
+                  //           opacityEnabled: 1,
+                  //           opacityDisabled: 0,
+                  //           fourCard: fourCardNo,
+                  //           cardNo: fourCardNo,
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                     rummyProvider.isSortCard?Container():Align(
-                    alignment: Alignment.bottomLeft,
                     child: Container(
-                      margin: EdgeInsets.only(left: rummyProvider.isSortCard?0:32.0.h,top: rummyProvider.cardUp[3]?5:15),
-                      child: SizeAnimatedWidget.tween(
-                        enabled: fourCardServed,
-                        duration: const Duration(milliseconds: 200),
-                        sizeEnabled: Size(14.0.w, 20.0.w),
-                        sizeDisabled: Size(0, 0),
-                        curve: Curves.ease,
-                        child: TranslationAnimatedWidget.tween(
-                          enabled: fourCardServed,
-                          delay: const Duration(milliseconds: 500),
-                          translationEnabled: const Offset(0, 0),
-                          translationDisabled: Offset(0, -(50.0.w)),
-                          curve: Curves.ease,
-                          duration: const Duration(milliseconds: 200),
-                          child: RummyFourCardWidget(
-                            fourCardFliped: fourCardFliped,
-                            opacityEnabled: 1,
-                            opacityDisabled: 0,
-                            fourCard: fourCardNo,
-                            cardNo: fourCardNo,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                    rummyProvider.isSortCard?Container():Align(
-                    child: Container(
-                      margin: EdgeInsets.only(left: rummyProvider.isSortCard?0:32.0.h,top: rummyProvider.cardUp[3]?5:15),
+                      margin: EdgeInsets.only(left: rummyProvider.isSortCard?0:30.4.h,top: rummyProvider.cardUp[3]?5:15),
                       alignment: Alignment.bottomLeft,
                       child: SizeAnimatedWidget.tween(
                         enabled: fourCardServed,
@@ -357,7 +357,7 @@ class Player3SeatWidget extends StatelessWidget {
                           duration: const Duration(milliseconds: 200),
                           child: RummyFourCardWidget(
                             fourCardFliped: fourCardFliped,
-                            opacityEnabled: 0,
+                            opacityEnabled: 1,
                             opacityDisabled: 1,
                             fourCard: 53,
                             cardNo: fourCardNo,
@@ -369,34 +369,34 @@ class Player3SeatWidget extends StatelessWidget {
 
                     //Five Card
 
-                    rummyProvider.isSortCard?Container():Align(
-                    alignment: Alignment.bottomLeft,
-                    child: Container(
-                      margin: EdgeInsets.only(left: rummyProvider.isSortCard?0:36.0.h,top: rummyProvider.cardUp[4]?5:15),
-                      child: SizeAnimatedWidget.tween(
-                        enabled: fiveCardServed,
-                        duration: const Duration(milliseconds: 200),
-                        sizeEnabled: Size(14.0.w, 20.0.w),
-                        sizeDisabled: Size(0, 0),
-                        curve: Curves.ease,
-                        child: TranslationAnimatedWidget.tween(
-                          enabled: fiveCardServed,
-                          delay: const Duration(milliseconds: 500),
-                          translationEnabled: const Offset(0, 0),
-                          translationDisabled: Offset(0, -(50.0.w)),
-                          curve: Curves.ease,
-                          duration: const Duration(milliseconds: 200),
-                          child: RummyFiveCardWidget(
-                            fiveCardFliped: fiveCardFliped,
-                            opacityEnabled: 1,
-                            opacityDisabled: 0,
-                            fiveCard: fiveCardNo,
-                            cardNo: fiveCardNo,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+                  //   rummyProvider.isSortCard?Container():Align(
+                  //   alignment: Alignment.bottomLeft,
+                  //   child: Container(
+                  //     margin: EdgeInsets.only(left: rummyProvider.isSortCard?0:36.0.h,top: rummyProvider.cardUp[4]?5:15),
+                  //     child: SizeAnimatedWidget.tween(
+                  //       enabled: fiveCardServed,
+                  //       duration: const Duration(milliseconds: 200),
+                  //       sizeEnabled: Size(14.0.w, 20.0.w),
+                  //       sizeDisabled: Size(0, 0),
+                  //       curve: Curves.ease,
+                  //       child: TranslationAnimatedWidget.tween(
+                  //         enabled: fiveCardServed,
+                  //         delay: const Duration(milliseconds: 500),
+                  //         translationEnabled: const Offset(0, 0),
+                  //         translationDisabled: Offset(0, -(50.0.w)),
+                  //         curve: Curves.ease,
+                  //         duration: const Duration(milliseconds: 200),
+                  //         child: RummyFiveCardWidget(
+                  //           fiveCardFliped: fiveCardFliped,
+                  //           opacityEnabled: 1,
+                  //           opacityDisabled: 0,
+                  //           fiveCard: fiveCardNo,
+                  //           cardNo: fiveCardNo,
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                     rummyProvider.isSortCard?Container():Align(
                     child: Container(
                       margin: EdgeInsets.only(left: rummyProvider.isSortCard?0:36.0.h,top: rummyProvider.cardUp[4]?5:15),
@@ -416,7 +416,7 @@ class Player3SeatWidget extends StatelessWidget {
                           duration: const Duration(milliseconds: 200),
                           child: RummyFiveCardWidget(
                             fiveCardFliped: fiveCardFliped,
-                            opacityEnabled: 0,
+                            opacityEnabled: 1,
                             opacityDisabled: 1,
                             fiveCard: 53,
                             cardNo: fiveCardNo,
@@ -428,34 +428,34 @@ class Player3SeatWidget extends StatelessWidget {
 
                     //Six Card
 
-                    rummyProvider.isSortCard?Container():Align(
-                    alignment: Alignment.bottomLeft,
-                    child: Container(
-                      margin: EdgeInsets.only(left: rummyProvider.isSortCard?0:40.0.h,top: rummyProvider.cardUp[5]?5:15),
-                      child: SizeAnimatedWidget.tween(
-                        enabled: sixCardServed,
-                        duration: const Duration(milliseconds: 200),
-                        sizeEnabled: Size(14.0.w, 20.0.w),
-                        sizeDisabled: Size(0, 0),
-                        curve: Curves.ease,
-                        child: TranslationAnimatedWidget.tween(
-                          enabled: sixCardServed,
-                          delay: const Duration(milliseconds: 500),
-                          translationEnabled: const Offset(0, 0),
-                          translationDisabled: Offset(0, -(50.0.w)),
-                          curve: Curves.ease,
-                          duration: const Duration(milliseconds: 200),
-                          child: RummySixCardWidget(
-                            sixCardFliped: sixCardFliped,
-                            opacityEnabled: 1,
-                            opacityDisabled: 0,
-                            sixCard: sixCardNo,
-                            cardNo: sixCardNo,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+                  //   rummyProvider.isSortCard?Container():Align(
+                  //   alignment: Alignment.bottomLeft,
+                  //   child: Container(
+                  //     margin: EdgeInsets.only(left: rummyProvider.isSortCard?0:40.0.h,top: rummyProvider.cardUp[5]?5:15),
+                  //     child: SizeAnimatedWidget.tween(
+                  //       enabled: sixCardServed,
+                  //       duration: const Duration(milliseconds: 200),
+                  //       sizeEnabled: Size(14.0.w, 20.0.w),
+                  //       sizeDisabled: Size(0, 0),
+                  //       curve: Curves.ease,
+                  //       child: TranslationAnimatedWidget.tween(
+                  //         enabled: sixCardServed,
+                  //         delay: const Duration(milliseconds: 500),
+                  //         translationEnabled: const Offset(0, 0),
+                  //         translationDisabled: Offset(0, -(50.0.w)),
+                  //         curve: Curves.ease,
+                  //         duration: const Duration(milliseconds: 200),
+                  //         child: RummySixCardWidget(
+                  //           sixCardFliped: sixCardFliped,
+                  //           opacityEnabled: 1,
+                  //           opacityDisabled: 0,
+                  //           sixCard: sixCardNo,
+                  //           cardNo: sixCardNo,
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                     rummyProvider.isSortCard?Container():Align(
                     child: Container(
                       margin: EdgeInsets.only(left: rummyProvider.isSortCard?0:40.0.h,top: rummyProvider.cardUp[5]?5:15),
@@ -475,7 +475,7 @@ class Player3SeatWidget extends StatelessWidget {
                           duration: const Duration(milliseconds: 200),
                           child: RummySixCardWidget(
                             sixCardFliped: sixCardFliped,
-                            opacityEnabled: 0,
+                            opacityEnabled: 1,
                             opacityDisabled: 1,
                             sixCard: 53,
                             cardNo: sixCardNo,
@@ -487,34 +487,34 @@ class Player3SeatWidget extends StatelessWidget {
 
                     //Seven Card
 
-                    rummyProvider.isSortCard?Container():Align(
-                    alignment: Alignment.bottomLeft,
-                    child: Container(
-                      margin: EdgeInsets.only(left: rummyProvider.isSortCard?0:44.0.h,top: rummyProvider.cardUp[6]?5:15),
-                      child: SizeAnimatedWidget.tween(
-                        enabled: sevenCardServed,
-                        duration: const Duration(milliseconds: 200),
-                        sizeEnabled: Size(14.0.w, 20.0.w),
-                        sizeDisabled: Size(0, 0),
-                        curve: Curves.ease,
-                        child: TranslationAnimatedWidget.tween(
-                          enabled: sevenCardServed,
-                          delay: const Duration(milliseconds: 500),
-                          translationEnabled: const Offset(0, 0),
-                          translationDisabled: Offset(0, -(50.0.w)),
-                          curve: Curves.ease,
-                          duration: const Duration(milliseconds: 200),
-                          child: RummySevenCardWidget(
-                            sevenCardFliped: sevenCardFliped,
-                            opacityEnabled: 1,
-                            opacityDisabled: 0,
-                            sevenCard: sevenCardNo,
-                            cardNo: sevenCardNo,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+                  //   rummyProvider.isSortCard?Container():Align(
+                  //   alignment: Alignment.bottomLeft,
+                  //   child: Container(
+                  //     margin: EdgeInsets.only(left: rummyProvider.isSortCard?0:44.0.h,top: rummyProvider.cardUp[6]?5:15),
+                  //     child: SizeAnimatedWidget.tween(
+                  //       enabled: sevenCardServed,
+                  //       duration: const Duration(milliseconds: 200),
+                  //       sizeEnabled: Size(14.0.w, 20.0.w),
+                  //       sizeDisabled: Size(0, 0),
+                  //       curve: Curves.ease,
+                  //       child: TranslationAnimatedWidget.tween(
+                  //         enabled: sevenCardServed,
+                  //         delay: const Duration(milliseconds: 500),
+                  //         translationEnabled: const Offset(0, 0),
+                  //         translationDisabled: Offset(0, -(50.0.w)),
+                  //         curve: Curves.ease,
+                  //         duration: const Duration(milliseconds: 200),
+                  //         child: RummySevenCardWidget(
+                  //           sevenCardFliped: sevenCardFliped,
+                  //           opacityEnabled: 1,
+                  //           opacityDisabled: 0,
+                  //           sevenCard: sevenCardNo,
+                  //           cardNo: sevenCardNo,
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                     rummyProvider.isSortCard?Container():Align(
                     child: Container(
                       margin: EdgeInsets.only(left: rummyProvider.isSortCard?0:44.0.h,top: rummyProvider.cardUp[6]?5:15),
@@ -534,7 +534,7 @@ class Player3SeatWidget extends StatelessWidget {
                           duration: const Duration(milliseconds: 200),
                           child: RummySevenCardWidget(
                             sevenCardFliped: sevenCardFliped,
-                            opacityEnabled: 0,
+                            opacityEnabled: 1,
                             opacityDisabled: 1,
                             sevenCard: 53,
                             cardNo: sevenCardNo,
@@ -546,37 +546,37 @@ class Player3SeatWidget extends StatelessWidget {
 
                     //Eight Card
 
+                    // rummyProvider.isSortCard?Container():Align(
+                    //   alignment: Alignment.bottomLeft,
+                    //   child: Container(
+                    //     margin: EdgeInsets.only(left: rummyProvider.isSortCard?0:48.0.h,top: rummyProvider.cardUp[7]?5:15),
+                    //     child: SizeAnimatedWidget.tween(
+                    //       enabled: eightCardServed,
+                    //       duration: const Duration(milliseconds: 200),
+                    //       sizeEnabled: Size(14.0.w, 20.0.w),
+                    //       sizeDisabled: Size(0, 0),
+                    //       curve: Curves.ease,
+                    //       child: TranslationAnimatedWidget.tween(
+                    //         enabled: eightCardServed,
+                    //         delay: const Duration(milliseconds: 500),
+                    //         translationEnabled: const Offset(0, 0),
+                    //         translationDisabled: Offset(0, -(50.0.w)),
+                    //         curve: Curves.ease,
+                    //         duration: const Duration(milliseconds: 200),
+                    //         child: RummyEightCardWidget(
+                    //           eightCardFliped: eightCardFliped,
+                    //           opacityEnabled: 1,
+                    //           opacityDisabled: 0,
+                    //           eightCard: eightCardNo,
+                    //           cardNo: eightCardNo,
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
                     rummyProvider.isSortCard?Container():Align(
-                      alignment: Alignment.bottomLeft,
                       child: Container(
-                        margin: EdgeInsets.only(left: rummyProvider.isSortCard?0:48.0.h,top: rummyProvider.cardUp[7]?5:15),
-                        child: SizeAnimatedWidget.tween(
-                          enabled: eightCardServed,
-                          duration: const Duration(milliseconds: 200),
-                          sizeEnabled: Size(14.0.w, 20.0.w),
-                          sizeDisabled: Size(0, 0),
-                          curve: Curves.ease,
-                          child: TranslationAnimatedWidget.tween(
-                            enabled: eightCardServed,
-                            delay: const Duration(milliseconds: 500),
-                            translationEnabled: const Offset(0, 0),
-                            translationDisabled: Offset(0, -(50.0.w)),
-                            curve: Curves.ease,
-                            duration: const Duration(milliseconds: 200),
-                            child: RummyEightCardWidget(
-                              eightCardFliped: eightCardFliped,
-                              opacityEnabled: 1,
-                              opacityDisabled: 0,
-                              eightCard: eightCardNo,
-                              cardNo: eightCardNo,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    rummyProvider.isSortCard?Container():Align(
-                      child: Container(
-                        margin: EdgeInsets.only(left: rummyProvider.isSortCard?0:48.0.h,top: rummyProvider.cardUp[7]?5:15),
+                        margin: EdgeInsets.only(left: rummyProvider.isSortCard?0:50.4.h,top: rummyProvider.cardUp[7]?5:15),
                         alignment: Alignment.bottomLeft,
                         child: SizeAnimatedWidget.tween(
                           enabled: eightCardServed,
@@ -593,7 +593,7 @@ class Player3SeatWidget extends StatelessWidget {
                             duration: const Duration(milliseconds: 200),
                             child: RummyEightCardWidget(
                               eightCardFliped: eightCardFliped,
-                              opacityEnabled: 0,
+                              opacityEnabled: 1,
                               opacityDisabled: 1,
                               eightCard: 53,
                               cardNo: eightCardNo,
@@ -605,37 +605,37 @@ class Player3SeatWidget extends StatelessWidget {
 
                     //Nine Card
 
+                    // rummyProvider.isSortCard?Container():Align(
+                    //   alignment: Alignment.bottomLeft,
+                    //   child: Container(
+                    //     margin: EdgeInsets.only(left: rummyProvider.isSortCard?0:52.0.h,top: rummyProvider.cardUp[8]?5:15),
+                    //     child: SizeAnimatedWidget.tween(
+                    //       enabled: nineCardServed,
+                    //       duration: const Duration(milliseconds: 200),
+                    //       sizeEnabled: Size(14.0.w, 20.0.w),
+                    //       sizeDisabled: Size(0, 0),
+                    //       curve: Curves.ease,
+                    //       child: TranslationAnimatedWidget.tween(
+                    //         enabled: nineCardServed,
+                    //         delay: const Duration(milliseconds: 500),
+                    //         translationEnabled: const Offset(0, 0),
+                    //         translationDisabled: Offset(0, -(50.0.w)),
+                    //         curve: Curves.ease,
+                    //         duration: const Duration(milliseconds: 200),
+                    //         child: RummyNineCardWidget(
+                    //           nineCardFliped: nineCardFliped,
+                    //           opacityEnabled: 1,
+                    //           opacityDisabled: 0,
+                    //           nineCard: nineCardNo,
+                    //           cardNo: nineCardNo,
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
                     rummyProvider.isSortCard?Container():Align(
-                      alignment: Alignment.bottomLeft,
                       child: Container(
-                        margin: EdgeInsets.only(left: rummyProvider.isSortCard?0:52.0.h,top: rummyProvider.cardUp[8]?5:15),
-                        child: SizeAnimatedWidget.tween(
-                          enabled: nineCardServed,
-                          duration: const Duration(milliseconds: 200),
-                          sizeEnabled: Size(14.0.w, 20.0.w),
-                          sizeDisabled: Size(0, 0),
-                          curve: Curves.ease,
-                          child: TranslationAnimatedWidget.tween(
-                            enabled: nineCardServed,
-                            delay: const Duration(milliseconds: 500),
-                            translationEnabled: const Offset(0, 0),
-                            translationDisabled: Offset(0, -(50.0.w)),
-                            curve: Curves.ease,
-                            duration: const Duration(milliseconds: 200),
-                            child: RummyNineCardWidget(
-                              nineCardFliped: nineCardFliped,
-                              opacityEnabled: 1,
-                              opacityDisabled: 0,
-                              nineCard: nineCardNo,
-                              cardNo: nineCardNo,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    rummyProvider.isSortCard?Container():Align(
-                      child: Container(
-                        margin: EdgeInsets.only(left: rummyProvider.isSortCard?0:52.0.h,top: rummyProvider.cardUp[8]?5:15),
+                        margin: EdgeInsets.only(left: rummyProvider.isSortCard?0:56.2.h,top: rummyProvider.cardUp[8]?5:15),
                         alignment: Alignment.bottomLeft,
                         child: SizeAnimatedWidget.tween(
                           enabled: nineCardServed,
@@ -652,7 +652,7 @@ class Player3SeatWidget extends StatelessWidget {
                             duration: const Duration(milliseconds: 200),
                             child: RummyNineCardWidget(
                               nineCardFliped: nineCardFliped,
-                              opacityEnabled: 0,
+                              opacityEnabled: 1,
                               opacityDisabled: 1,
                               nineCard: 53,
                               cardNo: nineCardNo,
@@ -664,37 +664,37 @@ class Player3SeatWidget extends StatelessWidget {
 
                     //Ten Card
 
+                    // rummyProvider.isSortCard?Container():Align(
+                    //   alignment: Alignment.bottomLeft,
+                    //   child: Container(
+                    //     margin: EdgeInsets.only(left: rummyProvider.isSortCard?0:56.0.h,top: rummyProvider.cardUp[9]?5:15),
+                    //     child: SizeAnimatedWidget.tween(
+                    //       enabled: tenCardServed,
+                    //       duration: const Duration(milliseconds: 200),
+                    //       sizeEnabled: Size(14.0.w, 20.0.w),
+                    //       sizeDisabled: Size(0, 0),
+                    //       curve: Curves.ease,
+                    //       child: TranslationAnimatedWidget.tween(
+                    //         enabled: tenCardServed,
+                    //         delay: const Duration(milliseconds: 500),
+                    //         translationEnabled: const Offset(0, 0),
+                    //         translationDisabled: Offset(0, -(50.0.w)),
+                    //         curve: Curves.ease,
+                    //         duration: const Duration(milliseconds: 200),
+                    //         child: RummyTenCardWidget(
+                    //           tenCardFliped: tenCardFliped,
+                    //           opacityEnabled: 1,
+                    //           opacityDisabled: 0,
+                    //           tenCard: tenCardNo,
+                    //           cardNo: tenCardNo,
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
                     rummyProvider.isSortCard?Container():Align(
-                      alignment: Alignment.bottomLeft,
                       child: Container(
-                        margin: EdgeInsets.only(left: rummyProvider.isSortCard?0:56.0.h,top: rummyProvider.cardUp[9]?5:15),
-                        child: SizeAnimatedWidget.tween(
-                          enabled: tenCardServed,
-                          duration: const Duration(milliseconds: 200),
-                          sizeEnabled: Size(14.0.w, 20.0.w),
-                          sizeDisabled: Size(0, 0),
-                          curve: Curves.ease,
-                          child: TranslationAnimatedWidget.tween(
-                            enabled: tenCardServed,
-                            delay: const Duration(milliseconds: 500),
-                            translationEnabled: const Offset(0, 0),
-                            translationDisabled: Offset(0, -(50.0.w)),
-                            curve: Curves.ease,
-                            duration: const Duration(milliseconds: 200),
-                            child: RummyTenCardWidget(
-                              tenCardFliped: tenCardFliped,
-                              opacityEnabled: 1,
-                              opacityDisabled: 0,
-                              tenCard: tenCardNo,
-                              cardNo: tenCardNo,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    rummyProvider.isSortCard?Container():Align(
-                      child: Container(
-                        margin: EdgeInsets.only(left: rummyProvider.isSortCard?0:56.0.h,top: rummyProvider.cardUp[9]?5:15),
+                        margin: EdgeInsets.only(left: rummyProvider.isSortCard?0:62.0.h,top: rummyProvider.cardUp[9]?5:15),
                         alignment: Alignment.bottomLeft,
                         child: SizeAnimatedWidget.tween(
                           enabled: tenCardServed,
@@ -711,7 +711,7 @@ class Player3SeatWidget extends StatelessWidget {
                             duration: const Duration(milliseconds: 200),
                             child: RummyTenCardWidget(
                               tenCardFliped: tenCardFliped,
-                              opacityEnabled: 0,
+                              opacityEnabled: 1,
                               opacityDisabled: 1,
                               tenCard: 53,
                               cardNo: tenCardNo,

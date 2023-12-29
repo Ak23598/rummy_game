@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 
@@ -24,6 +25,7 @@ class RummyProvider extends ChangeNotifier{
   bool _isSortCard = false;
   bool _isOneAcceptCard = false;
   List _isAcceptCardList = [0,0,0,0,0,0,0,0,0,0,0,0];
+  List<int> _newIndexData = [];
   bool _isFilpCard= true;
   List<Map<String,dynamic>> _cardList = [
     {"value":"A","suit":"Spades"},
@@ -83,6 +85,7 @@ class RummyProvider extends ChangeNotifier{
   Timer? _timer;
   int _totalDownCard = 0;
   List<dynamic> _checkSetSequence = [];
+  List<dynamic> _reArrangeData = [];
 
 
   int get isDropOneCard => _isDropOneCard;
@@ -109,6 +112,8 @@ class RummyProvider extends ChangeNotifier{
   int get secondsRemaining => _secondsRemaining;
   int get totalDownCard => _totalDownCard;
   List<dynamic> get checkSetSequence => _checkSetSequence;
+  List<int> get newIndexData => _newIndexData;
+  List get reArrangeData => _reArrangeData;
 
 
   void dropCard(Map<String,dynamic> data) async {
@@ -116,15 +121,60 @@ class RummyProvider extends ChangeNotifier{
     print("*** DROP EMIT ***");
   }
 
+  setNewData(int value){
+    _newIndexData.add(value);
+  }
+
+  setNewDataIndex(int value,int index){
+    _newIndexData.insert(index, value);
+  }
+
+  setNewRemoveData(){
+    _newIndexData.clear();
+    notifyListeners();
+  }
+  setNewRemoveIndex(int index){
+    _newIndexData.removeAt(index);
+    print('Rummy Provider Data :-   ${_newIndexData.length}');
+    notifyListeners();
+  }
+
+
+  setRomoveAndIndexData(int newIndex,int oldIndex){
+    final itemCard = _newIndexData.removeAt(oldIndex);
+    _newIndexData.insert(newIndex, itemCard);
+    _reArrangeData.clear();
+
+    for(int i=0;i<_newIndexData.length;i++){
+
+      for(int j=0;j < _cardList.length;j++){
+        if(_newIndexData[i] == j){
+          _reArrangeData.add(_cardList[j -1]);
+        }
+      }
+    }
+    rearrangeData(_reArrangeData);
+    checkSetSequenceData(_reArrangeData);
+
+    notifyListeners();
+  }
+
   void checkSetSequenceData(List<dynamic> checkData) async {
-    Sockets.socket.emit("check set sequences",checkData);
+    Sockets.socket.emit("check set sequences",jsonEncode(checkData));
     Sockets.socket.on("check set sequences", (data) {
       print("^^^^ DATA ^^^^ $data");
     });
   }
 
+  void rearrangeData(List rearrange)async{
+    print("*** RE-ARRANGE *** ${jsonEncode(rearrange)}");
+    Sockets.socket.emit("re arrange","${jsonEncode(rearrange)}");
+    print("*** RE-ARRANGE ***");
+  }
+
   void setSequenceData(List<dynamic> data){
     _checkSetSequence = data;
+    print('New Data   :_   ${_checkSetSequence}');
     notifyListeners();
   }
 

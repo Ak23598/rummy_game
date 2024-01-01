@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:card_game_serve_and_flip_animation/constant/api_constant.dart';
 import 'package:card_game_serve_and_flip_animation/model/create_game_model.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -26,7 +27,7 @@ class CreateGameProvider extends ChangeNotifier {
     }
     _isLoading = true;
     notifyListeners();
-    Uri uri = Uri.parse('http://3.111.148.154:3000/rakesh/create-game');
+    Uri uri = Uri.parse('${ApiConstant().baseUrl}${ApiConstant().createGameApi}');
     var response = await http.post(uri,body: {
       "selectedPlayerCount":number.toString()
     });
@@ -46,7 +47,7 @@ class CreateGameProvider extends ChangeNotifier {
   }
 
   Future<void> playerJoinGame(String gameId) async {
-    Uri uri = Uri.parse("http://3.111.148.154:3000/rakesh/join");
+    Uri uri = Uri.parse("${ApiConstant().baseUrl}${ApiConstant().joinGameApi}");
     var response = await http.post(uri,body: {
       "gameId": gameId,
       "playerName": "Rajesh Tripathy"

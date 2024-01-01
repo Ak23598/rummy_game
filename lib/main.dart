@@ -56,7 +56,7 @@ class _MyAppState extends State<MyApp> {
           ChangeNotifierProvider<CreateGameProvider>(create: (_) => CreateGameProvider()),
           ChangeNotifierProvider<SocketProvider>(create: (_) => SocketProvider()),
         ],child: MaterialApp(
-          title: 'Flutter Demo',
+          title: 'Rummy & Poker',
           debugShowCheckedModeBanner: false,
           home: SplashScreen(),
         ),);

@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:math';
-import 'package:card_game_serve_and_flip_animation/constants/image_constants.dart';
+import 'package:card_game_serve_and_flip_animation/constant/image_constants.dart';
 import 'package:card_game_serve_and_flip_animation/provider/rummy_provider.dart';
 import 'package:card_game_serve_and_flip_animation/provider/socket_provider.dart';
 import 'package:card_game_serve_and_flip_animation/utils/Sockets.dart';

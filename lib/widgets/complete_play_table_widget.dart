@@ -10,7 +10,7 @@ import 'package:card_game_serve_and_flip_animation/widgets/main_player_cards/rum
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-import '../constants/image_constants.dart';
+import '../constant/image_constants.dart';
 import '../utils/Sockets.dart';
 import 'main_player/main_seat_widget.dart';
 

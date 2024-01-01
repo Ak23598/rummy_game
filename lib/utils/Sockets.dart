@@ -1,10 +1,10 @@
-import 'package:card_game_serve_and_flip_animation/constants/string_constants.dart';
+import 'package:card_game_serve_and_flip_animation/constant/socket_constants.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:socket_io_client/socket_io_client.dart';
 
 class Sockets{
 
-  static IO.Socket socket = IO.io(StringConst.socketUrl,
+  static IO.Socket socket = IO.io(SocketConstant.socketUrl,
       OptionBuilder()
           .setTransports(['websocket']).build());
 

@@ -7,6 +7,7 @@ import 'package:card_game_serve_and_flip_animation/utils/Sockets.dart';
 import 'package:card_game_serve_and_flip_animation/widgets/complete_play_table_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
@@ -155,12 +156,28 @@ class _RummyGameScreenState extends State<RummyGameScreen> {
   void roomMessage() async {
     Sockets.socket.on("room message", (data) {
       print("**** ROOM MESSAGE **** $data");
+      Map<String,dynamic> map = data;
+      Fluttertoast.showToast(
+          msg: data["message"],
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          backgroundColor: Colors.grey,
+          textColor: Colors.white,
+          fontSize: 12);
     });
   }
 
   void turnMessage() async {
     Sockets.socket.on("turn message", (data) {
       print("**** TURN MESSAGE **** $data");
+      Map<String,dynamic> map = data;
+      Fluttertoast.showToast(
+          msg: data["message"],
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          backgroundColor: Colors.grey,
+          textColor: Colors.white,
+          fontSize: 12);
     });
   }
   

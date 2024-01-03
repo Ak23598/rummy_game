@@ -7,11 +7,14 @@ import 'package:card_game_serve_and_flip_animation/utils/Sockets.dart';
 import 'package:card_game_serve_and_flip_animation/widgets/complete_play_table_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 class RummyGameScreen extends StatefulWidget {
-  RummyGameScreen({Key? key}) : super(key: key);
+  String gameId;
+  String userId;
+  RummyGameScreen({Key? key,required this.userId,required this.gameId}) : super(key: key);
 
   @override
   _RummyGameScreenState createState() => _RummyGameScreenState();
@@ -42,6 +45,8 @@ class _RummyGameScreenState extends State<RummyGameScreen> {
     downCard(context);
     handCard(context);
     turnTime(context);
+    turnMessage();
+    roomMessage();
     gameOver();
     countDown();
 
@@ -55,7 +60,7 @@ class _RummyGameScreenState extends State<RummyGameScreen> {
 
 
   void createGame() async {
-    Sockets.socket.emit("game","game1");
+    Sockets.socket.emit("game",widget.gameId);
     Sockets.socket.on("game", (data) {
       print("***** GAME **** $data");
     });
@@ -133,8 +138,14 @@ class _RummyGameScreenState extends State<RummyGameScreen> {
       print("**** TURN *** ${data}");
 
       if(data['timeOut'] !=null){
-        Provider.of<RummyProvider>(context,listen: false).initTimer();
-        Provider.of<RummyProvider>(context,listen: false).startTimer(context);
+        if(data['timeOut'] == 0){
+          Provider.of<RummyProvider>(context,listen: false).closeTimer();
+          Provider.of<RummyProvider>(context,listen: false).initTimer();
+        }else{
+          Provider.of<RummyProvider>(context,listen: false).closeTimer();
+          Provider.of<RummyProvider>(context,listen: false).initTimer();
+          Provider.of<RummyProvider>(context,listen: false).startTimer(context);
+        }
       }
     });
   }
@@ -142,6 +153,8 @@ class _RummyGameScreenState extends State<RummyGameScreen> {
   void countDown() async {
     Sockets.socket.on("count down", (data) {
       print("**** COUNT DOWN **** $data");
+
+      Provider.of<RummyProvider>(context,listen: false).setCountDown(data);
     });
   }
 
@@ -161,6 +174,15 @@ class _RummyGameScreenState extends State<RummyGameScreen> {
   void turnMessage() async {
     Sockets.socket.on("turn message", (data) {
       print("**** TURN MESSAGE **** $data");
+
+      if(data['userId'] == widget.userId){
+        Fluttertoast.showToast(
+          msg: data['message'],
+          toastLength: Toast.LENGTH_SHORT,
+          backgroundColor: Colors.green,
+          gravity: ToastGravity.BOTTOM,
+        );
+      }
     });
   }
   
@@ -190,7 +212,7 @@ class _RummyGameScreenState extends State<RummyGameScreen> {
         _servedPages[serveCounter] = true;
       });
       serveCounter++;
-      if (serveCounter == 10) {
+      if (serveCounter == 11) {
         serveTimer.cancel();
         servingTimer?.cancel();
         Future.delayed(Duration(seconds: 1),(){
@@ -201,7 +223,7 @@ class _RummyGameScreenState extends State<RummyGameScreen> {
               _flipedPages[flipCounter] = true;
             });
             flipCounter++;
-            if (flipCounter == 10) {
+            if (flipCounter == 11) {
               flipTimer.cancel();
               flipingTimer?.cancel();
             }
@@ -250,7 +272,7 @@ class _RummyGameScreenState extends State<RummyGameScreen> {
                 fit: BoxFit.fill,
               ),
             ),
-            child:_cardPageNumber.isNotEmpty ? Stack(
+            child: Stack(
               children: [
                 _cardPageNumber.isNotEmpty ? CompletePlayTableWidget(
                   servedPages: _servedPages,
@@ -272,7 +294,7 @@ class _RummyGameScreenState extends State<RummyGameScreen> {
                     alignment: Alignment.center,
                     children: [
                       CircularProgressIndicator(
-                        value: rummyProvider.secondsRemaining/10,
+                        value: rummyProvider.secondsRemaining/30,
                         valueColor: AlwaysStoppedAnimation(Colors.white),
                         strokeWidth: 3,
                         backgroundColor: rummyProvider.secondsRemaining <= 3 ?Colors.red:Colors.green,
@@ -282,8 +304,6 @@ class _RummyGameScreenState extends State<RummyGameScreen> {
                   ),
                 ),
               ],
-            )  : Center(
-              child: CircularProgressIndicator(),
             ),
           );
         },

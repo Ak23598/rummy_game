@@ -122,8 +122,8 @@ class RummyProvider extends ChangeNotifier{
 
 
   void dropCard(Map<String,dynamic> data) async {
-    print('Drop Card :-   $data');
-    Sockets.socket.emit("drop","$data");
+    print('Drop Card :-   ${jsonEncode(data)} ');
+    Sockets.socket.emit("drop",data);
     print("*** DROP EMIT ***");
   }
 

@@ -1,9 +1,9 @@
 import 'dart:async';
+import 'dart:math';
 import 'package:card_game_serve_and_flip_animation/constant/image_constants.dart';
 import 'package:card_game_serve_and_flip_animation/provider/rummy_provider.dart';
 import 'package:card_game_serve_and_flip_animation/provider/socket_provider.dart';
 import 'package:card_game_serve_and_flip_animation/utils/Sockets.dart';
-import 'package:card_game_serve_and_flip_animation/utils/card_sprite_utils.dart';
 import 'package:card_game_serve_and_flip_animation/widgets/complete_play_table_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,9 +11,7 @@ import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 class RummyGameScreen extends StatefulWidget {
-  String gameId;
-  String userId;
-  RummyGameScreen({Key? key,required this.gameId,required this.userId}) : super(key: key);
+  RummyGameScreen({Key? key}) : super(key: key);
 
   @override
   _RummyGameScreenState createState() => _RummyGameScreenState();
@@ -21,10 +19,10 @@ class RummyGameScreen extends StatefulWidget {
 
 class _RummyGameScreenState extends State<RummyGameScreen> {
   bool sizeChange = false;
-  List<bool> _servedPages = [false, false, false,false,false, false, false,false,false, false,false,false,false];
+  List<bool> _servedPages = [false, false, false,false,false, false, false,false,false, false,false,false];
   List<bool> _jokerServedPages = [false];
   List<bool> _jokerFlipedPages = [false];
-  List<bool> _flipedPages = [false, false, false,false,false, false, false,false,false, false,false,false,false];
+  List<bool> _flipedPages = [false, false, false,false,false, false, false,false,false, false,false,false];
   List<int> _cardPageNumber = [];
   Timer? servingTimer;
   Timer? flipingTimer;
@@ -37,18 +35,15 @@ class _RummyGameScreenState extends State<RummyGameScreen> {
   @override
   void initState() {
     _cardPageNumber.clear();
+    var socketProvider = Provider.of<SocketProvider>(context,listen: false);
     Sockets.connectAndListen();
     createGame();
     upCard(context);
     downCard(context);
     handCard(context);
     turnTime(context);
-    countDown();
     gameOver();
-    roomMessage();
-    turnMessage();
-    onlyMessage();
-
+    countDown();
 
     super.initState();
     SystemChrome.setPreferredOrientations([
@@ -60,7 +55,7 @@ class _RummyGameScreenState extends State<RummyGameScreen> {
 
 
   void createGame() async {
-    Sockets.socket.emit("game",widget.gameId);
+    Sockets.socket.emit("game","game1");
     Sockets.socket.on("game", (data) {
       print("***** GAME **** $data");
     });
@@ -123,10 +118,8 @@ class _RummyGameScreenState extends State<RummyGameScreen> {
       }
 
       setState(() {
-        rummyProvider.closeTimer();
         rummyProvider.setNewRemoveData();
         _cardPageNumber = newCardData;
-        print('New Data ***** :-   ${_cardPageNumber.length}');
         for(int i = 0; i< _cardPageNumber.length;i++){
           rummyProvider.setNewData(_cardPageNumber[i]);
         }
@@ -139,16 +132,9 @@ class _RummyGameScreenState extends State<RummyGameScreen> {
     Sockets.socket.on("turn", (data) {
       print("**** TURN *** ${data}");
 
-
       if(data['timeOut'] !=null){
-        if(data['timeOut'] == 0){
-          Provider.of<RummyProvider>(context,listen: false).closeTimer();
-          Provider.of<RummyProvider>(context,listen: false).initTimer();
-        }else{
-          Provider.of<RummyProvider>(context,listen: false).closeTimer();
-          Provider.of<RummyProvider>(context,listen: false).initTimer();
-          Provider.of<RummyProvider>(context,listen: false).startTimer(context);
-        }
+        Provider.of<RummyProvider>(context,listen: false).initTimer();
+        Provider.of<RummyProvider>(context,listen: false).startTimer(context);
       }
     });
   }
@@ -156,10 +142,6 @@ class _RummyGameScreenState extends State<RummyGameScreen> {
   void countDown() async {
     Sockets.socket.on("count down", (data) {
       print("**** COUNT DOWN **** $data");
-      var rummyProvider = Provider.of<RummyProvider>(context,listen: false);
-
-        rummyProvider.setCountDown(data);
-
     });
   }
 
@@ -178,45 +160,8 @@ class _RummyGameScreenState extends State<RummyGameScreen> {
 
   void turnMessage() async {
     Sockets.socket.on("turn message", (data) {
-      print("**** TURN MESSAGE **** $data  ${widget.userId}");
-      if(data['userId'] == widget.userId) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          behavior: SnackBarBehavior.floating,
-          backgroundColor: Colors.transparent,
-          content: Center(
-            child: Stack(
-
-              children: [
-                Container(
-                  width: 300,
-                  padding: EdgeInsets.all(16),height: 55,decoration: BoxDecoration(color: Colors.red.withOpacity(0.5),borderRadius: BorderRadius.circular(10)),
-                  child: Row(
-                    children: [
-                      SizedBox(width: 48,),
-                      Expanded(child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(data['message'],style: TextStyle(color: Colors.black,fontSize: 18),),
-                        ],
-                      ))
-                    ],
-                  ),
-                ),
-                Positioned(
-                    bottom: -10,
-                    right: -10,
-                    child:ClipRRect(borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10)),child: Stack(
-                      children: [
-                        Image.asset('assets/images/snackBar.png',height: 50,width: 50)
-                      ],
-                    ),)),
-
-              ],
-            ),
-          ),));
-      }
+      print("**** TURN MESSAGE **** $data");
     });
-
   }
   
   void onlyMessage() async {
@@ -245,7 +190,7 @@ class _RummyGameScreenState extends State<RummyGameScreen> {
         _servedPages[serveCounter] = true;
       });
       serveCounter++;
-      if (serveCounter == 11) {
+      if (serveCounter == 10) {
         serveTimer.cancel();
         servingTimer?.cancel();
         Future.delayed(Duration(seconds: 1),(){
@@ -256,7 +201,7 @@ class _RummyGameScreenState extends State<RummyGameScreen> {
               _flipedPages[flipCounter] = true;
             });
             flipCounter++;
-            if (flipCounter == 11) {
+            if (flipCounter == 10) {
               flipTimer.cancel();
               flipingTimer?.cancel();
             }
@@ -305,7 +250,7 @@ class _RummyGameScreenState extends State<RummyGameScreen> {
                 fit: BoxFit.fill,
               ),
             ),
-            child:Stack(
+            child:_cardPageNumber.isNotEmpty ? Stack(
               children: [
                 _cardPageNumber.isNotEmpty ? CompletePlayTableWidget(
                   servedPages: _servedPages,
@@ -327,17 +272,19 @@ class _RummyGameScreenState extends State<RummyGameScreen> {
                     alignment: Alignment.center,
                     children: [
                       CircularProgressIndicator(
-                        value: rummyProvider.secondsRemaining/30,
+                        value: rummyProvider.secondsRemaining/10,
                         valueColor: AlwaysStoppedAnimation(Colors.white),
                         strokeWidth: 3,
-                        backgroundColor: rummyProvider.secondsRemaining <= 10 ?Colors.red:Colors.green,
+                        backgroundColor: rummyProvider.secondsRemaining <= 3 ?Colors.red:Colors.green,
                       ),
                       Text('${rummyProvider.secondsRemaining.toString()}',style: TextStyle(color: Colors.white),)
                     ],
                   ),
                 ),
               ],
-            )
+            )  : Center(
+              child: CircularProgressIndicator(),
+            ),
           );
         },
       ),

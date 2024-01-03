@@ -7,11 +7,14 @@ import '../utils/Sockets.dart';
 
 class RummyProvider extends ChangeNotifier{
   int _isDropOneCard = 0;
+  int _stopCountDown = 1;
   int _isDropTwoCard = 0;
   int _isDropThreeCard = 0;
+  int _playerCount = 0;
   int _isDropFourCard = 0;
   int _isDropFiveCard = 0;
   int _isDropSixCard = 0;
+  int _countDown  = 0;
   int _isDropSevenCard = 0;
   int _isDropEightCard = 0;
   int _isDropNineCard = 0;
@@ -24,7 +27,7 @@ class RummyProvider extends ChangeNotifier{
   List<bool> _cardUp = [];
   bool _isSortCard = false;
   bool _isOneAcceptCard = false;
-  List _isAcceptCardList = [0,0,0,0,0,0,0,0,0,0,0,0];
+  List _isAcceptCardList = [0,0,0,0,0,0,0,0,0,0,0,0,0];
   List<int> _newIndexData = [];
   bool _isFilpCard= true;
   List<Map<String,dynamic>> _cardList = [
@@ -81,13 +84,15 @@ class RummyProvider extends ChangeNotifier{
     {"value":"Q","suit":"Diamonds"},
     {"value":"K","suit":"Diamonds"},
   ];
-  int _secondsRemaining = 10;
+  int _secondsRemaining = 30;
   Timer? _timer;
+  Timer? _timerDown;
   int _totalDownCard = 0;
+  int get playerCount => _playerCount;
   List<dynamic> _checkSetSequence = [];
   List<dynamic> _reArrangeData = [];
-
-
+  int get countDown => _countDown;
+  int get stopCountDown => _stopCountDown;
   int get isDropOneCard => _isDropOneCard;
   int get isDropTwoCard => _isDropTwoCard;
   int get isDropThreeCard => _isDropThreeCard;
@@ -117,22 +122,26 @@ class RummyProvider extends ChangeNotifier{
 
 
   void dropCard(Map<String,dynamic> data) async {
+    print('Drop Card :-   $data');
     Sockets.socket.emit("drop","$data");
     print("*** DROP EMIT ***");
   }
 
   setNewData(int value){
     _newIndexData.add(value);
-  }
 
-  setNewDataIndex(int value,int index){
-    _newIndexData.insert(index, value);
   }
 
   setNewRemoveData(){
     _newIndexData.clear();
     notifyListeners();
   }
+
+  setPlayerCount(int value){
+    _playerCount  = value;
+    notifyListeners();
+  }
+
   setNewRemoveIndex(int index){
     _newIndexData.removeAt(index);
     print('Rummy Provider Data :-   ${_newIndexData.length}');
@@ -284,7 +293,17 @@ class RummyProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  startTimer(BuildContext context,{int secondsRemaining=10}) {
+  setCountDown(int count){
+    _countDown = count;
+    notifyListeners();
+
+    if(count == 0){
+      _stopCountDown = 0;
+      notifyListeners();
+    }
+  }
+
+  startTimer(BuildContext context,{int secondsRemaining=30}) {
     _secondsRemaining=secondsRemaining;
     notifyListeners();
     _timer = Timer.periodic(Duration(seconds: 1), (_) {
@@ -309,7 +328,9 @@ class RummyProvider extends ChangeNotifier{
   }
 
   void initTimer(){
-    _secondsRemaining = 10;
+    _secondsRemaining = 30;
+    notifyListeners();
   }
+
 
 }

@@ -1,3 +1,4 @@
+import 'package:card_game_serve_and_flip_animation/constant/socket_constants.dart';
 import 'package:card_game_serve_and_flip_animation/provider/create_game_provider.dart';
 import 'package:card_game_serve_and_flip_animation/screens/rummy_game.dart';
 import 'package:flutter/material.dart';
@@ -594,7 +595,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     Navigator.of(context).push(
                                                         MaterialPageRoute(
                                                             builder: (context) =>
-                                                                RummyGameScreen()));
+                                                                RummyGameScreen(
+                                                                  userId: SocketConstant.user2,
+                                                                  gameId: createGameProvider.createGameDataList[index].id ?? "",)));
                                                   });
                                                 },
                                                 child: Container(

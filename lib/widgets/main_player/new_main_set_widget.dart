@@ -135,12 +135,12 @@ class _NewPlayer3SeatWidgetState extends State<NewPlayer3SeatWidget> {
   }
   @override
   Widget build(BuildContext context) {
-    List offsetDataH= [16.0.h,12.0.h,14.0.h,5.0.h,-(5.0.h),-(15.0.h),-(20.0.h),-(25.0.h),-(33.0.h),-(38.0.h),-(38.0.h),-(38.0.h)];
-    List offsetDataW= [-(40.0.w),-(18.0.h),-(55.0.w),-(65.0.w),-(55.0.w),-(60.0.w),-(55.0.w),-(55.0.w),-(50.0.w),-(50.0.w),-(50.0.w),-(50.0.w)];
+    List offsetDataH= [16.0.h,12.0.h,14.0.h,5.0.h,-(5.0.h),-(15.0.h),-(20.0.h),-(25.0.h),-(33.0.h),-(38.0.h),-(38.0.h),-(38.0.h),-(38.0.h)];
+    List offsetDataW= [-(40.0.w),-(18.0.h),-(55.0.w),-(65.0.w),-(55.0.w),-(60.0.w),-(55.0.w),-(55.0.w),-(50.0.w),-(50.0.w),-(50.0.w),-(50.0.w),-(50.0.w)];
     return Positioned(
       right: 0.0,
       left: 0.0,
-      bottom: -(12.5.w),
+      bottom: MediaQuery.of(context).size.height * -0.12,
       child: Consumer<RummyProvider>(
         builder: (context,rummyProvider,_){
           return Stack(
@@ -229,6 +229,7 @@ class _NewPlayer3SeatWidgetState extends State<NewPlayer3SeatWidget> {
                     padding: EdgeInsets.all(0),
                     children: [
                       for(int index = 0;index < rummyProvider.newIndexData.length;index++)
+
                         Align(
                           key: ValueKey(index),
                           alignment: Alignment.bottomLeft,
@@ -249,6 +250,7 @@ class _NewPlayer3SeatWidgetState extends State<NewPlayer3SeatWidget> {
                                 duration: const Duration(milliseconds: 500),
                                 child: InkWell(
                                   onTap: () {
+                                    print(' *****************   ${rummyProvider.newIndexData[10]}');
                                     rummyProvider.setCardUpTrue(index);
                                   },
                                   child: Draggable<int>(
@@ -296,10 +298,26 @@ class _NewPlayer3SeatWidgetState extends State<NewPlayer3SeatWidget> {
                     }),
               ),
               Container(
-                child: Image.asset(
-                  widget.userProfileImage,
-                  height: 8.3.h,
-                  width: 8.3.h,
+                height: 8.3.h,
+                width: 8.3.h,
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Container(
+                      height: 6.0.h,
+                      width: 6.0.h,
+                      child: CircularProgressIndicator(
+                        value: rummyProvider.secondsRemaining/30,
+                        strokeWidth:25,
+                        valueColor: AlwaysStoppedAnimation(Colors.white),
+                        backgroundColor: rummyProvider.secondsRemaining <= 10 ?Colors.red:Colors.green,
+                      ),
+                    ),
+                    Image.asset(
+                      widget.userProfileImage,
+
+                    ),
+                  ],
                 ),
               ),
             ],

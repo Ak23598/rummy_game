@@ -15,7 +15,7 @@ class RummyProvider extends ChangeNotifier{
   int _isDropFourCard = 0;
   int _isDropFiveCard = 0;
   int _isDropSixCard = 0;
-  int _countDown  = 0;
+  int _countDown  = 20;
   int _isDropSevenCard = 0;
   int _isDropEightCard = 0;
   int _isDropNineCard = 0;

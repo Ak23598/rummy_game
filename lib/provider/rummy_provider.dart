@@ -11,6 +11,7 @@ class RummyProvider extends ChangeNotifier{
   int _isDropTwoCard = 0;
   int _isDropThreeCard = 0;
   int _playerCount = 0;
+  bool _isNoDropCard = false;
   int _isDropFourCard = 0;
   int _isDropFiveCard = 0;
   int _isDropSixCard = 0;
@@ -112,6 +113,7 @@ class RummyProvider extends ChangeNotifier{
   List get cardUp => _cardUp;
   bool get isSortCard => _isSortCard;
   bool get isFilpCard => _isFilpCard;
+  bool get isNoDropCard => _isNoDropCard;
   bool get isMyTurn => _isMyTurn;
   bool get isOneAcceptCard => _isOneAcceptCard;
   List get isAcceptCardList => _isAcceptCardList;
@@ -147,6 +149,11 @@ class RummyProvider extends ChangeNotifier{
   setNewRemoveIndex(int index){
     _newIndexData.removeAt(index);
     print('Rummy Provider Data :-   ${_newIndexData.length}');
+    notifyListeners();
+  }
+
+  setNoDropCard(bool value){
+    _isNoDropCard = value;
     notifyListeners();
   }
 

@@ -12,7 +12,7 @@ class Sockets{
 
 print("socket connect and listen ");
     if(socket.connected){
-      socket.emit('initializeGame', "game1");
+      /*socket.emit('initializeGame', "game1");*/
       print("socket connected");
     }else{
       print("not connected");

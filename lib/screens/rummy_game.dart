@@ -44,15 +44,20 @@ class _RummyGameScreenState extends State<RummyGameScreen> {
     _cardPageNumber.clear();
     var socketProvider = Provider.of<SocketProvider>(context,listen: false);
     Sockets.connectAndListen();
-    createGame();
-    upCard(context);
-    downCard(context);
-    handCard(context);
-    turnTime(context);
-    turnMessage();
-    roomMessage();
-    gameOver();
-    countDown();
+
+    Future.delayed(const Duration(milliseconds: 300), () {
+
+      createGame();
+      upCard(context);
+      downCard(context);
+      handCard(context);
+      turnTime(context);
+      turnMessage();
+      roomMessage();
+      gameOver();
+      countDown();
+
+    });
 
     super.initState();
     SystemChrome.setPreferredOrientations([
@@ -177,7 +182,7 @@ class _RummyGameScreenState extends State<RummyGameScreen> {
       print("**** ROOM MESSAGE **** $data");
 
       var rummyProvider = Provider.of<RummyProvider>(context,listen: false);
-      /*rummyProvider.setPlayerCount(data['playerCount']);*/
+      rummyProvider.setPlayerCount(data['playerCount']);
     });
   }
 

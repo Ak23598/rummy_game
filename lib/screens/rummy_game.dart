@@ -30,34 +30,14 @@ class _RummyGameScreenState extends State<RummyGameScreen> {
   List<bool> _jokerServedPages = [false];
   List<bool> _jokerFlipedPages = [false];
   List<bool> _flipedPages = [false, false, false,false,false, false, false,false,false, false,false,false];
-  List<int> _cardPageNumber = [];
   Timer? servingTimer;
   Timer? flipingTimer;
   Timer? jokerServingTimer;
   Timer? jokerFlipingTimer;
-  int min = 1;
-  int max = 53;
-  int searchNumber = 53;
 
   @override
   void initState() {
-    _cardPageNumber.clear();
-    var socketProvider = Provider.of<SocketProvider>(context,listen: false);
-    Sockets.connectAndListen();
-
-    Future.delayed(const Duration(milliseconds: 300), () {
-
-      createGame();
-      upCard(context);
-      downCard(context);
-      handCard(context);
-      turnTime(context);
-      turnMessage();
-      roomMessage();
-      gameOver();
-      countDown();
-
-    });
+    Sockets.connectAndListen(context,widget.gameId,widget.userId);
 
     super.initState();
     SystemChrome.setPreferredOrientations([
@@ -66,145 +46,6 @@ class _RummyGameScreenState extends State<RummyGameScreen> {
     ]);
     sizeChangeAnimation();
   }
-
-
-  void createGame() async {
-    Sockets.socket.emit("game",widget.gameId);
-    Sockets.socket.on("game", (data) {
-      print("***** GAME **** $data");
-    });
-  }
-
-  void drawCard() async {
-    Sockets.socket.emit("draw","up");
-    Sockets.socket.on("draw", (data) {});
-  }
-
-  void upCard(BuildContext context) async {
-    Sockets.socket.on("up", (data) {
-      print('*** UP *** ${data}');
-      var rummyProvider = Provider.of<RummyProvider>(context,listen: false);
-
-      String value = data['value'];
-      String suit = data['suit'];
-
-      for(int i = 0; i< rummyProvider.cardList.length;i++){
-        if(rummyProvider.cardList[i]['value'] == value){
-          if(rummyProvider.cardList[i]['suit'] == suit){
-            Future.delayed(Duration(seconds: 6),(){
-              Provider.of<RummyProvider>(context,listen: false).setCardListIndex(i+1);
-            });
-          }
-        }
-      }
-    });
-  }
-
-  void downCard(BuildContext context) async {
-    Sockets.socket.on("down", (data) {
-      print("*** DOWN ** ${data}");
-      Provider.of<RummyProvider>(context,listen: false).setTotalDownCard(data);
-    });
-  }
-
-  void handCard(BuildContext context) async {
-    Sockets.socket.on("hand", (data) {
-      print('New Data :-   ${data}');
-      var rummyProvider = Provider.of<RummyProvider>(context,listen: false);
-      List<int> newCardData= [];
-      List<Map<String,dynamic>> data2 = [];
-      for(int i = 0; i < data.length; i++){
-        Map<String,dynamic> data3 = data[i];
-        data2.add(data3);
-      }
-      for(int i = 0; i < data2.length; i++){
-        Map<String,dynamic> singleCard = data2[i];
-        String singleCardValue = singleCard["value"];
-        String singleCardSuit = singleCard["suit"];
-        for(int j = 0; j < rummyProvider.cardList.length; j++){
-          Map<String,dynamic> sCard = rummyProvider.cardList[j];
-          String sCardValue = sCard["value"];
-          String sCardSuit = sCard["suit"];
-          if(singleCardValue == sCardValue && singleCardSuit == sCardSuit){
-            newCardData.add(j + 1);
-          }
-        }
-      }
-
-      setState(() {
-        rummyProvider.setNewRemoveData();
-        _cardPageNumber = newCardData;
-        for(int i = 0; i< _cardPageNumber.length;i++){
-          rummyProvider.setNewData(_cardPageNumber[i]);
-          rummyProvider.checkSetSequenceData(data);
-        }
-      });
-
-    });
-  }
-
-  void turnTime(BuildContext context) async {
-    Sockets.socket.on("turn", (data) {
-      print("**** TURN *** ${data}");
-
-      if(data['timeOut'] !=null){
-        if(data['timeOut'] == 0){
-          Provider.of<RummyProvider>(context,listen: false).closeTimer();
-          Provider.of<RummyProvider>(context,listen: false).initTimer();
-          Provider.of<RummyProvider>(context,listen: false).setMyTurn(false);
-        }else{
-          Provider.of<RummyProvider>(context,listen: false).setMyTurn(true);
-          Provider.of<RummyProvider>(context,listen: false).closeTimer();
-          Provider.of<RummyProvider>(context,listen: false).initTimer();
-          Provider.of<RummyProvider>(context,listen: false).startTimer(context);
-        }
-      }
-    });
-  }
-
-  void countDown() async {
-    Sockets.socket.on("count down", (data) {
-      print("**** COUNT DOWN **** $data");
-
-      Provider.of<RummyProvider>(context,listen: false).setCountDown(data);
-    });
-  }
-
-  void gameOver() async {
-    Sockets.socket.on("game over", (data) {
-      print("**** Game Over **** $data");
-      openAlertBox();
-    });
-  }
-
-  void roomMessage() async {
-    Sockets.socket.on("room message", (data) {
-      print("**** ROOM MESSAGE **** $data");
-
-      var rummyProvider = Provider.of<RummyProvider>(context,listen: false);
-      rummyProvider.setPlayerCount(data['playerCount']);
-    });
-  }
-
-  void turnMessage() async {
-    Sockets.socket.on("turn message", (data) {
-      print("**** TURN MESSAGE **** $data");
-      var rummyProvider = Provider.of<RummyProvider>(context,listen: false);
-
-      if(data['userId'] == widget.userId){
-
-      }else{
-        rummyProvider.setMyTurn(false);
-      }
-    });
-  }
-  
-  void onlyMessage() async {
-    Sockets.socket.on("message", (data) {
-      print("**** MESSAGE **** $data");
-    });
-  }
-
   @override
   void dispose() {
     servingTimer?.cancel();
@@ -290,7 +131,7 @@ class _RummyGameScreenState extends State<RummyGameScreen> {
               alignment: Alignment.center,
               children: [
 
-                _cardPageNumber.isNotEmpty
+                rummyProvider.newIndexData.isNotEmpty
                     ? OnePlayerTableWidget(
                   servedPages: _servedPages,
                   flipedPages: _flipedPages,
@@ -329,7 +170,7 @@ class _RummyGameScreenState extends State<RummyGameScreen> {
               alignment: Alignment.center,
               children: [
 
-                _cardPageNumber.isNotEmpty
+                rummyProvider.newIndexData.isNotEmpty
                     ? TwoPlayerTableWidget(
                   servedPages: _servedPages,
                   flipedPages: _flipedPages,
@@ -368,7 +209,7 @@ class _RummyGameScreenState extends State<RummyGameScreen> {
               alignment: Alignment.center,
               children: [
 
-                _cardPageNumber.isNotEmpty
+                rummyProvider.newIndexData.isNotEmpty
                     ? ThreePlayerTableWidget(
                   servedPages: _servedPages,
                   flipedPages: _flipedPages,
@@ -406,7 +247,7 @@ class _RummyGameScreenState extends State<RummyGameScreen> {
                 ? Stack(
               alignment: Alignment.center,
               children: [
-                _cardPageNumber.isNotEmpty
+                rummyProvider.newIndexData.isNotEmpty
                     ? FourPlayerTableWidget(
                   servedPages: _servedPages,
                   flipedPages: _flipedPages,
@@ -444,7 +285,7 @@ class _RummyGameScreenState extends State<RummyGameScreen> {
                 ? Stack(
               alignment: Alignment.center,
               children: [
-                _cardPageNumber.isNotEmpty
+                rummyProvider.newIndexData.isNotEmpty
                     ? FivePlayerTableWidget(
                   servedPages: _servedPages,
                   flipedPages: _flipedPages,
@@ -482,7 +323,7 @@ class _RummyGameScreenState extends State<RummyGameScreen> {
                 ? Stack(
               alignment: Alignment.center,
               children: [
-                _cardPageNumber.isNotEmpty
+                rummyProvider.newIndexData.isNotEmpty
                     ? SixPlayerTableWidget(
                   servedPages: _servedPages,
                   flipedPages: _flipedPages,
@@ -520,7 +361,7 @@ class _RummyGameScreenState extends State<RummyGameScreen> {
               alignment: Alignment.center,
               children: [
 
-                _cardPageNumber.isNotEmpty
+                rummyProvider.newIndexData.isNotEmpty
                     ? OnePlayerTableWidget(
                   servedPages: _servedPages,
                   flipedPages: _flipedPages,

@@ -9,21 +9,23 @@ class SocketProvider extends ChangeNotifier{
 
   List<int> get cardNumberList => _cardNumberList;
 
-  void createGame() async {
-    Sockets.socket.emit("game","game1");
+  void createGame(String gameID,BuildContext context) async {
+    Sockets.socket.emit("game",gameID);
     Sockets.socket.on("game", (data) {
-      print("***** GAME **** $data");
+     print('Socket In Game Event Completed ***** game *****  $data');
     });
   }
 
-  void drawCard() async {
+  void drawCard(BuildContext context) async {
   Sockets.socket.emit("draw","up");
-  Sockets.socket.on("draw", (data) {});
+  Sockets.socket.on("draw", (data) {
+    print('Socket In Draw Event Completed ***** draw *****  $data');
+  });
 }
 
   void upCard(BuildContext context) async {
     Sockets.socket.on("up", (data) {
-      print('*** UP *** ${data}');
+      print('Socket In Up Event Completed ***** up *****  $data');
       var rummyProvider = Provider.of<RummyProvider>(context,listen: false);
 
       String value = data['value'];
@@ -43,13 +45,14 @@ class SocketProvider extends ChangeNotifier{
 
   void downCard(BuildContext context) async {
     Sockets.socket.on("down", (data) {
-      print("*** DOWN ** ${data}");
+      print('Socket In Down Event Completed ***** down *****  $data');
       Provider.of<RummyProvider>(context,listen: false).setTotalDownCard(data);
     });
   }
 
   void handCard(BuildContext context) async {
     Sockets.socket.on("hand", (data) {
+      print('Socket In Hand Event Completed ***** hand *****  $data');
       var rummyProvider = Provider.of<RummyProvider>(context,listen: false);
       List<int> newCardData= [];
       List<Map<String,dynamic>> data2 = [];
@@ -71,20 +74,75 @@ class SocketProvider extends ChangeNotifier{
         }
       }
 
-      _cardNumberList = newCardData;
-      notifyListeners();
 
-    });
+        rummyProvider.setNewRemoveData();
+        _cardNumberList = newCardData;
+        for(int i = 0; i< _cardNumberList.length;i++){
+          rummyProvider.setNewData(_cardNumberList[i]);
+          rummyProvider.checkSetSequenceData(data);
+        }
+      });
   }
 
   void turnTime(BuildContext context) async {
     Sockets.socket.on("turn", (data) {
-      print("**** TURN *** ${data}");
+      print('Socket In Turn Event Completed ***** turn *****  $data');
 
       if(data['timeOut'] !=null){
-        Provider.of<RummyProvider>(context,listen: false).initTimer();
-        Provider.of<RummyProvider>(context,listen: false).startTimer(context);
+        if(data['timeOut'] == 0){
+          Provider.of<RummyProvider>(context,listen: false).closeTimer();
+          Provider.of<RummyProvider>(context,listen: false).initTimer();
+          Provider.of<RummyProvider>(context,listen: false).setMyTurn(false);
+        }else{
+          Provider.of<RummyProvider>(context,listen: false).setMyTurn(true);
+          Provider.of<RummyProvider>(context,listen: false).closeTimer();
+          Provider.of<RummyProvider>(context,listen: false).initTimer();
+          Provider.of<RummyProvider>(context,listen: false).startTimer(context);
+        }
       }
+    });
+  }
+
+  void countDown(BuildContext context) async {
+    Sockets.socket.on("count down", (data) {
+      print("**** COUNT DOWN **** $data");
+
+      Provider.of<RummyProvider>(context,listen: false).setCountDown(data);
+    });
+  }
+
+  void gameOver(BuildContext context) async {
+    Sockets.socket.on("game over", (data) {
+      print("**** Game Over **** $data");
+      /*openAlertBox();*/
+    });
+  }
+
+  void roomMessage(BuildContext context) async {
+    Sockets.socket.on("room message", (data) {
+      print("**** ROOM MESSAGE **** $data");
+
+      var rummyProvider = Provider.of<RummyProvider>(context,listen: false);
+      rummyProvider.setPlayerCount(data['playerCount']);
+    });
+  }
+
+  void turnMessage(BuildContext context,String userId) async {
+    Sockets.socket.on("turn message", (data) {
+      print("**** TURN MESSAGE **** $data");
+      var rummyProvider = Provider.of<RummyProvider>(context,listen: false);
+
+      if(data['userId'] == userId){
+
+      }else{
+        rummyProvider.setMyTurn(false);
+      }
+    });
+  }
+
+  void onlyMessage(BuildContext context) async {
+    Sockets.socket.on("message", (data) {
+      print("**** MESSAGE **** $data");
     });
   }
 

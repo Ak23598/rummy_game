@@ -1,4 +1,7 @@
 import 'package:card_game_serve_and_flip_animation/constant/socket_constants.dart';
+import 'package:card_game_serve_and_flip_animation/provider/socket_provider.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:socket_io_client/socket_io_client.dart';
 
@@ -8,7 +11,8 @@ class Sockets{
       OptionBuilder()
           .setTransports(['websocket']).build());
 
-  static void connectAndListen(){
+  static void connectAndListen(BuildContext context,String gameId,String userId){
+    var socketProvider = Provider.of<SocketProvider>(context,listen: false);
 
 print("socket connect and listen ");
     if(socket.connected){
@@ -20,7 +24,19 @@ print("socket connect and listen ");
     }
     socket.onConnect((_) {
       print("on connect");
-      socket.emit('initializeGame', "game1");
+      Future.delayed(const Duration(milliseconds: 300), () {
+
+        socketProvider.createGame(gameId,context);
+        socketProvider.upCard(context);
+        socketProvider.downCard(context);
+        socketProvider.handCard(context);
+        socketProvider.turnTime(context);
+        socketProvider.turnMessage(context,userId);
+        socketProvider.roomMessage(context);
+        socketProvider.gameOver(context);
+        socketProvider.countDown(context);
+
+      });
     });
 
     socket.onDisconnect((_) {

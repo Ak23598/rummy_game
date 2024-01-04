@@ -127,10 +127,8 @@ class _TwoPlayerTableWidgetState extends State<TwoPlayerTableWidget> {
                         child: InkWell(
                           onTap: (){
                             if(rummyProvider.isMyTurn){
-                              rummyProvider.setNoDropCard(false);
                               Sockets.socket.emit("draw","down");
                             print('draw emit down done');}else{
-                              rummyProvider.setNoDropCard(true);
                               Fluttertoast.showToast(
                                   msg: "This is Center Short Toast",
                                   toastLength: Toast.LENGTH_SHORT,
@@ -319,7 +317,7 @@ class _TwoPlayerTableWidgetState extends State<TwoPlayerTableWidget> {
 
                       NewPlayer3SeatWidget(
                         userProfileImage: ImageConst.icProfilePic3,
-                        oneCardServed: widget.servedPages[0],
+                        /*oneCardServed: widget.servedPages[0],
                         twoCardServed: widget.servedPages[1],
                         threeCardServed: widget.servedPages[2],
                         fourCardServed: widget.servedPages[3],
@@ -338,7 +336,7 @@ class _TwoPlayerTableWidgetState extends State<TwoPlayerTableWidget> {
                         sevenCardFliped: widget.flipedPages[3],
                         eightCardFliped: widget.flipedPages[2],
                         nineCardFliped: widget.flipedPages[1],
-                        tenCardFliped: widget.flipedPages[0],
+                        tenCardFliped: widget.flipedPages[0],*/
                         // oneCardNo: widget.cardPage[0],
                         // twoCardNo: widget.cardPage[1],
                         // threeCardNo: widget.cardPage[2],

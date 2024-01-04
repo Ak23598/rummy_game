@@ -25,29 +25,29 @@ import '../main_player_cards/rummy_one_card_widget.dart';
 class NewPlayer3SeatWidget extends StatefulWidget {
   const NewPlayer3SeatWidget({
     required this.userProfileImage,
-    required this.oneCardServed,
-    required this.twoCardServed,
-    required this.threeCardServed,
-    required this.fourCardServed,
-    required this.fiveCardServed,
-    required this.sixCardServed,
-    required this.sevenCardServed,
-    required this.eightCardServed,
-    required this.nineCardServed,
-    required this.tenCardServed,
+    // required this.oneCardServed,
+    // required this.twoCardServed,
+    // required this.threeCardServed,
+    // required this.fourCardServed,
+    // required this.fiveCardServed,
+    // required this.sixCardServed,
+    // required this.sevenCardServed,
+    // required this.eightCardServed,
+    // required this.nineCardServed,
+    // required this.tenCardServed,
     // required this.elevenCardServed,
     // required this.twelveCardServed,
     // required this.thirteenCardServed,
-    required this.oneCardFliped,
-    required this.twoCardFliped,
-    required this.threeCardFliped,
-    required this.fourCardFliped,
-    required this.fiveCardFliped,
-    required this.sixCardFliped,
-    required this.sevenCardFliped,
-    required this.eightCardFliped,
-    required this.nineCardFliped,
-    required this.tenCardFliped,
+    // required this.oneCardFliped,
+    // required this.twoCardFliped,
+    // required this.threeCardFliped,
+    // required this.fourCardFliped,
+    // required this.fiveCardFliped,
+    // required this.sixCardFliped,
+    // required this.sevenCardFliped,
+    // required this.eightCardFliped,
+    // required this.nineCardFliped,
+    // required this.tenCardFliped,
     // required this.elevenCardFliped,
     // required this.twelveCardFliped,
     // required this.thirteenCardFliped,
@@ -73,30 +73,30 @@ class NewPlayer3SeatWidget extends StatefulWidget {
   });
 
   final String userProfileImage;
-  final bool oneCardServed;
-  final bool twoCardServed;
-  final bool threeCardServed;
-  final bool fourCardServed;
-  final bool fiveCardServed;
-  final bool sixCardServed;
-  final bool sevenCardServed;
-  final bool eightCardServed;
-  final bool nineCardServed;
-  final bool tenCardServed;
+  // final bool oneCardServed;
+  // final bool twoCardServed;
+  // final bool threeCardServed;
+  // final bool fourCardServed;
+  // final bool fiveCardServed;
+  // final bool sixCardServed;
+  // final bool sevenCardServed;
+  // final bool eightCardServed;
+  // final bool nineCardServed;
+  // final bool tenCardServed;
   // final bool elevenCardServed;
   // final bool twelveCardServed;
   // final bool thirteenCardServed;
   // final bool jokerCardServed;
-  final bool oneCardFliped;
-  final bool twoCardFliped;
-  final bool threeCardFliped;
-  final bool fourCardFliped;
-  final bool fiveCardFliped;
-  final bool sixCardFliped;
-  final bool sevenCardFliped;
-  final bool eightCardFliped;
-  final bool nineCardFliped;
-  final bool tenCardFliped;
+  // final bool oneCardFliped;
+  // final bool twoCardFliped;
+  // final bool threeCardFliped;
+  // final bool fourCardFliped;
+  // final bool fiveCardFliped;
+  // final bool sixCardFliped;
+  // final bool sevenCardFliped;
+  // final bool eightCardFliped;
+  // final bool nineCardFliped;
+  // final bool tenCardFliped;
   // final bool elevenCardFliped;
   // final bool twelveCardFliped;
   // final bool thirteenCardFliped;

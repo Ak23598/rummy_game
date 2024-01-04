@@ -30,6 +30,7 @@ class RummyProvider extends ChangeNotifier{
   List _isAcceptCardList = [0,0,0,0,0,0,0,0,0,0,0,0,0];
   List<int> _newIndexData = [];
   bool _isFilpCard= true;
+  bool _isMyTurn= false;
   List<Map<String,dynamic>> _cardList = [
     {"value":"A","suit":"Spades"},
     {"value":"2","suit":"Spades"},
@@ -111,6 +112,7 @@ class RummyProvider extends ChangeNotifier{
   List get cardUp => _cardUp;
   bool get isSortCard => _isSortCard;
   bool get isFilpCard => _isFilpCard;
+  bool get isMyTurn => _isMyTurn;
   bool get isOneAcceptCard => _isOneAcceptCard;
   List get isAcceptCardList => _isAcceptCardList;
   List<Map<String,dynamic>> get cardList => _cardList;
@@ -122,7 +124,7 @@ class RummyProvider extends ChangeNotifier{
 
 
   void dropCard(Map<String,dynamic> data) async {
-    print('Drop Card :-   ${jsonEncode(data)} ');
+    print('Drop Card :-   ${data} ');
     Sockets.socket.emit("drop",data);
     print("*** DROP EMIT ***");
   }
@@ -162,22 +164,30 @@ class RummyProvider extends ChangeNotifier{
         }
       }
     }
-    rearrangeData(_reArrangeData);
-    checkSetSequenceData(_reArrangeData);
 
+    //checkSetSequenceData(_reArrangeData);
+    checkSetSequenceData(_reArrangeData);
     notifyListeners();
   }
 
-  void checkSetSequenceData(List<dynamic> checkData) async {
+  checkSetSequenceData(List<dynamic> checkData) async {
+
+
+    print("^^^^ check set sequences data ^^^^ ${jsonEncode(checkData)}");
     Sockets.socket.emit("check set sequences",jsonEncode(checkData));
     Sockets.socket.on("check set sequences", (data) {
-      print("^^^^ DATA ^^^^ $data");
+      print("^^^^ check set sequences ^^^^ $data");
     });
   }
 
   void rearrangeData(List rearrange)async{
-    print("*** RE-ARRANGE *** ${jsonEncode(rearrange)}");
-    Sockets.socket.emit("re arrange","${jsonEncode(rearrange)}");
+    print("*** RE-ARRANGE ***   ${jsonEncode(rearrange.toString())}");
+    //Sockets.socket.emit("re arrange",jsonEncode(rearrange));
+    Sockets.socket.emitWithAck("re arrange",jsonEncode(rearrange).toString(),ack:(ddd){
+
+      print("####   ${ddd}");
+
+    },binary: true);
     print("*** RE-ARRANGE ***");
   }
 
@@ -204,6 +214,11 @@ class RummyProvider extends ChangeNotifier{
 
   setDropThreeCard(int value){
     _isDropThreeCard = value;
+    notifyListeners();
+  }
+
+  setMyTurn(bool value){
+    _isMyTurn = value;
     notifyListeners();
   }
 

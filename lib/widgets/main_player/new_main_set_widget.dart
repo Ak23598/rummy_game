@@ -16,6 +16,7 @@ import 'package:card_game_serve_and_flip_animation/widgets/main_player_cards/rum
 import 'package:card_game_serve_and_flip_animation/widgets/main_player_cards/rummy_four_card_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:ripple_wave/ripple_wave.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../utils/card_sprite_utils.dart';
@@ -222,7 +223,7 @@ class _NewPlayer3SeatWidgetState extends State<NewPlayer3SeatWidget> {
               )
                   : Container(
                 height: 70,
-                margin: EdgeInsets.only(bottom: 10.0.h),
+                margin: EdgeInsets.only(bottom: 09.0.h),
                 child: ReorderableListView(
                     shrinkWrap: true,
                     scrollDirection: Axis.horizontal,
@@ -250,7 +251,6 @@ class _NewPlayer3SeatWidgetState extends State<NewPlayer3SeatWidget> {
                                 duration: const Duration(milliseconds: 500),
                                 child: InkWell(
                                   onTap: () {
-                                    print(' *****************   ${rummyProvider.newIndexData[10]}');
                                     rummyProvider.setCardUpTrue(index);
                                   },
                                   child: Draggable<int>(
@@ -297,29 +297,32 @@ class _NewPlayer3SeatWidgetState extends State<NewPlayer3SeatWidget> {
                       rummyProvider.setRomoveAndIndexData(newIndex, oldIndex);
                     }),
               ),
-              Container(
-                height: 8.3.h,
-                width: 8.3.h,
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    Container(
-                      height: 6.0.h,
-                      width: 6.0.h,
-                      child: CircularProgressIndicator(
-                        value: rummyProvider.secondsRemaining/30,
-                        strokeWidth:25,
-                        valueColor: AlwaysStoppedAnimation(Colors.white),
-                        backgroundColor: rummyProvider.secondsRemaining <= 10 ?Colors.red:Colors.green,
+              /*rummyProvider.isMyTurn?Positioned(
+                top: 70,
+                child: Container(
+                  height: 10.3.h,
+                  width: 12.3.h,
+                  child: RippleWave(
+                    color: rummyProvider.secondsRemaining <= 10 ?Colors.red:Colors.green,
+                    repeat: true,
+                    child: Container(
+                      height: 7.3.h,
+                      width: 7.3.h,
+                      child: Image.asset(
+                        widget.userProfileImage,
+
+
                       ),
                     ),
-                    Image.asset(
-                      widget.userProfileImage,
-
-                    ),
-                  ],
+                  ),
                 ),
-              ),
+              ): */Container(
+          height: 7.3.h,
+          width: 7.3.h,
+          child: Image.asset(
+          widget.userProfileImage,
+          ),
+          ),
             ],
           );
         },

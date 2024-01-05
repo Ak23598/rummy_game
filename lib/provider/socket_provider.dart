@@ -1,5 +1,7 @@
+import 'package:card_game_serve_and_flip_animation/constant/custom_dialog/winner_dialog.dart';
 import 'package:card_game_serve_and_flip_animation/provider/rummy_provider.dart';
 import 'package:card_game_serve_and_flip_animation/utils/Sockets.dart';
+import 'package:confetti/confetti.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -119,10 +121,22 @@ class SocketProvider extends ChangeNotifier{
     });
   }
 
-  void gameOver(BuildContext context) async {
+  void gameOver(BuildContext context,ConfettiController controller) async {
     Sockets.socket.on("game over", (data) {
       print("**** Game Over **** $data");
-      openAlertBox(context);
+      WinnerDialog(
+        title: 'You are Winner',
+        message: data['message'],
+        leftButton: 'Cancel',
+        rightButton: 'Exit',
+        controller: controller,
+        onTapLeftButton: () {
+          Navigator.pop(context);
+        },
+        onTapRightButton: () {
+
+        },
+      ).show(context);
     });
   }
 

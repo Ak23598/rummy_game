@@ -12,6 +12,7 @@ class RummyProvider extends ChangeNotifier{
   int _isDropThreeCard = 0;
   int _playerCount = 0;
   bool _isNoDropCard = false;
+  List<Map<String,dynamic>> _listOfMap =[];
   int _isDropFourCard = 0;
   int _isDropFiveCard = 0;
   int _isDropSixCard = 0;
@@ -162,12 +163,15 @@ class RummyProvider extends ChangeNotifier{
     final itemCard = _newIndexData.removeAt(oldIndex);
     _newIndexData.insert(newIndex, itemCard);
     _reArrangeData.clear();
+    _listOfMap.clear();
 
     for(int i=0;i<_newIndexData.length;i++){
 
       for(int j=0;j < _cardList.length;j++){
         if(_newIndexData[i] == j){
+          Map<String,dynamic> singleData = _cardList[j -1];
           _reArrangeData.add(_cardList[j -1]);
+          _listOfMap.add(singleData);
         }
       }
     }
@@ -177,24 +181,26 @@ class RummyProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  checkSetSequenceData(List<dynamic> checkData) async {
+  checkSetSequenceData(var checkData) async {
 
+    var data1 = [{"value":"Q","suit":"Hearts"},{"value":"3","suit":"Clubs"},{"value":"A","suit":"Spades"},{"value":"8","suit":"Hearts"},{"value":"K","suit":"Hearts"},{"value":"7","suit":"Clubs"},{"value":"6","suit":"Diamonds"},{"value":"6","suit":"Clubs"},{"value":"K","suit":"Spades"},{"value":"7","suit":"Diamonds"}];
 
-    print("^^^^ check set sequences data ^^^^ ${jsonEncode(checkData)}");
-    Sockets.socket.emit("check set sequences",jsonEncode(checkData));
+    print("*** check set sequences ***   ${jsonEncode(data1)}");
+    Sockets.socket.emit("check set sequences",json.encode(data1));
     Sockets.socket.on("check set sequences", (data) {
       print("^^^^ check set sequences ^^^^ $data");
     });
   }
 
-  void rearrangeData(List rearrange)async{
-    print("*** RE-ARRANGE ***   ${jsonEncode(rearrange.toString())}");
-    //Sockets.socket.emit("re arrange",jsonEncode(rearrange));
-    Sockets.socket.emitWithAck("re arrange",jsonEncode(rearrange).toString(),ack:(ddd){
-
-      print("####   ${ddd}");
-
-    },binary: true);
+  void rearrangeData(List<dynamic> rearrange)async{
+    var reData = jsonEncode(rearrange);
+    print("*** RE-ARRANGE ***   ${jsonDecode(reData)}");
+    Sockets.socket.emit("re arrange",jsonDecode(reData));
+    // Sockets.socket.emitWithAck("re arrange",jsonEncode(rearrange).toString(),ack:(ddd){
+    //
+    //   print("####   ${ddd}");
+    //
+    // },binary: true);
     print("*** RE-ARRANGE ***");
   }
 

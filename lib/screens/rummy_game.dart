@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'dart:math';
+import 'package:card_game_serve_and_flip_animation/constant/custom_dialog/exit_dialog.dart';
+import 'package:card_game_serve_and_flip_animation/constant/custom_dialog/winner_dialog.dart';
 import 'package:card_game_serve_and_flip_animation/constant/image_constants.dart';
 import 'package:card_game_serve_and_flip_animation/provider/rummy_provider.dart';
 import 'package:card_game_serve_and_flip_animation/provider/socket_provider.dart';
@@ -10,6 +12,7 @@ import 'package:card_game_serve_and_flip_animation/screens/rummy_palyer_table/si
 import 'package:card_game_serve_and_flip_animation/screens/rummy_palyer_table/three_player_table.dart';
 import 'package:card_game_serve_and_flip_animation/screens/rummy_palyer_table/two_player_table.dart';
 import 'package:card_game_serve_and_flip_animation/utils/Sockets.dart';
+import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -34,11 +37,12 @@ class _RummyGameScreenState extends State<RummyGameScreen> {
   Timer? flipingTimer;
   Timer? jokerServingTimer;
   Timer? jokerFlipingTimer;
+  bool isPlaying = false;
+  final controller = ConfettiController();
 
   @override
   void initState() {
-    Sockets.connectAndListen(context,widget.gameId,widget.userId);
-
+    Sockets.connectAndListen(context,widget.gameId,widget.userId,controller);
     super.initState();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeRight,
@@ -52,6 +56,7 @@ class _RummyGameScreenState extends State<RummyGameScreen> {
     flipingTimer?.cancel();
     jokerServingTimer?.cancel();
     jokerFlipingTimer?.cancel();
+    controller.dispose();
     super.dispose();
   }
 
@@ -113,336 +118,315 @@ class _RummyGameScreenState extends State<RummyGameScreen> {
       });
     });
   }
-  Future<bool> _willPopCallback() async {
 
-    showAlertDialog(context);
+  Future<bool> _willPopCallback() async {
+    ExitDialog(
+      title: 'Quit Game',
+      message: "Quiting On Going Game In The Middle Results",
+      leftButton: 'Cancel',
+      rightButton: 'Exit',
+      onTapLeftButton: () {
+        Navigator.pop(context);
+      },
+      onTapRightButton: () {
+
+      },
+    ).show(context);
     return true;
   }
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: WillPopScope(
-        onWillPop: _willPopCallback,
-        child: Consumer<RummyProvider>(
-          builder: (context,rummyProvider,_){
-            return Container(
-              decoration:  BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage(ImageConst.bgHome),
-                  fit: BoxFit.fill,
+      body:MediaQuery.removePadding(
+        context: context,
+        removeTop: true,
+        child:  WillPopScope(
+          onWillPop: _willPopCallback,
+          child: Consumer<RummyProvider>(
+            builder: (context,rummyProvider,_){
+              return Container(
+                decoration:  BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage(ImageConst.bgHome),
+                    fit: BoxFit.fill,
+                  ),
                 ),
-              ),
-              child: rummyProvider.playerCount == 1
-                  ? Stack(
-                alignment: Alignment.center,
-                children: [
+                child: rummyProvider.playerCount == 1
+                    ? Stack(
+                  alignment: Alignment.center,
+                  children: [
 
-                  rummyProvider.newIndexData.isNotEmpty
-                      ? OnePlayerTableWidget(
-                    servedPages: _servedPages,
-                    flipedPages: _flipedPages,
-                    cardPage: rummyProvider.newIndexData,
-                    jokerFlipedPages: _jokerFlipedPages,
-                    jokerServedPages: _jokerServedPages,
-                  )
-                      : OnePlayerTableWidget(
-                    servedPages: [],
-                    flipedPages: [],
-                    cardPage: [],
-                    jokerFlipedPages: [],
-                    jokerServedPages: [],
-                  ),
-                  Positioned(
-                    top: 4.5.h,
-                    left: MediaQuery.of(context).size.width - 50,
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        CircularProgressIndicator(
-                          value: rummyProvider.secondsRemaining/30,
-                          valueColor: AlwaysStoppedAnimation(Colors.white),
-                          strokeWidth: 3,
-                          backgroundColor: rummyProvider.secondsRemaining <= 10 ?Colors.red:Colors.green,
-                        ),
-                        Text('${rummyProvider.secondsRemaining.toString()}',style: TextStyle(color: Colors.white),)
-                      ],
+                    rummyProvider.newIndexData.isNotEmpty
+                        ? OnePlayerTableWidget(
+                      servedPages: _servedPages,
+                      flipedPages: _flipedPages,
+                      cardPage: rummyProvider.newIndexData,
+                      jokerFlipedPages: _jokerFlipedPages,
+                      jokerServedPages: _jokerServedPages,
+                    )
+                        : OnePlayerTableWidget(
+                      servedPages: [],
+                      flipedPages: [],
+                      cardPage: [],
+                      jokerFlipedPages: [],
+                      jokerServedPages: [],
                     ),
-                  ),
-
-                ],
-              )
-                  : rummyProvider.playerCount == 2
-                  ? Stack(
-                alignment: Alignment.center,
-                children: [
-
-                  rummyProvider.newIndexData.isNotEmpty
-                      ? TwoPlayerTableWidget(
-                    servedPages: _servedPages,
-                    flipedPages: _flipedPages,
-                    cardPage: rummyProvider.newIndexData,
-                    jokerFlipedPages: _jokerFlipedPages,
-                    jokerServedPages: _jokerServedPages,
-                  )
-                      : TwoPlayerTableWidget(
-                    servedPages: [],
-                    flipedPages: [],
-                    cardPage: [],
-                    jokerFlipedPages: [],
-                    jokerServedPages: [],
-                  ),
-                  Positioned(
-                    top: 4.5.h,
-                    left: MediaQuery.of(context).size.width - 50,
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        CircularProgressIndicator(
-                          value: rummyProvider.secondsRemaining/30,
-                          valueColor: AlwaysStoppedAnimation(Colors.white),
-                          strokeWidth: 3,
-                          backgroundColor: rummyProvider.secondsRemaining <= 10 ?Colors.red:Colors.green,
-                        ),
-                        Text('${rummyProvider.secondsRemaining.toString()}',style: TextStyle(color: Colors.white),)
-                      ],
+                    Positioned(
+                      top: 4.5.h,
+                      left: MediaQuery.of(context).size.width - 50,
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          CircularProgressIndicator(
+                            value: rummyProvider.secondsRemaining/30,
+                            valueColor: AlwaysStoppedAnimation(Colors.white),
+                            strokeWidth: 3,
+                            backgroundColor: rummyProvider.secondsRemaining <= 10 ?Colors.red:Colors.green,
+                          ),
+                          Text('${rummyProvider.secondsRemaining.toString()}',style: TextStyle(color: Colors.white),)
+                        ],
+                      ),
                     ),
-                  ),
 
-                ],
-              )
-                  : rummyProvider.playerCount == 3
-                  ? Stack(
-                alignment: Alignment.center,
-                children: [
-
-                  rummyProvider.newIndexData.isNotEmpty
-                      ? ThreePlayerTableWidget(
-                    servedPages: _servedPages,
-                    flipedPages: _flipedPages,
-                    cardPage: rummyProvider.newIndexData,
-                    jokerFlipedPages: _jokerFlipedPages,
-                    jokerServedPages: _jokerServedPages,
-                  )
-                      : ThreePlayerTableWidget(
-                    servedPages: [],
-                    flipedPages: [],
-                    cardPage: [],
-                    jokerFlipedPages: [],
-                    jokerServedPages: [],
-                  ),
-                  Positioned(
-                    top: 4.5.h,
-                    left: MediaQuery.of(context).size.width - 50,
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        CircularProgressIndicator(
-                          value: rummyProvider.secondsRemaining/30,
-                          valueColor: AlwaysStoppedAnimation(Colors.white),
-                          strokeWidth: 3,
-                          backgroundColor: rummyProvider.secondsRemaining <= 10 ?Colors.red:Colors.green,
-                        ),
-                        Text('${rummyProvider.secondsRemaining.toString()}',style: TextStyle(color: Colors.white),)
-                      ],
+                  ],
+                )
+                    : rummyProvider.playerCount == 2
+                    ? Stack(
+                  alignment: Alignment.topCenter,
+                  children: [
+                    rummyProvider.newIndexData.isNotEmpty
+                        ? TwoPlayerTableWidget(
+                      servedPages: _servedPages,
+                      flipedPages: _flipedPages,
+                      cardPage: rummyProvider.newIndexData,
+                      jokerFlipedPages: _jokerFlipedPages,
+                      jokerServedPages: _jokerServedPages,
+                    )
+                        : TwoPlayerTableWidget(
+                      servedPages: [],
+                      flipedPages: [],
+                      cardPage: [],
+                      jokerFlipedPages: [],
+                      jokerServedPages: [],
                     ),
-                  ),
-
-                ],
-              )
-                  : rummyProvider.playerCount == 4
-                  ? Stack(
-                alignment: Alignment.center,
-                children: [
-                  rummyProvider.newIndexData.isNotEmpty
-                      ? FourPlayerTableWidget(
-                    servedPages: _servedPages,
-                    flipedPages: _flipedPages,
-                    cardPage: rummyProvider.newIndexData,
-                    jokerFlipedPages: _jokerFlipedPages,
-                    jokerServedPages: _jokerServedPages,
-                  )
-                      : FourPlayerTableWidget(
-                    servedPages: [],
-                    flipedPages: [],
-                    cardPage: [],
-                    jokerFlipedPages: [],
-                    jokerServedPages: [],
-                  ),
-                  Positioned(
-                    top: 4.5.h,
-                    left: MediaQuery.of(context).size.width - 50,
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        CircularProgressIndicator(
-                          value: rummyProvider.secondsRemaining/30,
-                          valueColor: AlwaysStoppedAnimation(Colors.white),
-                          strokeWidth: 3,
-                          backgroundColor: rummyProvider.secondsRemaining <= 10 ?Colors.red:Colors.green,
-                        ),
-                        Text('${rummyProvider.secondsRemaining.toString()}',style: TextStyle(color: Colors.white),)
-                      ],
+                    Positioned(
+                      top: 4.5.h,
+                      left: MediaQuery.of(context).size.width - 50,
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          CircularProgressIndicator(
+                            value: rummyProvider.secondsRemaining/30,
+                            valueColor: AlwaysStoppedAnimation(Colors.white),
+                            strokeWidth: 3,
+                            backgroundColor: rummyProvider.secondsRemaining <= 10 ?Colors.red:Colors.green,
+                          ),
+                          Text('${rummyProvider.secondsRemaining.toString()}',style: TextStyle(color: Colors.white),)
+                        ],
+                      ),
                     ),
-                  ),
+                  ],
+                )
+                    : rummyProvider.playerCount == 3
+                    ? Stack(
+                  alignment: Alignment.center,
+                  children: [
 
-                ],
-              )
-                  : rummyProvider.playerCount == 5
-                  ? Stack(
-                alignment: Alignment.center,
-                children: [
-                  rummyProvider.newIndexData.isNotEmpty
-                      ? FivePlayerTableWidget(
-                    servedPages: _servedPages,
-                    flipedPages: _flipedPages,
-                    cardPage: rummyProvider.newIndexData,
-                    jokerFlipedPages: _jokerFlipedPages,
-                    jokerServedPages: _jokerServedPages,
-                  )
-                      : FivePlayerTableWidget(
-                    servedPages: [],
-                    flipedPages: [],
-                    cardPage: [],
-                    jokerFlipedPages: [],
-                    jokerServedPages: [],
-                  ),
-                  Positioned(
-                    top: 4.5.h,
-                    left: MediaQuery.of(context).size.width - 50,
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        CircularProgressIndicator(
-                          value: rummyProvider.secondsRemaining/30,
-                          valueColor: AlwaysStoppedAnimation(Colors.white),
-                          strokeWidth: 3,
-                          backgroundColor: rummyProvider.secondsRemaining <= 10 ?Colors.red:Colors.green,
-                        ),
-                        Text('${rummyProvider.secondsRemaining.toString()}',style: TextStyle(color: Colors.white),)
-                      ],
+                    rummyProvider.newIndexData.isNotEmpty
+                        ? ThreePlayerTableWidget(
+                      servedPages: _servedPages,
+                      flipedPages: _flipedPages,
+                      cardPage: rummyProvider.newIndexData,
+                      jokerFlipedPages: _jokerFlipedPages,
+                      jokerServedPages: _jokerServedPages,
+                    )
+                        : ThreePlayerTableWidget(
+                      servedPages: [],
+                      flipedPages: [],
+                      cardPage: [],
+                      jokerFlipedPages: [],
+                      jokerServedPages: [],
                     ),
-                  ),
-
-                ],
-              )
-                  : rummyProvider.playerCount == 6
-                  ? Stack(
-                alignment: Alignment.center,
-                children: [
-                  rummyProvider.newIndexData.isNotEmpty
-                      ? SixPlayerTableWidget(
-                    servedPages: _servedPages,
-                    flipedPages: _flipedPages,
-                    cardPage: rummyProvider.newIndexData,
-                    jokerFlipedPages: _jokerFlipedPages,
-                    jokerServedPages: _jokerServedPages,
-                  )
-                      : SixPlayerTableWidget(
-                    servedPages: [],
-                    flipedPages: [],
-                    cardPage: [],
-                    jokerFlipedPages: [],
-                    jokerServedPages: [],
-                  ),
-                  Positioned(
-                    top: 4.5.h,
-                    left: MediaQuery.of(context).size.width - 50,
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        CircularProgressIndicator(
-                          value: rummyProvider.secondsRemaining/30,
-                          valueColor: AlwaysStoppedAnimation(Colors.white),
-                          strokeWidth: 3,
-                          backgroundColor: rummyProvider.secondsRemaining <= 10 ?Colors.red:Colors.green,
-                        ),
-                        Text('${rummyProvider.secondsRemaining.toString()}',style: TextStyle(color: Colors.white),)
-                      ],
+                    Positioned(
+                      top: 4.5.h,
+                      left: MediaQuery.of(context).size.width - 50,
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          CircularProgressIndicator(
+                            value: rummyProvider.secondsRemaining/30,
+                            valueColor: AlwaysStoppedAnimation(Colors.white),
+                            strokeWidth: 3,
+                            backgroundColor: rummyProvider.secondsRemaining <= 10 ?Colors.red:Colors.green,
+                          ),
+                          Text('${rummyProvider.secondsRemaining.toString()}',style: TextStyle(color: Colors.white),)
+                        ],
+                      ),
                     ),
-                  ),
 
-                ],
-              )
-                  : Stack(
-                alignment: Alignment.center,
-                children: [
-
-                  rummyProvider.newIndexData.isNotEmpty
-                      ? OnePlayerTableWidget(
-                    servedPages: _servedPages,
-                    flipedPages: _flipedPages,
-                    cardPage: rummyProvider.newIndexData,
-                    jokerFlipedPages: _jokerFlipedPages,
-                    jokerServedPages: _jokerServedPages,
-                  )
-                      : OnePlayerTableWidget(
-                    servedPages: [],
-                    flipedPages: [],
-                    cardPage: [],
-                    jokerFlipedPages: [],
-                    jokerServedPages: [],
-                  ),
-                  Positioned(
-                    top: 4.5.h,
-                    left: MediaQuery.of(context).size.width - 50,
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        CircularProgressIndicator(
-                          value: rummyProvider.secondsRemaining/30,
-                          valueColor: AlwaysStoppedAnimation(Colors.white),
-                          strokeWidth: 3,
-                          backgroundColor: rummyProvider.secondsRemaining <= 10 ?Colors.red:Colors.green,
-                        ),
-                        Text('${rummyProvider.secondsRemaining.toString()}',style: TextStyle(color: Colors.white),)
-                      ],
+                  ],
+                )
+                    : rummyProvider.playerCount == 4
+                    ? Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    rummyProvider.newIndexData.isNotEmpty
+                        ? FourPlayerTableWidget(
+                      servedPages: _servedPages,
+                      flipedPages: _flipedPages,
+                      cardPage: rummyProvider.newIndexData,
+                      jokerFlipedPages: _jokerFlipedPages,
+                      jokerServedPages: _jokerServedPages,
+                    )
+                        : FourPlayerTableWidget(
+                      servedPages: [],
+                      flipedPages: [],
+                      cardPage: [],
+                      jokerFlipedPages: [],
+                      jokerServedPages: [],
                     ),
-                  ),
+                    Positioned(
+                      top: 4.5.h,
+                      left: MediaQuery.of(context).size.width - 50,
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          CircularProgressIndicator(
+                            value: rummyProvider.secondsRemaining/30,
+                            valueColor: AlwaysStoppedAnimation(Colors.white),
+                            strokeWidth: 3,
+                            backgroundColor: rummyProvider.secondsRemaining <= 10 ?Colors.red:Colors.green,
+                          ),
+                          Text('${rummyProvider.secondsRemaining.toString()}',style: TextStyle(color: Colors.white),)
+                        ],
+                      ),
+                    ),
 
-                ],
-              ),
-            );
-          },
+                  ],
+                )
+                    : rummyProvider.playerCount == 5
+                    ? Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    rummyProvider.newIndexData.isNotEmpty
+                        ? FivePlayerTableWidget(
+                      servedPages: _servedPages,
+                      flipedPages: _flipedPages,
+                      cardPage: rummyProvider.newIndexData,
+                      jokerFlipedPages: _jokerFlipedPages,
+                      jokerServedPages: _jokerServedPages,
+                    )
+                        : FivePlayerTableWidget(
+                      servedPages: [],
+                      flipedPages: [],
+                      cardPage: [],
+                      jokerFlipedPages: [],
+                      jokerServedPages: [],
+                    ),
+                    Positioned(
+                      top: 4.5.h,
+                      left: MediaQuery.of(context).size.width - 50,
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          CircularProgressIndicator(
+                            value: rummyProvider.secondsRemaining/30,
+                            valueColor: AlwaysStoppedAnimation(Colors.white),
+                            strokeWidth: 3,
+                            backgroundColor: rummyProvider.secondsRemaining <= 10 ?Colors.red:Colors.green,
+                          ),
+                          Text('${rummyProvider.secondsRemaining.toString()}',style: TextStyle(color: Colors.white),)
+                        ],
+                      ),
+                    ),
+
+                  ],
+                )
+                    : rummyProvider.playerCount == 6
+                    ? Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    rummyProvider.newIndexData.isNotEmpty
+                        ? SixPlayerTableWidget(
+                      servedPages: _servedPages,
+                      flipedPages: _flipedPages,
+                      cardPage: rummyProvider.newIndexData,
+                      jokerFlipedPages: _jokerFlipedPages,
+                      jokerServedPages: _jokerServedPages,
+                    )
+                        : SixPlayerTableWidget(
+                      servedPages: [],
+                      flipedPages: [],
+                      cardPage: [],
+                      jokerFlipedPages: [],
+                      jokerServedPages: [],
+                    ),
+                    Positioned(
+                      top: 4.5.h,
+                      left: MediaQuery.of(context).size.width - 50,
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          CircularProgressIndicator(
+                            value: rummyProvider.secondsRemaining/30,
+                            valueColor: AlwaysStoppedAnimation(Colors.white),
+                            strokeWidth: 3,
+                            backgroundColor: rummyProvider.secondsRemaining <= 10 ?Colors.red:Colors.green,
+                          ),
+                          Text('${rummyProvider.secondsRemaining.toString()}',style: TextStyle(color: Colors.white),)
+                        ],
+                      ),
+                    ),
+
+                  ],
+                )
+                    : Stack(
+                  alignment: Alignment.center,
+                  children: [
+
+                    rummyProvider.newIndexData.isNotEmpty
+                        ? OnePlayerTableWidget(
+                      servedPages: _servedPages,
+                      flipedPages: _flipedPages,
+                      cardPage: rummyProvider.newIndexData,
+                      jokerFlipedPages: _jokerFlipedPages,
+                      jokerServedPages: _jokerServedPages,
+                    )
+                        : OnePlayerTableWidget(
+                      servedPages: [],
+                      flipedPages: [],
+                      cardPage: [],
+                      jokerFlipedPages: [],
+                      jokerServedPages: [],
+                    ),
+                    Positioned(
+                      top: 4.5.h,
+                      left: MediaQuery.of(context).size.width - 50,
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          CircularProgressIndicator(
+                            value: rummyProvider.secondsRemaining/30,
+                            valueColor: AlwaysStoppedAnimation(Colors.white),
+                            strokeWidth: 3,
+                            backgroundColor: rummyProvider.secondsRemaining <= 10 ?Colors.red:Colors.green,
+                          ),
+                          Text('${rummyProvider.secondsRemaining.toString()}',style: TextStyle(color: Colors.white),)
+                        ],
+                      ),
+                    ),
+
+                  ],
+                ),
+              );
+            },
+          ),
         ),
-      ),
-    );
-  }
-
-  showAlertDialog(BuildContext context) {
-
-    // set up the buttons
-    Widget cancelButton = TextButton(
-      child: Text("Exit"),
-      onPressed:  () {
-        Provider.of<SocketProvider>(context,listen: false).disconnectSocket(context);
-        Navigator.pop(context);
-      },
-    );
-    Widget continueButton = TextButton(
-      child: Text("Cancel"),
-      onPressed:  () {
-        Navigator.pop(context);
-      },
-    );
-
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      title: Text("Exit"),
-      content: Text("Quiting On Going Game In The Middle Results"),
-      actions: [
-        cancelButton,
-        continueButton,
-      ],
-    );
-
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
+      )
     );
   }
 }
+
+
+

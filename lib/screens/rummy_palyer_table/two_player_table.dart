@@ -6,6 +6,7 @@ import 'package:card_game_serve_and_flip_animation/utils/Sockets.dart';
 import 'package:card_game_serve_and_flip_animation/utils/card_sprite_utils.dart';
 import 'package:card_game_serve_and_flip_animation/widgets/main_player/new_main_set_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -78,7 +79,6 @@ class _TwoPlayerTableWidgetState extends State<TwoPlayerTableWidget> {
                   )
                       : Stack(
                     clipBehavior: Clip.none,
-                    alignment: Alignment.center,
                     children: [
 
                       Positioned(
@@ -129,14 +129,17 @@ class _TwoPlayerTableWidgetState extends State<TwoPlayerTableWidget> {
                             if(rummyProvider.isMyTurn){
                               Sockets.socket.emit("draw","down");
                             print('draw emit down done');}else{
-                              Fluttertoast.showToast(
-                                  msg: "This is Center Short Toast",
-                                  toastLength: Toast.LENGTH_SHORT,
-                                  gravity: ToastGravity.CENTER,
-                                  timeInSecForIosWeb: 1,
-                                  backgroundColor: Colors.red,
-                                  textColor: Colors.white,
-                                  fontSize: 16.0
+                              showToast("It's not your turn,please wait for your Turn".toUpperCase(),
+                                context: context,
+                                animation: StyledToastAnimation.slideFromTop,
+                                reverseAnimation: StyledToastAnimation.fade,
+                                position: StyledToastPosition.top,
+                                animDuration: Duration(seconds: 1),
+                                duration: Duration(seconds: 4),
+                                curve: Curves.elasticOut,
+                                textStyle: TextStyle(color: Colors.white,fontSize: 16,fontWeight: FontWeight.bold),
+                                backgroundColor: Colors.red.withOpacity(0.8),
+                                reverseCurve: Curves.linear,
                               );
                             }
 
@@ -148,18 +151,6 @@ class _TwoPlayerTableWidgetState extends State<TwoPlayerTableWidget> {
                           ),
                         ),
                       ),
-
-                      rummyProvider.isNoDropCard
-                          ?
-                      Positioned(
-                        top: 0.0,
-                        child: Container(
-                          height: 40,
-                          width: double.infinity,
-                          decoration: BoxDecoration(gradient: LinearGradient(colors: [Colors.transparent,Colors.grey,Colors.transparent])),
-                          child: Center(child: Text('Start Game in ${rummyProvider.countDown} Seconds...',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 17),),),
-                        ),
-                      ):Container(),
 
                       //Joker Card
 
@@ -228,8 +219,38 @@ class _TwoPlayerTableWidgetState extends State<TwoPlayerTableWidget> {
                               children: [
                                 ...rummyProvider.cardListIndex.map((e) => InkWell(
                                   onTap: (){
-                                    Sockets.socket.emit("draw","up");
-                                    print('draw emit up done');
+                                    if(rummyProvider.isMyTurn){
+                                      if(rummyProvider.newIndexData ==11){
+                                        Sockets.socket.emit("draw","up");
+                                        print('draw emit up done');
+                                      }else{
+                                        showToast("Pick Up a Card".toUpperCase(),
+                                          context: context,
+                                          animation: StyledToastAnimation.slideFromTop,
+                                          reverseAnimation: StyledToastAnimation.fade,
+                                          position: StyledToastPosition.top,
+                                          animDuration: Duration(seconds: 1),
+                                          duration: Duration(seconds: 4),
+                                          curve: Curves.elasticOut,
+                                          textStyle: TextStyle(color: Colors.white,fontSize: 16,fontWeight: FontWeight.bold),
+                                          backgroundColor: Colors.red.withOpacity(0.8),
+                                          reverseCurve: Curves.linear,
+                                        );
+                                      }
+                                    }else{
+                                      showToast("It's not your turn,please wait for your Turn".toUpperCase(),
+                                        context: context,
+                                        animation: StyledToastAnimation.slideFromTop,
+                                        reverseAnimation: StyledToastAnimation.fade,
+                                        position: StyledToastPosition.top,
+                                        animDuration: Duration(seconds: 1),
+                                        duration: Duration(seconds: 4),
+                                        curve: Curves.elasticOut,
+                                        textStyle: TextStyle(color: Colors.white,fontSize: 16,fontWeight: FontWeight.bold),
+                                        backgroundColor: Colors.red.withOpacity(0.8),
+                                        reverseCurve: Curves.linear,
+                                      );
+                                    }
                                   },
                                   child: Container(
                                     height: 68,
@@ -249,27 +270,58 @@ class _TwoPlayerTableWidgetState extends State<TwoPlayerTableWidget> {
                             );
                           },
                           onAccept: (data){
-
                             if(rummyProvider.isMyTurn){
-                              rummyProvider.setNoDropCard(false);
-                              rummyProvider.setCardListIndex(int.parse(data.toString()));
-                              for(int i = 0; i < rummyProvider.cardList.length; i++){
-                                Map<String,dynamic> singleData = rummyProvider.cardList[i];
-                                if((i+1) == int.parse(data.toString())){
-                                  rummyProvider.dropCard(singleData);
+                              if(rummyProvider.newIndexData.length ==11){
+                                rummyProvider.setNoDropCard(false);
+                                rummyProvider.setCardListIndex(int.parse(data.toString()));
+                                for(int i = 0; i < rummyProvider.cardList.length; i++){
+                                  Map<String,dynamic> singleData = rummyProvider.cardList[i];
+                                  if((i+1) == int.parse(data.toString())){
+                                    rummyProvider.dropCard(singleData);
+                                  }
                                 }
-                              }
-                              for(int j = 0; j < rummyProvider.newIndexData.length;j++){
-                                print('New ******  :-  $data  :-   ${rummyProvider.newIndexData}');
-                                if(rummyProvider.newIndexData[j] == data){
-                                  rummyProvider.setNewRemoveIndex(j);
-                                  rummyProvider.setOneAcceptCardList(2,j);
+                                for(int j = 0; j < rummyProvider.newIndexData.length;j++){
+                                  print('New ******  :-  $data  :-   ${rummyProvider.newIndexData}');
+                                  if(rummyProvider.newIndexData[j] == data){
+                                    rummyProvider.setNewRemoveIndex(j);
+                                    rummyProvider.setOneAcceptCardList(2,j);
+                                  }
+                                }
+                              }else{
+
+                                showToast("Pick Up a Card".toUpperCase(),
+                                  context: context,
+                                  animation: StyledToastAnimation.slideFromTop,
+                                  reverseAnimation: StyledToastAnimation.fade,
+                                  position: StyledToastPosition.top,
+                                  animDuration: Duration(seconds: 1),
+                                  duration: Duration(seconds: 4),
+                                  curve: Curves.elasticOut,
+                                  textStyle: TextStyle(color: Colors.white,fontSize: 16,fontWeight: FontWeight.bold),
+                                  backgroundColor: Colors.red.withOpacity(0.8),
+                                  reverseCurve: Curves.linear,
+                                );
+                                for(int j = 0; j < rummyProvider.newIndexData.length;j++){
+                                  if(rummyProvider.newIndexData[j] == data){
+                                    rummyProvider.setOneAcceptCardList(2,j);
+                                  }
                                 }
                               }
                             }else{
-
+                              showToast("It's not your turn,please wait for your Turn".toUpperCase(),
+                                context: context,
+                                animation: StyledToastAnimation.slideFromTop,
+                                reverseAnimation: StyledToastAnimation.fade,
+                                position: StyledToastPosition.top,
+                                animDuration: Duration(seconds: 1),
+                                duration: Duration(seconds: 4),
+                                curve: Curves.elasticOut,
+                                textStyle: TextStyle(color: Colors.white,fontSize: 16,fontWeight: FontWeight.bold),
+                                backgroundColor: Colors.red.withOpacity(0.8),
+                                reverseCurve: Curves.linear,
+                              );
                               for(int j = 0; j < rummyProvider.newIndexData.length;j++){
-                                print('New ******  :-  $data  :-   ${rummyProvider.newIndexData}');
+
                                 if(rummyProvider.newIndexData[j] == data){
                                   rummyProvider.setOneAcceptCardList(2,j);
                                 }
@@ -317,26 +369,26 @@ class _TwoPlayerTableWidgetState extends State<TwoPlayerTableWidget> {
 
                       NewPlayer3SeatWidget(
                         userProfileImage: ImageConst.icProfilePic3,
-                        /*oneCardServed: widget.servedPages[0],
-                        twoCardServed: widget.servedPages[1],
-                        threeCardServed: widget.servedPages[2],
-                        fourCardServed: widget.servedPages[3],
-                        fiveCardServed: widget.servedPages[4],
-                        sixCardServed: widget.servedPages[5],
-                        sevenCardServed: widget.servedPages[6],
-                        eightCardServed: widget.servedPages[7],
-                        nineCardServed: widget.servedPages[8],
-                        tenCardServed: widget.servedPages[9],
-                        oneCardFliped: widget.flipedPages[9],
-                        twoCardFliped: widget.flipedPages[8],
-                        threeCardFliped: widget.flipedPages[7],
-                        fourCardFliped: widget.flipedPages[6],
-                        fiveCardFliped: widget.flipedPages[5],
-                        sixCardFliped: widget.flipedPages[4],
-                        sevenCardFliped: widget.flipedPages[3],
-                        eightCardFliped: widget.flipedPages[2],
-                        nineCardFliped: widget.flipedPages[1],
-                        tenCardFliped: widget.flipedPages[0],*/
+                        // oneCardServed: widget.servedPages[0],
+                        // twoCardServed: widget.servedPages[1],
+                        // threeCardServed: widget.servedPages[2],
+                        // fourCardServed: widget.servedPages[3],
+                        // fiveCardServed: widget.servedPages[4],
+                        // sixCardServed: widget.servedPages[5],
+                        // sevenCardServed: widget.servedPages[6],
+                        // eightCardServed: widget.servedPages[7],
+                        // nineCardServed: widget.servedPages[8],
+                        // tenCardServed: widget.servedPages[9],
+                        // oneCardFliped: widget.flipedPages[9],
+                        // twoCardFliped: widget.flipedPages[8],
+                        // threeCardFliped: widget.flipedPages[7],
+                        // fourCardFliped: widget.flipedPages[6],
+                        // fiveCardFliped: widget.flipedPages[5],
+                        // sixCardFliped: widget.flipedPages[4],
+                        // sevenCardFliped: widget.flipedPages[3],
+                        // eightCardFliped: widget.flipedPages[2],
+                        // nineCardFliped: widget.flipedPages[1],
+                        // tenCardFliped: widget.flipedPages[0],
                         // oneCardNo: widget.cardPage[0],
                         // twoCardNo: widget.cardPage[1],
                         // threeCardNo: widget.cardPage[2],

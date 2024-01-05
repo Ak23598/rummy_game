@@ -1,5 +1,6 @@
 import 'package:card_game_serve_and_flip_animation/constant/socket_constants.dart';
 import 'package:card_game_serve_and_flip_animation/provider/socket_provider.dart';
+import 'package:confetti/confetti.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
@@ -11,7 +12,7 @@ class Sockets{
       OptionBuilder()
           .setTransports(['websocket']).build());
 
-  static void connectAndListen(BuildContext context,String gameId,String userId){
+  static void connectAndListen(BuildContext context,String gameId,String userId,ConfettiController controller){
     var socketProvider = Provider.of<SocketProvider>(context,listen: false);
 
 print("socket connect and listen ");
@@ -33,7 +34,7 @@ print("socket connect and listen ");
         socketProvider.turnTime(context);
         socketProvider.turnMessage(context,userId);
         socketProvider.roomMessage(context);
-        socketProvider.gameOver(context);
+        socketProvider.gameOver(context,controller);
         socketProvider.countDown(context);
 
       });

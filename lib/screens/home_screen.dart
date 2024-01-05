@@ -1,6 +1,7 @@
 import 'package:card_game_serve_and_flip_animation/constant/socket_constants.dart';
 import 'package:card_game_serve_and_flip_animation/provider/create_game_provider.dart';
 import 'package:card_game_serve_and_flip_animation/screens/rummy_game.dart';
+import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
